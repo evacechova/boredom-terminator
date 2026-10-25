@@ -17,14 +17,15 @@
 - Prettier, npm skripty a stručná clean-code pravidla v `AGENTS.md` jsou nastavené.
 - `npm run lint`, `npm run format:check` a `npm run typecheck` procházejí bez problémů.
 - `npm run build` prochází včetně TypeScript kontroly a statického renderu route `/`.
-- Testovací prostředí, daisyUI, vlastní stránka a veřejné nasazení zatím nejsou hotové.
-- Známá instalační varování: ESLint `9.39.5` je EOL a `unrs-resolver@1.12.2` má neschválený `postinstall` skript.
+- Jest a React Testing Library jsou nainstalované a nakonfigurované; první test, daisyUI, vlastní stránka a veřejné nasazení zatím nejsou hotové.
+- Známá instalační varování: ESLint `9.39.5` je EOL a nepřímé závislosti `whatwg-encoding@3.1.1` a `glob@10.5.0` jsou označené jako zastaralé. `npm audit` hlásí `0 vulnerabilities`.
+- Instalační skripty `unrs-resolver@1.12.2` a `@parcel/watcher@2.6.0` jsou po kontrole výslovně zakázané přes `allowScripts`; oba nativní moduly se bez nich načtou.
 
 ## Nejbližší krok
 
-1. Přidat Jest a React Testing Library podle kroku 5 plánu Fáze 1.
-2. Vysvětlit rozdíl mezi produkčním buildem a component testem.
-3. Vyřešit nebo vědomě přijmout zbývající instalační varování.
+1. Napsat malý failing test pro název aplikace, logo a odkaz `Add event` podle kroku 6 plánu Fáze 1.
+2. Spustit test a ověřit, že selže kvůli chybějícímu požadovanému obsahu.
+3. Upravit základní stránku až v následujícím kroku, aby test prošel.
 
 ## Tooling checkpoint
 
@@ -34,6 +35,9 @@
 - Prettier používá středníky, dvojité uvozovky, dvě mezery, trailing commas `all` a šířku `100`.
 - `eslint-config-prettier` je načtený před vlastními pravidly, aby explicitní `curly: ["error", "all"]` zůstalo aktivní.
 - Skripty `lint`, `lint:fix`, `format`, `format:check` a `typecheck` jsou připravené.
+- Jest, React Testing Library, DOM Testing Library, jest-dom, jsdom prostředí, `ts-node` a typy Jestu jsou nainstalované.
+- `jest.config.ts` používá `next/jest`, prostředí `jsdom` a společný setup `jest.setup.ts`; skripty `test` a `test:watch` jsou připravené.
+- `allowScripts` výslovně zakazuje instalační skripty `unrs-resolver` a `@parcel/watcher`; `npm install-scripts ls` nehlásí žádné nezkontrolované skripty.
 - Po schválení byly Prettierem upraveny pouze čtyři dříve neformátované soubory.
 - Ověření `npm run lint`, `npm run format:check` a `npm run typecheck` prošlo 25. 10. 2026.
 - Tooling checkpoint je commit `c2a8326 chore: configure code quality tooling`.

@@ -2,7 +2,7 @@
 
 > Režim: studentka implementuje, mentor vysvětluje TypeScript a TDD po malých krocích.
 
-**Větev:** `phase/02-event-domain`
+**Větev:** `02-event-domain`
 
 **Závisí na:** dokončené Fázi 1
 

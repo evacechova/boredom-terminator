@@ -2,7 +2,7 @@
 
 > Režim: studentka implementuje. Mentor propojí známý React se server/client hranicí Next.js.
 
-**Větev:** `phase/04-discovery-ui`
+**Větev:** `04-discovery-ui`
 
 **Závisí na:** repository z Fáze 3
 

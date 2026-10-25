@@ -2,7 +2,7 @@
 
 > Režim: studentka se účastní review a rozhoduje o prioritách. Mentor vede systematickou kontrolu, vysvětluje nálezy a nepřevádí neurčité nápady rovnou na implementaci.
 
-**Větev:** `phase/10-post-mvp-planning`
+**Větev:** `10-post-mvp-planning`
 
 **Závisí na:** dokončené a veřejně ověřené Fázi 9
 

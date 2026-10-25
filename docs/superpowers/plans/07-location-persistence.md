@@ -2,7 +2,7 @@
 
 > Režim: studentka implementuje. Mentor pomáhá propojit formulář, Leaflet, repository a Next.js navigaci bez hotového řešení.
 
-**Větev:** `phase/07-location-persistence`
+**Větev:** `07-location-persistence`
 
 **Závisí na:** mapě z Fáze 5, formuláři z Fáze 6 a repository z Fáze 3
 

@@ -14,7 +14,7 @@ Asistent je seniorní mentor. Studentka vlastní implementaci a píše produkčn
 
 ## Jeden kontext a větev na jednu fázi
 
-Každá fáze má vlastní plán v `docs/superpowers/plans/` a vlastní větev `phase/NN-name`. Nový kontext začíná přečtením:
+Každá fáze má vlastní plán v `docs/superpowers/plans/` a vlastní větev `NN-name`. Nový kontext začíná přečtením:
 
 1. této instrukce,
 2. schválené specifikace,

@@ -2,7 +2,7 @@
 
 > Režim: studentka implementuje. Mentor vysvětluje React Hook Form, Zod a TypeScript generika po malých částech.
 
-**Větev:** `phase/06-event-form`
+**Větev:** `06-event-form`
 
 **Závisí na:** doméně z Fáze 2 a vizuálním základu z Fáze 1
 

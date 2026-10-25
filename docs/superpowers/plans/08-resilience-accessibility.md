@@ -2,7 +2,7 @@
 
 > Režim: studentka implementuje. Mentor vysvětluje chybové modely, bezpečné destruktivní akce a přístupnost v kontextu existujícího UI.
 
-**Větev:** `phase/08-resilience-accessibility`
+**Větev:** `08-resilience-accessibility`
 
 **Závisí na:** funkčních hlavních scénářích z Fází 4–7
 

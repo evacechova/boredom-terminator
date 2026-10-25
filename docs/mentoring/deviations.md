@@ -31,3 +31,13 @@ Tento dokument zaznamenává vědomé změny, které ovlivňují rozsah, archite
 **Důvod:** Odpovídá prvnímu mentoringovému úkolu a včas odhalí problém s hostingem.
 
 **Dopad:** Veřejná URL vznikne brzy a bude se průběžně aktualizovat.
+
+## 2026-10-25 – Názvy větví bez prefixu `phase/`
+
+**Původně:** Větve implementačních fází používaly formát `phase/NN-name`.
+
+**Nově:** Větve používají formát `NN-name`, například `01-nextjs-foundation`.
+
+**Důvod:** Číslo zachovává vazbu na roadmapu a pořadí. Prefix `phase/` nepřidával užitečnou informaci o obsahu změny.
+
+**Dopad:** Roadmapa, plány fází, handoff a pravidla spolupráce používají nový formát názvů větví. Počet commitů ve větvi se nemění; fáze může obsahovat jeden nebo více logických commitů.

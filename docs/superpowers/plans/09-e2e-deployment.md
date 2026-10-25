@@ -2,7 +2,7 @@
 
 > Režim: studentka píše E2E scénáře. Mentor vysvětluje Playwright, stabilní selektory, izolaci externích služeb a deployment.
 
-**Větev:** `phase/09-e2e-deployment`
+**Větev:** `09-e2e-deployment`
 
 **Závisí na:** dokončených Fázích 1–8
 
@@ -71,4 +71,4 @@
 
 ## Handoff
 
-Do `status.md` zapsat veřejnou URL, výsledky všech gate příkazů, finální commit a známé limity MVP. Odchylky a provozní poznatky z hostingu uložit do příslušných dokumentů. Dalším krokem je nový kontext a větev `phase/10-post-mvp-planning` podle `10-post-mvp-review-and-roadmap.md`.
+Do `status.md` zapsat veřejnou URL, výsledky všech gate příkazů, finální commit a známé limity MVP. Odchylky a provozní poznatky z hostingu uložit do příslušných dokumentů. Dalším krokem je nový kontext a větev `10-post-mvp-planning` podle `10-post-mvp-review-and-roadmap.md`.

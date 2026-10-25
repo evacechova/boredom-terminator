@@ -2,7 +2,7 @@
 
 > Režim: studentka implementuje. Mentor podrobně vysvětluje Leaflet, dynamický import a browser API.
 
-**Větev:** `phase/05-map-panel-gps`
+**Větev:** `05-map-panel-gps`
 
 **Závisí na:** discovery stavu z Fáze 4
 

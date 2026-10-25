@@ -17,7 +17,7 @@
 
 1. Předat mentorovi hash kontrolního commitu obsahujícího tento handoff.
 2. Otevřít nový kontext pro Fázi 1.
-3. Založit větev `phase/01-foundation`.
+3. Založit větev `01-nextjs-foundation`.
 
 ## Kontrolní commit pro mentora
 

@@ -2,7 +2,7 @@
 
 > Režim: studentka implementuje, mentor vysvětluje rozhraní, dependency injection a práci s nedůvěryhodnými daty.
 
-**Větev:** `phase/03-local-repository`
+**Větev:** `03-local-repository`
 
 **Závisí na:** doméně z Fáze 2
 

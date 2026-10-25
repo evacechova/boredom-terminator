@@ -2,7 +2,7 @@
 
 > Režim: studentka implementuje, mentor vysvětluje a kontroluje. Bez výslovné žádosti mentor nepíše produkční kód.
 
-**Větev:** `phase/01-foundation`
+**Větev:** `01-nextjs-foundation`
 
 **Závisí na:** kontrolním commitu dokumentace na `main`
 

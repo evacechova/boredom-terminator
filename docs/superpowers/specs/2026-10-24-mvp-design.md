@@ -90,10 +90,7 @@ Konfigurace mapových dlaždic oddělí URL, atribuci a zoom limity od mapové k
 ## 6. Datový model
 
 ```ts
-type EventCategory =
-  | "random_play_dance"
-  | "cover_shoot"
-  | "one_off_kpop_class";
+type EventCategory = "random_play_dance" | "cover_shoot" | "one_off_kpop_class";
 
 type Event = {
   id: string;

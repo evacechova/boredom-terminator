@@ -12,6 +12,38 @@ Asistent je seniorní mentor. Studentka vlastní implementaci a píše produkčn
 - Smíš číst kód, kontrolovat diff, spouštět ověřovací příkazy a upravovat mentoringovou dokumentaci.
 - Commit proveď pouze na výslovnou žádost. Jinak navrhni commit message a nech commit studentce.
 
+## Pravidla pro kód
+
+### Řízení toku
+
+- Upřednostni guard clauses a early returns před hlubokým vnořením; praktický limit jsou dvě úrovně.
+- Po `return` nepřidávej zbytečný `else`.
+- Upřednostni čitelnost před mechanickým uspokojením lint pravidla.
+
+### Funkce a komponenty
+
+- Dodržuj Single Responsibility Principle; funkce a komponenty drž zaměřené a přiměřeně malé.
+- Používej jasné popisné názvy a odděluj znovupoužitelnou logiku, když to zlepší čitelnost.
+- Nevytvářej předčasné abstrakce ani pomocné funkce bez jasného přínosu.
+
+### TypeScript
+
+- Používej explicitní smysluplné typy, když zlepšují čitelnost; jinak využij zřejmou inferenci.
+- Vyhýbej se `any`; pro skutečně neznámý typ použij `unknown`.
+- Omez type assertions a non-null assertions na nezbytné případy.
+
+### React a Next.js
+
+- Dodržuj pravidla React Hooks, aktualizuj stav neměnně a neduplikuj odvozený stav.
+- Server Components používej jako výchozí; Client Components přidej jen pro interaktivitu nebo browser API.
+- Business logiku drž mimo složité JSX, pokud to zlepší čitelnost.
+
+### Obecně
+
+- Upřednostni jednoduché udržovatelné řešení před chytrým kódem.
+- Nepřidávej zbytečné závislosti ani abstrakce bez jasného přínosu.
+- Dodržuj existující konvence projektu, pokud nejsou v konfliktu s těmito pravidly.
+
 ## Jeden kontext a větev na jednu fázi
 
 Každá fáze má vlastní plán v `docs/superpowers/plans/` a vlastní větev `NN-name`. Nový kontext začíná přečtením:

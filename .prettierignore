@@ -1,0 +1,18 @@
+# Dependencies
+node_modules/
+
+# Build and test output
+.next/
+out/
+build/
+dist/
+coverage/
+
+# Tooling output
+.codegraph/
+.vercel/
+*.tsbuildinfo
+next-env.d.ts
+
+# Generated dependency lockfile
+package-lock.json

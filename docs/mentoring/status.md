@@ -11,24 +11,37 @@
 - Aktivní fáze: Fáze 1 – Next.js základ a první nasazení.
 - Aktivní větev: `01-nextjs-foundation`.
 - Next.js scaffold používá TypeScript, App Router v `src/app`, Tailwind CSS, ESLint a Turbopack.
-- Nainstalované hlavní verze: Node.js `26.12.0`, npm `11.20.0`, Next.js `16.4.3`, React `19.3.0` a TypeScript `5.9.3`.
+- Nainstalované hlavní verze: Node.js `26.12.0`, npm `11.20.0`, Next.js `16.4.3`, React `19.3.0`, TypeScript `5.9.3` a Prettier `3.9.10`.
 - Výchozí stránka byla ověřena přes dev server požadavkem `GET / 200`.
-- `npm run lint` prochází bez problémů.
+- ESLint používá Next.js flat config, vlastní pravidla kvality kódu a `eslint-config-prettier`.
+- Prettier, npm skripty a stručná clean-code pravidla v `AGENTS.md` jsou nastavené.
+- `npm run lint`, `npm run format:check` a `npm run typecheck` procházejí bez problémů.
 - `npm run build` prochází včetně TypeScript kontroly a statického renderu route `/`.
-- Testovací prostředí, Prettier, daisyUI, vlastní stránka a veřejné nasazení zatím nejsou hotové.
+- Testovací prostředí, daisyUI, vlastní stránka a veřejné nasazení zatím nejsou hotové.
 - Známá instalační varování: ESLint `9.39.5` je EOL a `unrs-resolver@1.12.2` má neschválený `postinstall` skript.
 
 ## Nejbližší krok
 
-1. Vytvořit scaffold checkpoint commitem `chore: scaffold Next.js application`.
-2. Nastavit ESLint, Prettier, npm skripty a stručná clean-code pravidla podle připraveného zadání.
-3. Ověřit lint, formátování a samostatný TypeScript typecheck.
+1. Zkontrolovat tooling diff a vytvořit samostatný commit.
+2. Přidat Jest a React Testing Library podle kroku 5 plánu Fáze 1.
+3. Vyřešit nebo vědomě zaznamenat zbývající instalační varování.
+
+## Tooling checkpoint
+
+- Flat config zachovává `eslint-config-next/core-web-vitals` a `eslint-config-next/typescript`.
+- Vlastní pravidla vynucují jednoduchý control flow, striktní porovnávání, blokové závorky, `const` a omezení `console` a `any`.
+- `max-depth`, `complexity`, `no-console` a `@typescript-eslint/no-explicit-any` jsou varování; ostatní vlastní pravidla jsou chyby.
+- Prettier používá středníky, dvojité uvozovky, dvě mezery, trailing commas `all` a šířku `100`.
+- `eslint-config-prettier` je načtený před vlastními pravidly, aby explicitní `curly: ["error", "all"]` zůstalo aktivní.
+- Skripty `lint`, `lint:fix`, `format`, `format:check` a `typecheck` jsou připravené.
+- Po schválení byly Prettierem upraveny pouze čtyři dříve neformátované soubory.
+- Ověření `npm run lint`, `npm run format:check` a `npm run typecheck` prošlo 25. 10. 2026.
+- Checkpoint zatím nemá commit; doporučená zpráva je `chore: configure code quality tooling`.
 
 ## Scaffold checkpoint
 
 - Výchozí dokumentační checkpoint je commit `a588d6c docs: simplify phase branch names`.
-- Scaffold checkpoint má použít commit message `chore: scaffold Next.js application`.
-- Hash scaffold commitu se doplní po jeho vytvoření.
+- Scaffold checkpoint je commit `01cfc09 chore: scaffold Next.js application`.
 - Po checkpointu pokračuje Fáze 1 konfigurací nástrojů pro kvalitu kódu.
 
 ## Následující fáze

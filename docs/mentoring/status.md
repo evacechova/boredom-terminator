@@ -22,9 +22,9 @@
 
 ## Nejbližší krok
 
-1. Zkontrolovat tooling diff a vytvořit samostatný commit.
-2. Přidat Jest a React Testing Library podle kroku 5 plánu Fáze 1.
-3. Vyřešit nebo vědomě zaznamenat zbývající instalační varování.
+1. Přidat Jest a React Testing Library podle kroku 5 plánu Fáze 1.
+2. Vysvětlit rozdíl mezi produkčním buildem a component testem.
+3. Vyřešit nebo vědomě přijmout zbývající instalační varování.
 
 ## Tooling checkpoint
 
@@ -36,13 +36,13 @@
 - Skripty `lint`, `lint:fix`, `format`, `format:check` a `typecheck` jsou připravené.
 - Po schválení byly Prettierem upraveny pouze čtyři dříve neformátované soubory.
 - Ověření `npm run lint`, `npm run format:check` a `npm run typecheck` prošlo 25. 10. 2026.
-- Checkpoint zatím nemá commit; doporučená zpráva je `chore: configure code quality tooling`.
+- Tooling checkpoint je commit `c2a8326 chore: configure code quality tooling`.
 
 ## Scaffold checkpoint
 
 - Výchozí dokumentační checkpoint je commit `a588d6c docs: simplify phase branch names`.
 - Scaffold checkpoint je commit `01cfc09 chore: scaffold Next.js application`.
-- Po checkpointu pokračuje Fáze 1 konfigurací nástrojů pro kvalitu kódu.
+- Po scaffold checkpointu následoval tooling checkpoint `c2a8326`.
 
 ## Následující fáze
 

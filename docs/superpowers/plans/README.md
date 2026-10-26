@@ -16,7 +16,8 @@ Každý soubor představuje jeden smysluplný, samostatně kontrolovatelný cele
 
 | Fáze | Větev                         | Výsledek                                       | Plán                                                                   |
 | ---- | ----------------------------- | ---------------------------------------------- | ---------------------------------------------------------------------- |
-| 1    | `01-nextjs-foundation`        | Next.js základ, testy, téma a první nasazení   | [01-foundation.md](01-foundation.md)                                   |
+| 1A   | `01-nextjs-foundation`        | Next.js základ, tooling a test infrastruktura  | [01-foundation.md](01-foundation.md)                                   |
+| 1B   | `01-foundation-ui`            | Základní UI, téma a první nasazení             | [01b-foundation-ui.md](01b-foundation-ui.md)                           |
 | 2    | `02-event-domain`             | Typy, časová pravidla a filtry                 | [02-event-domain.md](02-event-domain.md)                               |
 | 3    | `03-local-repository`         | Seed data a bezpečný `localStorage` repository | [03-local-repository.md](03-local-repository.md)                       |
 | 4    | `04-discovery-ui`             | Stav hlavní obrazovky, filtry a textový seznam | [04-discovery-ui.md](04-discovery-ui.md)                               |

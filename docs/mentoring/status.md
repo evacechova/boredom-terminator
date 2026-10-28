@@ -1,6 +1,6 @@
 # Boredom Terminator – stav a handoff
 
-> Aktualizováno 26. 10. 2026. Tento soubor je výchozí bod každého nového kontextu.
+> Aktualizováno 28. 10. 2026. Tento soubor je výchozí bod každého nového kontextu.
 
 ## Aktuální stav
 
@@ -8,9 +8,10 @@
 - Implementace je rozdělena do samostatných branch plánů: `docs/superpowers/plans/README.md`.
 - Po dokončení MVP naváže Fáze 10: komplexní review kódu a tvorba aktivní post-MVP roadmapy, specifikací a dalších implementačních plánů.
 - Spolupráce probíhá v learner-led mentoring režimu podle `AGENTS.md`.
-- Aktivní fáze: Fáze 1A – Next.js základ a testovací infrastruktura.
-- Aktivní větev: `01-nextjs-foundation`.
+- Aktivní fáze: Fáze 1B – základní UI a první nasazení.
+- Aktivní větev: `01-foundation-ui`.
 - Fáze 1 byla rozdělena na samostatné PR: setup ve Fázi 1A a UI s prvním deploymentem ve Fázi 1B.
+- Fáze 1A byla sloučena do `main` přes PR #1 jako commit `0d42cfb chore: set up Next.js foundation and test tooling (#1)`.
 - Next.js scaffold používá TypeScript, App Router v `src/app`, Tailwind CSS, ESLint a Turbopack.
 - Nainstalované hlavní verze: Node.js `26.12.0`, npm `11.20.0`, Next.js `16.4.3`, React `19.3.0`, TypeScript `5.9.3` a Prettier `3.9.10`.
 - Výchozí stránka byla ověřena přes dev server požadavkem `GET / 200`.
@@ -18,18 +19,21 @@
 - Prettier, npm skripty a stručná clean-code pravidla v `AGENTS.md` jsou nastavené.
 - `npm run lint`, `npm run format:check` a `npm run typecheck` procházejí bez problémů.
 - `npm run build` prochází včetně TypeScript kontroly a statického renderu route `/`.
-- Jest a React Testing Library jsou nainstalované a nakonfigurované. Fáze 1A je implementačně hotová a připravuje se její pull request.
-- Component test, daisyUI, vlastní stránka a veřejné nasazení patří nově do Fáze 1B.
-- Rozpracovaný `src/app/page.test.tsx` je lokálně uložený ve stash s názvem `wip: phase 1b homepage tests`.
+- Jest a React Testing Library jsou nainstalované a nakonfigurované. Fáze 1A je dokončená.
+- Základní stránka a její component test jsou uložené v checkpointu `5a3bf84 feat: add foundation landing page`; testy pro heading, logo a odkaz `Add event` procházejí.
+- Původní stash s component testem byl po checkpointu odstraněn.
+- daisyUI `5.7.50` je nainstalované jako dev dependency. Vlastní světlé téma `boredom-terminator` je nakonfigurované, landing page používá theme tokeny a odkaz `Add event` používá `btn btn-primary`.
+- Component testy, ESLint, Prettier a ověřovací Webpack build po přidání tématu procházejí. Vizuální kontrola landing page proběhla 28. 10. 2026.
+- Dočasné `public/boredom-terminator-logo.svg` má přibližně 2 MB a obsahuje vložené rastrové PNG. Před prvním deploymentem je potřeba logo optimalizovat.
 - Známá instalační varování: ESLint `9.39.5` je EOL a nepřímé závislosti `whatwg-encoding@3.1.1` a `glob@10.5.0` jsou označené jako zastaralé. `npm audit` hlásí `0 vulnerabilities`.
 - Instalační skripty `unrs-resolver@1.12.2` a `@parcel/watcher@2.6.0` jsou po kontrole výslovně zakázané přes `allowScripts`; oba nativní moduly se bez nich načtou.
 - Ověřovací `npx next build --webpack` prošel 26. 10. 2026 s jednou statickou route. `npm run build` v Codex runneru blokuje omezení lokálního portu uvnitř Turbopack CSS child procesu; před merge je potřeba potvrdit běžný Turbopack build v lokálním terminálu nebo CI.
 
 ## Nejbližší krok
 
-1. Zkontrolovat diff, commitnout dokumentační rozdělení a pushnout větev pro setup PR.
-2. Před merge potvrdit `npm run build` v lokálním terminálu nebo CI.
-3. Po merge vytvořit větev `01-foundation-ui`, obnovit stash a pokračovat podle `01b-foundation-ui.md`.
+1. Optimalizovat dočasné logo před prvním veřejným deploymentem.
+2. Spustit závěrečné testy, lint, format check, typecheck a produkční build.
+3. Nasadit stránku, uložit veřejnou URL do README a uzavřít Fázi 1B podle `01b-foundation-ui.md`.
 
 ## Tooling checkpoint
 

@@ -3,8 +3,8 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-white font-sans">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white sm:items-start">
+    <div className="bg-base-100 flex flex-1 flex-col items-center justify-center font-sans">
+      <main className="bg-base-100 flex w-full max-w-3xl flex-1 flex-col items-center justify-between px-16 py-32 sm:items-start">
         <Image
           className="h-20 w-20"
           src="/boredom-terminator-logo.svg"
@@ -14,11 +14,11 @@ export default function Home() {
           priority
         />
         <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black">
+          <h1 className="text-base-content max-w-xs text-3xl font-semibold leading-10 tracking-tight">
             Boredom Terminator
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600">
-            <Link href="/events/new" className="font-medium text-zinc-950">
+          <p className="text-base-content/70 max-w-md text-lg leading-8">
+            <Link href="/events/new" className="btn btn-primary">
               Add event
             </Link>
           </p>

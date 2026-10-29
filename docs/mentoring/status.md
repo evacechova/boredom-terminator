@@ -26,15 +26,17 @@
 - Závěrečné ověření 29. 10. 2026 prošlo: `npm test` (`3/3`), `npm run lint`, `npm run format:check`, `npm run typecheck`, `npx next build --webpack` v Codex runneru a lokální `npm run build` s Turbopackem. Vizuální kontrola landing page proběhla 28. 10. 2026.
 - Landing page používá dočasné `public/boredom-terminator-logo-full.png` o velikosti přibližně 1,5 MB. Další optimalizace loga je známý problém odložený na později a neblokuje první deployment.
 - Nepoužitý `public/boredom-terminator-logo.png` se záměrně ponechává jako alternativní podklad pro pozdější práci s logem.
-- Vercel projekt je připojený. Production URL `https://boredom-terminator.vercel.app` je dostupná a aktuálně nasazuje `main`; preview deployment větve `01-foundation-ui` zatím není ověřený.
+- Vercel projekt je připojený. Production URL `https://boredom-terminator.vercel.app` je dostupná a aktuálně nasazuje `main`.
+- Preview deployment větve `01-foundation-ui` na `https://boredom-terminator-ro7kgif4z-evacechova.vercel.app/` dosáhl stavu `Ready` a landing page byla vizuálně ověřena 29. 10. 2026. Preview vyžaduje přihlášení k Vercelu.
 - Známá instalační varování: ESLint `9.39.5` je EOL a nepřímé závislosti `whatwg-encoding@3.1.1` a `glob@10.5.0` jsou označené jako zastaralé. `npm audit` hlásí `0 vulnerabilities`.
 - Instalační skripty `unrs-resolver@1.12.2` a `@parcel/watcher@2.6.0` jsou po kontrole výslovně zakázané přes `allowScripts`; oba nativní moduly se bez nich načtou.
 - `npm run build` v Codex runneru blokuje omezení lokálního portu uvnitř Turbopack CSS child procesu. Projektový Turbopack build však prošel v lokálním terminálu; Codex runner používá pro ověření Webpack fallback.
 
 ## Nejbližší krok
 
-1. Commitnout a pushnout URL a aktualizovaný handoff na větev `01-foundation-ui`.
-2. Ověřit Vercel preview deployment aktuální větve včetně Turbopack buildu a uzavřít Fázi 1B podle `01b-foundation-ui.md`.
+1. Commitnout a pushnout ověřený preview deployment do handoffu.
+2. Vytvořit pull request do `main`, ověřit kontroly a použít `Squash and merge`.
+3. Po merge ověřit production URL a připravit první krok Fáze 2.
 
 ## Tooling checkpoint
 

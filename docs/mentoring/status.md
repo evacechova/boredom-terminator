@@ -1,6 +1,6 @@
 # Boredom Terminator – stav a handoff
 
-> Aktualizováno 29. 10. 2026. Tento soubor je výchozí bod každého nového kontextu.
+> Aktualizováno 30. 10. 2026. Tento soubor je výchozí bod každého nového kontextu.
 
 ## Aktuální stav
 
@@ -28,15 +28,16 @@
 - Nepoužitý `public/boredom-terminator-logo.png` se záměrně ponechává jako alternativní podklad pro pozdější práci s logem.
 - Vercel projekt je připojený. Production URL `https://boredom-terminator.vercel.app` je dostupná a aktuálně nasazuje `main`.
 - Preview deployment větve `01-foundation-ui` na `https://boredom-terminator-ro7kgif4z-evacechova.vercel.app/` dosáhl stavu `Ready` a landing page byla vizuálně ověřena 29. 10. 2026. Preview vyžaduje přihlášení k Vercelu.
+- Metadata používají title `Boredom Terminator` a popis `Discover local K-pop events in Prague.` místo výchozích textů Create Next App.
 - Známá instalační varování: ESLint `9.39.5` je EOL a nepřímé závislosti `whatwg-encoding@3.1.1` a `glob@10.5.0` jsou označené jako zastaralé. `npm audit` hlásí `0 vulnerabilities`.
 - Instalační skripty `unrs-resolver@1.12.2` a `@parcel/watcher@2.6.0` jsou po kontrole výslovně zakázané přes `allowScripts`; oba nativní moduly se bez nich načtou.
 - `npm run build` v Codex runneru blokuje omezení lokálního portu uvnitř Turbopack CSS child procesu. Projektový Turbopack build však prošel v lokálním terminálu; Codex runner používá pro ověření Webpack fallback.
 
 ## Nejbližší krok
 
-1. Commitnout a pushnout ověřený preview deployment do handoffu.
-2. Vytvořit pull request do `main`, ověřit kontroly a použít `Squash and merge`.
-3. Po merge ověřit production URL a připravit první krok Fáze 2.
+1. Commitnout a pushnout opravu metadata a aktualizovaný handoff.
+2. Ověřit nový Vercel preview deployment a vytvořit pull request do `main`.
+3. Ověřit kontroly, použít `Squash and merge`, zkontrolovat production URL a připravit první krok Fáze 2.
 
 ## Tooling checkpoint
 

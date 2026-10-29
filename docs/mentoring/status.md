@@ -1,6 +1,6 @@
 # Boredom Terminator – stav a handoff
 
-> Aktualizováno 28. 10. 2026. Tento soubor je výchozí bod každého nového kontextu.
+> Aktualizováno 29. 10. 2026. Tento soubor je výchozí bod každého nového kontextu.
 
 ## Aktuální stav
 
@@ -23,17 +23,18 @@
 - Základní stránka a její component test jsou uložené v checkpointu `5a3bf84 feat: add foundation landing page`; testy pro heading, logo a odkaz `Add event` procházejí.
 - Původní stash s component testem byl po checkpointu odstraněn.
 - daisyUI `5.7.50` je nainstalované jako dev dependency. Vlastní světlé téma `boredom-terminator` je nakonfigurované, landing page používá theme tokeny a odkaz `Add event` používá `btn btn-primary`.
-- Component testy, ESLint, Prettier a ověřovací Webpack build po přidání tématu procházejí. Vizuální kontrola landing page proběhla 28. 10. 2026.
-- Dočasné `public/boredom-terminator-logo.svg` má přibližně 2 MB a obsahuje vložené rastrové PNG. Před prvním deploymentem je potřeba logo optimalizovat.
+- Závěrečné ověření 29. 10. 2026 prošlo: `npm test` (`3/3`), `npm run lint`, `npm run format:check`, `npm run typecheck`, `npx next build --webpack` v Codex runneru a lokální `npm run build` s Turbopackem. Vizuální kontrola landing page proběhla 28. 10. 2026.
+- Landing page používá dočasné `public/boredom-terminator-logo-full.png` o velikosti přibližně 1,5 MB. Další optimalizace loga je známý problém odložený na později a neblokuje první deployment.
+- Nepoužitý `public/boredom-terminator-logo.png` se záměrně ponechává jako alternativní podklad pro pozdější práci s logem.
+- Vercel je připojený. Veřejný deployment aktuální větve a výsledná URL zatím nejsou ověřené.
 - Známá instalační varování: ESLint `9.39.5` je EOL a nepřímé závislosti `whatwg-encoding@3.1.1` a `glob@10.5.0` jsou označené jako zastaralé. `npm audit` hlásí `0 vulnerabilities`.
 - Instalační skripty `unrs-resolver@1.12.2` a `@parcel/watcher@2.6.0` jsou po kontrole výslovně zakázané přes `allowScripts`; oba nativní moduly se bez nich načtou.
-- Ověřovací `npx next build --webpack` prošel 26. 10. 2026 s jednou statickou route. `npm run build` v Codex runneru blokuje omezení lokálního portu uvnitř Turbopack CSS child procesu; před merge je potřeba potvrdit běžný Turbopack build v lokálním terminálu nebo CI.
+- `npm run build` v Codex runneru blokuje omezení lokálního portu uvnitř Turbopack CSS child procesu. Projektový Turbopack build však prošel v lokálním terminálu; Codex runner používá pro ověření Webpack fallback.
 
 ## Nejbližší krok
 
-1. Optimalizovat dočasné logo před prvním veřejným deploymentem.
-2. Spustit závěrečné testy, lint, format check, typecheck a produkční build.
-3. Nasadit stránku, uložit veřejnou URL do README a uzavřít Fázi 1B podle `01b-foundation-ui.md`.
+1. Commitnout a pushnout ověřené změny na větev `01-foundation-ui`.
+2. Ověřit Vercel deployment aktuální větve včetně Turbopack buildu, uložit veřejnou URL do README a uzavřít Fázi 1B podle `01b-foundation-ui.md`.
 
 ## Tooling checkpoint
 

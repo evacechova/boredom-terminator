@@ -7,7 +7,7 @@ export default function Home() {
       <main className="bg-base-100 flex w-full max-w-3xl flex-1 flex-col items-center justify-between px-16 py-32 sm:items-start">
         <Image
           className="h-20 w-20"
-          src="/boredom-terminator-logo.svg"
+          src="/boredom-terminator-logo-full.png"
           alt="Boredom Terminator robot cat"
           width={100}
           height={100}

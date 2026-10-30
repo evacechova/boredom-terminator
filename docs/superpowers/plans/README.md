@@ -46,5 +46,6 @@ Začínáme Fázi 2 na větvi 02-event-domain. Pracuj jako mentor podle AGENTS.m
 - Lint a build projdou, pokud je fáze může ovlivnit.
 - Mentor zkontroluje diff a nezůstanou nevysvětlené chyby.
 - Vznikne jeden nebo více smysluplných commitů; poslední commit uzavírá fázi.
+- Pull request se sloučí strategií **Squash and merge**, aby na `main` vznikl jeden výsledný commit za fázi.
 - `docs/mentoring/status.md` obsahuje nový handoff.
 - Odchylky a trvalé poznatky jsou zapsané pouze tehdy, když vznikly.

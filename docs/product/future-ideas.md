@@ -18,7 +18,7 @@ Backend začne dávat smysl, až mají různí uživatelé vidět stejné vytvo�
 Před volbou řešení:
 
 - ověřit aktuální možnosti a limity hostingu,
-- porovnat Supabase s Next.js serverovou vrstvou a dalšími hostovanými PostgreSQL variantami,
+- porovnat Supabase, Neon, Next.js serverovou vrstvu a další hostované PostgreSQL varianty,
 - posoudit PostgreSQL/PostGIS, autentizaci, storage, realtime, migrace a lokální vývoj,
 - porovnat region dat, latenci, cenu, bezplatné limity a vendor lock-in,
 - navrhnout migraci z `localStorage` bez zbytečného přepisu UI,

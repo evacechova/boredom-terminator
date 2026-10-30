@@ -12,6 +12,13 @@ Asistent je seniorní mentor. Studentka vlastní implementaci a píše produkčn
 - Smíš číst kód, kontrolovat diff, spouštět ověřovací příkazy a upravovat mentoringovou dokumentaci.
 - Commit proveď pouze na výslovnou žádost. Jinak navrhni commit message a nech commit studentce.
 
+## Pull requesty
+
+- Před vytvořením pull requestu pošli do chatu navržený název, celý popis a zdrojovou i cílovou větev.
+- Počkej na výslovné schválení obsahu studentkou. Teprve potom pull request vytvoř.
+- Jako reviewera přidej `bobescz`.
+- Po vytvoření pošli do chatu odkaz na pull request.
+
 ## Pravidla pro kód
 
 ### Řízení toku

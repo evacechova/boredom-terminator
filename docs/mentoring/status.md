@@ -28,7 +28,7 @@
 ## Checkpoint první mapy
 
 - Nainstalované Leaflet 1.9.4, React Leaflet 5.0.0 a vývojové typy @types/leaflet 1.9.22.
-- `LeafletMap.tsx` vykresluje Prahu přes MapContainer a OpenStreetMap TileLayer s atribucí a Leaflet CSS. Výška 400 px je dočasná.
+- `LeafletMap.tsx` vykresluje Prahu přes MapContainer a OpenStreetMap TileLayer s atribucí a Leaflet CSS. Mapa nyní přes `absolute inset-0` vyplňuje relativně pozicovaný main pod hlavičkou; vnější obal má h-dvh. Studentka ověřila zobrazení v prohlížeči.
 - `EventMap.tsx` používá next/dynamic s `ssr: false`; serverová stránka jej vykresluje vedle původního obsahu. Mock data zatím mapa nepoužívá.
 - Studentka ověřila mapu v prohlížeči. Ověření 2. 11. 2026: Jest 3/3, lint, format check, typecheck a `npx next build --webpack` prošly. Standardní Turbopack production build tohoto checkpointu zatím nebyl ověřen.
 - Varování Jest o aktualizaci mimo `act(...)` je vyřešené: test stránky nahrazuje EventMap mockem vracejícím null. Jest konfigurace mapuje alias `@/` na `src/`; mock používá `__esModule: true` pro rozpoznání default exportu. Po opravě prošly testy 3/3 bez warningu, formátování změněných souborů a kontrola diffu. Oprava tvoří samostatný checkpoint `test: isolate homepage from Leaflet loading`.
@@ -37,7 +37,7 @@
 
 ## Nejbližší krok
 
-1. Základní layout: mapa vyplňuje dostupný viewport, karta a ovládání plavou nad ní. Hlavička a footer mohou mít vlastní prostor; jejich finální vzhled zatím není rozhodnutý. Zachovat branding a Add event.
+1. Ověřit Vercel preview větve `02-event-map`. Základní layout mapy pod hlavičkou je hotový; plovoucí karta a ovládání teprve přijdou. Finální hlavička a footer zatím nejsou rozhodnuté.
 2. Před dokončením fáze přesunout mapovou konfiguraci z komponenty do map-config.ts podle plánu; zatím je inline.
 3. Doplnit druhou až třetí mock událost, napojit markery, výběr a základní kartu. Pokračovat po malých mentoringových krocích.
 

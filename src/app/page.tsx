@@ -4,8 +4,8 @@ import EventMap from "@/components/event-map/EventMap";
 
 export default function Home() {
   return (
-    <div className="bg-base-100 flex flex-1 flex-col items-center justify-center font-sans">
-      <main className="bg-base-100 flex w-full max-w-3xl flex-1 flex-col items-center justify-between px-16 py-32 sm:items-start">
+    <div className="bg-base-100 flex flex-1 flex-col items-center justify-center font-sans h-dvh">
+      <header>
         <Image
           className="h-20 w-20"
           src="/boredom-terminator-logo-full.png"
@@ -24,6 +24,8 @@ export default function Home() {
             </Link>
           </p>
         </div>
+      </header>
+      <main className="bg-base-100 w-full flex-1 relative min-h-0">
         <EventMap />
       </main>
     </div>

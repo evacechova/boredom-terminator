@@ -15,13 +15,21 @@
 - Původní doménový rozsah je zachován ve Fázi 2B: `docs/superpowers/plans/02b-event-domain.md`, větev `02b-event-domain`.
 - Dokumentační checkpoint nové roadmapy vzniká na výslovnou žádost studentky na větvi `02-event-map`. Produkční kód ani testy mentor nemění.
 
+## Aktuální mentoringový checkpoint
+
+- Studentka vytvořila `src/domain/events/types.ts` s exportovaným `MapEvent`: povinné `id`, `title`, `startsAt` a `location.latitude`/`longitude`; volitelné `description` a `venueName`.
+- Vysvětleny odpovědnosti složek domain/data/components/app, objektový typ, vnořený objekt, rozdíl type/interface, volitelné vlastnosti a UTC ISO řetězec. Typ `string` sám formát času za běhu neověřuje.
+- `npm run typecheck` po vytvoření typu prošel 2. 11. 2026.
+- Studentka potvrdila, že merge již pullnula. Dřívější lokální Git pozorování není podklad pro další požadavek na rebase; opakovaný fetch/rebase nezadávat bez nového důkazu.
+
+- `src/data/mock-events.ts` obsahuje typované pole `mockEvents` s první minimální událostí `mock-1`. Mentor ji vložil na výslovnou žádost studentky. Volitelná pole jsou vynechána.
+- Vysvětlen rozdíl mezi typem pole a hodnotou pole, `import type`, alias `@/` a zápis skutečného objektu. Typecheck první mock události prošel.
+
 ## Nejbližší krok
 
-1. Na existující větvi `02-event-map` ověřit vzdálený `main` po merge Fáze 1B a synchronizovat základ větve. Ověření production zůstává otevřené.
-2. Vysvětlit minimální objektový typ `MapEvent`: `id`, `title`, `startsAt` (UTC ISO), volitelné `description` a `venueName`, `location.latitude`, `location.longitude`. Typová kontrola není runtime validace.
-3. Studentka vytvoří `src/domain/events/types.ts` a následně dvě až tři pražské mock události v `src/data/mock-events.ts`.
-4. Společně zkontrolovat data a spustit `npm run typecheck`.
-5. Pokračovat hranicí Server/Client Component a prázdnou mapou podle plánu 2A. Dnešní hodinový blok nemusí dokončit celý Leaflet. Další bloky: markery a výběr, karta a zavírání, mobilní/desktopové rozložení a fokus.
+1. Vysvětlit hranici Server/Client Component a proč Leaflet potřebuje DOM; navázat prázdnou mapou Prahy podle plánu 2A.
+2. Před ověřením více markerů doplnit druhou až třetí mock událost se stabilními ID a odlišnou polohou.
+3. Další bloky: markery a výběr, karta a zavírání, mobilní/desktopové rozložení a fokus.
 
 ## Známé limity
 

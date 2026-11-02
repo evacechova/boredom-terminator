@@ -2,6 +2,16 @@
 
 Tento dokument zaznamenává vědomé změny, které ovlivňují rozsah, architekturu, pořadí práce nebo vývojový proces. Běžné opravy překlepů sem nepatří.
 
+## 2026-11-02 – Mapa s mock daty před úplnou doménou
+
+**Původně:** Fáze 2 připravovala úplné typy, pražský čas, filtry, řazení a Google Maps odkazy. Leaflet přicházel až ve Fázi 5 po repository a discovery UI.
+
+**Nově:** Studentka schválila Fázi 2A na větvi `02-event-map`: zjednodušené funkční demo s minimálním typem, dvěma až třemi pevnými mock událostmi, mapou Prahy, výběrem pinu a základní kartou události. Karta obsahuje název, zobrazený čas, místo a volitelný popis; lze ji zavřít a používá mobilní spodní i desktopové boční rozložení. Základní ovládání klávesnicí a fokus jsou součástí dema. Původní doménový rozsah se přesouvá do Fáze 2B na větvi `02b-event-domain`.
+
+**Důvod:** První viditelný výsledek má ověřit propojení dat, Next.js a mapy před zaváděním pravidel, která UI zatím nepoužívá.
+
+**Dopad:** Produktová specifikace zůstává beze změny. Minimální `MapEvent` je dočasný vývojový model, který Fáze 2B rozšíří na úplný model bez paralelních datových toků. Pevné mock události nenahrazují finální relativní seed factory z Fáze 3. Fáze 4 napojí již existující mapu na repository a filtry; Fáze 5 rozšíří již existující kartu o úplná pole a externí odkazy a přidá GPS. Fáze 8 ověří a rozšíří přístupnost napříč aplikací; základní přístupnost karty neodkládáme. Každá fáze má vlastní větev, commit a PR. Dnešní hodinový blok cílí na typ a mock data, nikoli dokončení celé mapy.
+
 ## 2026-10-26 – Rozdělení Fáze 1 na samostatné pull requesty
 
 **Původně:** Fáze 1 spojovala scaffold, vývojové nástroje, testovací infrastrukturu, základní UI, téma a první deployment do jedné větve a jednoho závěrečného review.

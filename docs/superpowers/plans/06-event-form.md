@@ -4,7 +4,7 @@
 
 **Větev:** `06-event-form`
 
-**Závisí na:** doméně z Fáze 2 a vizuálním základu z Fáze 1
+**Závisí na:** doméně z Fáze 2B, schématu z Fáze 3 a existujícím responzivním demu
 
 **Výsledek:** Route `/events/new` obsahuje responzivní formulář se schválenými poli a okamžitou klientskou validací. Zatím neukládá událost.
 
@@ -35,7 +35,7 @@ Poloha bude v této fázi dočasně reprezentovaná testovacím vstupem nebo inj
 1. Navrhnout `EventFormValues` podle skutečných inputů, ne podle uloženého `Event`.
 2. Napsat failing test jednoho povinného pole po blur.
 3. Přidat React Hook Form s režimem validace po opuštění pole.
-4. Připojit Zod resolver a porozumět toku hodnot a chyb.
+4. Připojit Zod resolver a porozumět toku hodnot a chyb; sdílet odpovídající pravidla se schématem z Fáze 3 bez druhé konfliktní definice.
 5. Přidávat pole po jedné sekci: základ, čas, poloha, volitelné údaje.
 6. Testovat konec pozdější než začátek a výsledný konec v budoucnosti.
 7. Testovat pražský čas kolem letního času.

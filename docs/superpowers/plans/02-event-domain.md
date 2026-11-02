@@ -1,70 +1,83 @@
-# Fáze 2 – Event doména, pražský čas a filtry
+# Fáze 2A – Zjednodušené funkční demo
 
-> Režim: studentka implementuje, mentor vysvětluje TypeScript a TDD po malých krocích.
+> Režim: studentka píše produkční kód i testy. Mentor vysvětluje nové pojmy a zadává jeden malý krok najednou.
 
-**Větev:** `02-event-domain`
+**Větev:** `02-event-map`
 
-**Závisí na:** dokončené Fázi 1
+**Závisí na:** sloučené Fázi 1B.
 
-**Výsledek:** Čisté TypeScript typy a funkce pro události, čas, filtrování, řazení a Google Maps URL.
+**Výsledek:** Hlavní stránka zobrazí mapu Prahy a několik markerů z typovaných mock dat. Kliknutí na marker otevře základní kartu detailu; demo funguje na mobilu i desktopu.
 
-**Specifikace:** části 6, 7 a 17.
+**Specifikace:** části 5, 6, 8 a 16; záměrně jde o zjednodušené demo, nikoli finální MVP.
 
-## Na co se soustředíme
+## Rozsah a struktura
 
-- Rozdíl mezi TypeScript typem a runtime validací.
-- Union typy pro kategorie a městské části.
-- Čisté funkce bez Reactu a browser API.
-- TDD cyklus red–green–refactor.
-- Rozdíl mezi pražským lokálním časem a UTC ISO.
-- Injektovaný `now` místo skrytého `new Date()` uvnitř testované logiky.
+- `src/domain/events/types.ts`: minimální `MapEvent` s `id`, `title`, `startsAt` (UTC ISO), volitelným `description` a `venueName` a `location` obsahující číselné `latitude` a `longitude`.
+- `src/data/mock-events.ts`: dvě až tři pevné ukázkové události v Praze, typované pomocí `MapEvent`. Nejde ještě o relativní seed factory.
+- `src/components/event-map/map-config.ts`: střed Prahy, zoom a konfigurace OpenStreetMap dlaždic včetně atribuce.
+- `src/components/event-map/EventMap.tsx`: Client Component hranice s dynamickým importem mapy bez SSR a loading stavem.
+- `src/components/event-map/LeafletMap.tsx`: Leaflet mapa, dlaždice a markery s přístupným názvem; přijímá události a callback výběru. Kliknutí do prázdné mapy zavře kartu.
+- `src/components/event-map/EventDiscovery.tsx`: klientský vlastník `selectedEventId`; vybranou událost odvozuje z předaných dat, propojuje mapu a kartu. Bez repository, filtrů a controller hooku navíc.
+- `src/components/event-map/EventPanel.tsx`: karta s názvem, zobrazeným časem, místem a volitelným krátkým popisem; tlačítko zavření, `Escape` a řízení fokusu.
+- `src/components/event-map/EventPanel.test.tsx`: obsah, chybějící volitelné údaje, změna vybrané události a zavírání.
+- `src/app/page.tsx`: zůstává Server Component, předává mock data klientskému discovery celku a zachovává branding a odkaz `Add event`.
+- `src/app/globals.css`: Leaflet CSS a minimální responzivní rozložení s výslovnou výškou mapy.
+- `src/app/page.test.tsx`: upravit jen podle skutečné změny stránky; zachovat testy brandingu a odkazu.
 
-## Veřejná rozhraní fáze
+Názvy souborů jsou výchozí návrh pro mentoring. Případnou změnu domluvit před jejich vytvořením. Typ popisuje jen potřeby mapy a karty; úplný model přijde ve Fázi 2B.
 
-Doména poskytne typy `Event`, `EventCategory`, `PragueDistrict` a `EventLocation` a funkce pro:
+## Malé mentoringové kroky
 
-- převod pražského data a času na UTC ISO,
-- formátování uloženého času pro Prahu,
-- výpočet dvouhodinového výchozího konce,
-- rolling 24hodinový filtr,
-- filtr podle pražského data začátku,
-- volitelný filtr městské části,
-- vzestupné řazení podle začátku,
-- bezpečný Google Maps odkaz z přesných souřadnic.
+- [ ] Vysvětlit objektový typ, číselné souřadnice a rozdíl mezi TypeScript kontrolou a runtime validací.
+- [ ] Studentka navrhne `MapEvent` a dvě až tři mock události se stabilními ID a různými souřadnicemi v Praze.
+- [ ] Spustit `npm run typecheck` a zkontrolovat tvar dat.
+- [ ] Vysvětlit DOM, Server/Client Component a proč samotné `"use client"` nevypíná předrenderování.
+- [ ] Při použití nainstalovat Leaflet, React Leaflet a potřebné TypeScript typy; zkontrolovat kompatibilitu a instalační skripty.
+- [ ] Vykreslit prázdnou mapu Prahy přes dynamický import bez SSR, načíst CSS, nastavit výšku a viditelnou atribuci.
+- [ ] Zobrazit jeden jednoduchý marker; vyřešit jeho assety nebo použít jednoduchý vlastní placeholder.
+- [ ] Převést předané mock události na markery se stabilním React klíčem a přístupným názvem.
+- [ ] Napsat component test základní karty: název, čas, místo, volitelný popis; absence volitelných údajů nezanechá prázdné řádky.
+- [ ] Přidat `selectedEventId` a odvozenou vybranou událost. Kliknutí na jiný pin změní obsah stejné karty.
+- [ ] Přidat zavření tlačítkem, `Escape` a kliknutím do prázdné mapy; přesun fokusu do karty a po zavření na původní marker.
+- [ ] Na mobilu zobrazit spodní panel, na desktopu pravý plovoucí panel. Dlouhý obsah může rolovat a nesmí skrýt zavření.
+- [ ] Čas mock události pouze zobrazit přes `Intl.DateTimeFormat` s výslovným `Europe/Prague`. Nevytvářet převod vstupního pražského času na UTC ani časové filtry; obecné časové funkce přijdou ve Fázi 2B.
+- [ ] Ověřit mapu na mobilní i desktopové šířce a zachovat dostupný odkaz `Add event`.
+- [ ] Zkontrolovat diff, ověření a handoff; navrhnout commit a připravit PR podle AGENTS.md.
 
-## Mentoringové kroky
+## Ověření a podmínky dokončení
 
-1. Navrhnout datové typy z příkladů ve specifikaci.
-2. Napsat první failing test pro letní a zimní převod pražského času.
-3. Vybrat a pochopit knihovnu pro IANA časové pásmo; přidat ji až teď.
-4. Implementovat minimální časové funkce a ověřit DST případy.
-5. Napsat test dvouhodinového výchozího konce.
-6. Napsat test rolling filtru: probíhající a začínající během 24 hodin.
-7. Napsat test konkrétního data: rozhoduje pouze `startsAt`; událost z předchozího dne se nezobrazí.
-8. Přidat městskou část a řazení.
-9. Otestovat validní a neplatné souřadnice a přesný Google Maps odkaz.
-10. Zkontrolovat názvy, duplicity a čitelnost typů.
+- Mapa zobrazuje Prahu, dlaždice a čitelnou atribuci OpenStreetMap.
+- Každá mock událost má marker na svých souřadnicích; kliknutí otevře kartu odpovídající události.
+- Karta zobrazí název, čas, místo a dostupný popis. Výběr jiného markeru změní její obsah.
+- Zavření tlačítkem, `Escape` i prázdnou mapou funguje; reload kartu neobnoví.
+- Mobilní spodní a desktopový boční panel mají použitelný layout i při dlouhém obsahu.
+- Markery mají přístupný název a lze je aktivovat klávesnicí; fokus přejde do karty a po zavření se vrátí.
+- Mobilní ani desktopové rozložení neschová mapu nebo `Add event`.
+- Obnovení stránky a produkční build nezpůsobí `window is not defined` ani chybu hydratace.
+- Component testy ověřují vlastní UI; skutečné dlaždice se ověří v prohlížeči, nikoli síťovým požadavkem v Jestu.
+- Projdou `npm test`, `npm run lint`, `npm run format:check`, `npm run typecheck` a produkční build. Pro omezení runneru lze použít zdokumentovaný Webpack fallback; Turbopack ověřit lokálně.
+- Preview deployment funguje; fáze má závěrečný commit, schválený PR a merge před další fází.
 
-## Testy a ověření
+## Co sem nepatří
 
-- Letní a zimní pražský čas vytvoří správné UTC hodnoty.
-- Test pokryje přechod letního času.
-- Rolling filtr zahrne aktivní a blízké události, ne pozdější.
-- Datum 30. října zahrne jen události začínající 30. října.
-- District filtr a řazení fungují společně.
-- Google Maps URL používá zakódované souřadnice.
-- Cílené testy, lint a build projdou.
+Kompletní model události, kategorie, městské části, převody vstupního času, časová pravidla, filtry, řazení, Google Maps a source odkazy, relativní seed data, repository, localStorage, GPS a formulář. Karta je záměrně základní; rozšíření nesmí blokovat dokončení dema.
 
-## Fáze neobsahuje
+## Dnešní hodinový blok
 
-- Zod schema uložených dat.
-- React komponenty.
-- `localStorage`.
-
-## Doporučený závěrečný commit
-
-`feat: add event domain rules`
+Cíl je minimální typ a mock data, kontrola typů a vysvětlení hranice pro mapu. Pokud zbude čas, začít prázdnou mapou. Dokončení celého Leaflet zapojení během jedné hodiny není podmínkou.
 
 ## Handoff
 
-Do `status.md` zapsat veřejné doménové typy/funkce, použitou časovou knihovnu, ověřené DST případy a první krok Fáze 3. Nové TypeScript poznatky s dopadem na další fáze uložit do `memory/02-*.md`.
+Zapsat hotové kroky, přesný další malý úkol, ověřovací příkazy a mapový client boundary. Fáze 2B rozšíří tentýž datový tok o úplný model a doménová pravidla.
+
+## Samostatné mentoringové bloky
+
+1. Minimální typ a mock data.
+2. Prázdná mapa a Next.js client boundary.
+3. Markery z dat a výběr události.
+4. Základní karta a zavírání.
+5. Mobilní a desktopové rozložení, fokus a ověření veřejného dema.
+
+Jde o více sezení na jedné větvi a jeden výsledný PR. Každý blok končí kontrolovatelným checkpointem; žádný nevyžaduje dokončení celého dema za hodinu.
+
+**Navržený commit:** `feat: add simplified event discovery demo`

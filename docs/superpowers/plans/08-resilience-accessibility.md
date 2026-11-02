@@ -30,7 +30,7 @@
 8. `Try again` remountne vrstvu; fallback zmizí až po `tileload`.
 9. Dokončit empty state a reset filtrů.
 10. Projít aplikaci pouze klávesnicí a zapsat problémy.
-11. Doplnit fokus panelu, návrat fokusu, `Escape`, labely a programově propojené chyby.
+11. Regresně ověřit fokus panelu, návrat fokusu a `Escape` zavedené už v demu; doplnit případné mezery napříč formulářem, filtry a recovery prvky.
 12. Zkontrolovat kontrast, visible focus a místa, kde barva nese význam sama.
 13. Přidat automatické component testy pro stabilní přístupnostní kontrakty.
 

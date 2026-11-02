@@ -12,16 +12,21 @@
 
 Každý soubor představuje jeden smysluplný, samostatně kontrolovatelný celek. Má vlastní větev, nový kontext, cílené testy a závěrečný commit. Další fáze smí začít až po ověření předchozí.
 
+## Princip postupného rozšiřování
+
+Nejdřív vznikne zjednodušené funkční demo s pevnými mock daty: mapa, výběr pinu, základní karta a mobilní i desktopové zobrazení. Teprve potom přidáváme časová pravidla, filtry, úložiště a vytváření událostí. Každá další fáze rozšiřuje stejné UI; mapu ani kartu nestaví znovu. Finální MVP specifikace zůstává cílem, nikoli vstupní podmínkou dema.
+
 ## Pořadí fází
 
 | Fáze | Větev                         | Výsledek                                       | Plán                                                                   |
 | ---- | ----------------------------- | ---------------------------------------------- | ---------------------------------------------------------------------- |
 | 1A   | `01-nextjs-foundation`        | Next.js základ, tooling a test infrastruktura  | [01-foundation.md](01-foundation.md)                                   |
 | 1B   | `01-foundation-ui`            | Základní UI, téma a první nasazení             | [01b-foundation-ui.md](01b-foundation-ui.md)                           |
-| 2    | `02-event-domain`             | Typy, časová pravidla a filtry                 | [02-event-domain.md](02-event-domain.md)                               |
+| 2A   | `02-event-map`                | Zjednodušené demo: mapa, karta, mobilní UI     | [02-event-domain.md](02-event-domain.md)                               |
+| 2B   | `02b-event-domain`            | Úplný model, časová pravidla a filtry          | [02b-event-domain.md](02b-event-domain.md)                             |
 | 3    | `03-local-repository`         | Seed data a bezpečný `localStorage` repository | [03-local-repository.md](03-local-repository.md)                       |
 | 4    | `04-discovery-ui`             | Stav hlavní obrazovky, filtry a textový seznam | [04-discovery-ui.md](04-discovery-ui.md)                               |
-| 5    | `05-map-panel-gps`            | Leaflet mapa, markery, panel a GPS             | [05-map-panel-gps.md](05-map-panel-gps.md)                             |
+| 5    | `05-map-panel-gps`            | Úplný obsah karty, externí odkazy a GPS        | [05-map-panel-gps.md](05-map-panel-gps.md)                             |
 | 6    | `06-event-form`               | Formulář a klientská validace                  | [06-event-form.md](06-event-form.md)                                   |
 | 7    | `07-location-persistence`     | Výběr polohy, uložení a návrat na mapu         | [07-location-persistence.md](07-location-persistence.md)               |
 | 8    | `08-resilience-accessibility` | Chybové stavy a přístupnost                    | [08-resilience-accessibility.md](08-resilience-accessibility.md)       |
@@ -35,7 +40,7 @@ Fáze 9 dokončí MVP. Fáze 10 nepřidává produktové funkce; zkontroluje vý
 Do nového kontextu stačí napsat například:
 
 ```text
-Začínáme Fázi 2 na větvi 02-event-domain. Pracuj jako mentor podle AGENTS.md. Přečti status, specifikaci, roadmapu, plán Fáze 2, odchylky a relevantní memory. Nevytvářej za mě kód.
+Začínáme Fázi 2A na větvi 02-event-map. Pracuj jako mentor podle AGENTS.md. Přečti status, specifikaci, roadmapu, plán Fáze 2A, odchylky a relevantní memory. Nevytvářej za mě kód.
 ```
 
 ## Společná podmínka dokončení fáze

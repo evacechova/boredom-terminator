@@ -4,7 +4,7 @@
 
 **Větev:** `03-local-repository`
 
-**Závisí na:** doméně z Fáze 2
+**Závisí na:** doméně z Fáze 2B
 
 **Výsledek:** Testovatelný repository spojující relativní seed data s platnými uživatelskými událostmi z `localStorage`.
 
@@ -26,7 +26,7 @@
 
 ## Mentoringové kroky
 
-1. Navrhnout realistická seed data s pevnými ID, texty a pražskými souřadnicemi.
+1. Využít mock data z Fáze 2A rozšířená ve Fázi 2B jako základ seed dat; zachovat jejich ID, texty a souřadnice.
 2. Vysvětlit, proč se časy seed dat odvozují od předaného `now`.
 3. Napsat test aktivní, blízké a pozdější seed události.
 4. Navrhnout malé `EventRepository` rozhraní bez Reactu.

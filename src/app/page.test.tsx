@@ -1,6 +1,10 @@
 import { render, screen } from "@testing-library/react";
 import Home from "./page";
 
+jest.mock("@/components/event-map/EventMap", () => {
+  return { __esModule: true, default: () => null };
+});
+
 describe("Homepage", () => {
   beforeEach(() => {
     render(<Home />);

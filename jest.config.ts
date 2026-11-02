@@ -6,6 +6,9 @@ const createJestConfig = nextJest({
 });
 
 const customJestConfig: Config = {
+  moduleNameMapper: {
+    "^@/(.*)$": "<rootDir>/src/$1",
+  },
   setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
   testEnvironment: "jsdom",
 };

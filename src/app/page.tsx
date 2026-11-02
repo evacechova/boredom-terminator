@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import EventMap from "@/components/event-map/EventMap";
 
 export default function Home() {
   return (
@@ -23,6 +24,7 @@ export default function Home() {
             </Link>
           </p>
         </div>
+        <EventMap />
       </main>
     </div>
   );

@@ -7,7 +7,7 @@
 - Schválená produktová specifikace: `docs/superpowers/specs/2026-10-24-mvp-design.md`.
 - Learner-led mentoring podle `AGENTS.md`: studentka píše produkční kód i testy, mentor vysvětluje a kontroluje.
 - Fáze 1B je podle potvrzení studentky sloučená do `main`. Přesný merge commit a production deployment v tomto kontextu zatím nebyly ověřeny.
-- Aktivní lokální větev je `02-event-map`. Její základ zatím končí commitem `3b1d219` z původní UI větve; lokální `main` stále ukazuje na `0d42cfb` z Fáze 1A. Před implementací synchronizovat se sloučeným vzdáleným `main`.
+- Aktivní větev je `02-event-map`. Studentka potvrdila pull merge Fáze 1B; nevyžadovat opakovanou synchronizaci bez nového důkazu.
 - Landing page, vlastní daisyUI téma, testy a oprava metadat jsou hotové. Veřejná URL: `https://boredom-terminator.vercel.app`.
 - Poslední zdokumentované ověření Fáze 1B: testy 3/3, lint, format check, typecheck, Webpack build v runneru a lokální Turbopack build. Nové ověření implementace v tomto kontextu neproběhlo.
 - Studentka 2. 11. 2026 schválila změnu pořadí: nejdřív zjednodušené funkční demo: minimální typ, mock data, mapa, výběr pinu, základní karta, zavírání, fokus a mobilní i desktopové UI; úplná doména, časy a filtry až potom.
@@ -25,11 +25,21 @@
 - `src/data/mock-events.ts` obsahuje typované pole `mockEvents` s první minimální událostí `mock-1`. Mentor ji vložil na výslovnou žádost studentky. Volitelná pole jsou vynechána.
 - Vysvětlen rozdíl mezi typem pole a hodnotou pole, `import type`, alias `@/` a zápis skutečného objektu. Typecheck první mock události prošel.
 
+## Checkpoint první mapy
+
+- Nainstalované Leaflet 1.9.4, React Leaflet 5.0.0 a vývojové typy @types/leaflet 1.9.22.
+- `LeafletMap.tsx` vykresluje Prahu přes MapContainer a OpenStreetMap TileLayer s atribucí a Leaflet CSS. Výška 400 px je dočasná.
+- `EventMap.tsx` používá next/dynamic s `ssr: false`; serverová stránka jej vykresluje vedle původního obsahu. Mock data zatím mapa nepoužívá.
+- Studentka ověřila mapu v prohlížeči. Ověření 2. 11. 2026: Jest 3/3, lint, format check, typecheck a `npx next build --webpack` prošly. Standardní Turbopack production build tohoto checkpointu zatím nebyl ověřen.
+- Jest při dynamickém načítání mapy hlásí varování o aktualizaci mimo `act(...)`; testy procházejí. Při dalším testovacím kroku upravit izolaci mapy nebo čekání na asynchronní aktualizaci, nikoli potlačit console.error.
+- Studentka hlásila npm audit 35 nálezů ve vývojových nástrojích; `npm audit --omit=dev` podle jejího výstupu hlásí 0. Nepoužívat slepě audit fix --force; navrhoval downgrade Jest a ESLint. Tooling audit je otevřený samostatný úkol.
+- U každé nové komponenty studentka nejdřív sama rozhodne server/client a vysvětlí důvod, podle nového pravidla AGENTS.md. Zadání dávat slovně a nechat ji napsat řešení; neprozrazovat kód předem.
+
 ## Nejbližší krok
 
-1. Vysvětlit hranici Server/Client Component a proč Leaflet potřebuje DOM; navázat prázdnou mapou Prahy podle plánu 2A.
-2. Před ověřením více markerů doplnit druhou až třetí mock událost se stabilními ID a odlišnou polohou.
-3. Další bloky: markery a výběr, karta a zavírání, mobilní/desktopové rozložení a fokus.
+1. Základní layout: mapa vyplňuje dostupný viewport, karta a ovládání plavou nad ní. Hlavička a footer mohou mít vlastní prostor; jejich finální vzhled zatím není rozhodnutý. Zachovat branding a Add event.
+2. Před dokončením fáze přesunout mapovou konfiguraci z komponenty do map-config.ts podle plánu; zatím je inline.
+3. Doplnit druhou až třetí mock událost, napojit markery, výběr a základní kartu. Pokračovat po malých mentoringových krocích.
 
 ## Známé limity
 

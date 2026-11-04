@@ -15,7 +15,7 @@
 - `src/domain/events/types.ts`: minimální `MapEvent` s `id`, `title`, `startsAt` (UTC ISO), volitelným `description` a `venueName` a `location` obsahující číselné `latitude` a `longitude`.
 - `src/data/mock-events.ts`: dvě až tři pevné ukázkové události v Praze, typované pomocí `MapEvent`. Nejde ještě o relativní seed factory.
 - `src/components/event-map/map-config.ts`: střed Prahy, zoom a konfigurace OpenStreetMap dlaždic včetně atribuce.
-- `src/components/event-map/EventMap.tsx`: Client Component hranice s dynamickým importem mapy bez SSR a loading stavem.
+- Dynamický import mapy bez SSR a loading stav zajišťuje přímo `EventDiscovery`; samostatný obal `EventMap` byl po dohodě 4. 11. 2026 odstraněn.
 - `src/components/event-map/LeafletMap.tsx`: Leaflet mapa, dlaždice a markery s přístupným názvem; přijímá události a callback výběru. Kliknutí do prázdné mapy zavře kartu.
 - `src/components/event-map/EventDiscovery.tsx`: klientský vlastník `selectedEventId`; vybranou událost odvozuje z předaných dat, propojuje mapu a kartu. Bez repository, filtrů a controller hooku navíc.
 - `src/components/event-map/EventPanel.tsx`: karta s názvem, zobrazeným časem, místem a volitelným krátkým popisem; tlačítko zavření, `Escape` a řízení fokusu.
@@ -70,6 +70,11 @@ Cíl je minimální typ a mock data, kontrola typů a vysvětlení hranice pro m
 
 Zapsat hotové kroky, přesný další malý úkol, ověřovací příkazy a mapový client boundary. Fáze 2B rozšíří tentýž datový tok o úplný model a doménová pravidla.
 
+## Poznámka pro popis PR a navazující práci
+
+- Studentka požaduje později vytvořit sdílené UI komponenty pro tlačítka a nadpisy. V této části zatím používáme přímo HTML prvky; vyčlenění komponent je navazující úkol, nikoli podmínka dokončení Fáze 2A.
+- Při přípravě popisu PR Fáze 2A výslovně uvést tento odložený úkol. Konkrétní API a rozsah komponent navrhnout až při jejich implementaci.
+
 ## Samostatné mentoringové bloky
 
 1. Minimální typ a mock data.
@@ -81,3 +86,7 @@ Zapsat hotové kroky, přesný další malý úkol, ověřovací příkazy a map
 Jde o více sezení na jedné větvi a jeden výsledný PR. Každý blok končí kontrolovatelným checkpointem; žádný nevyžaduje dokončení celého dema za hodinu.
 
 **Navržený commit:** `feat: add simplified event discovery demo`
+
+## Závěrečná kontrola props mapy
+
+- [x] Prověřit přínos načítacího obalu: po dohodě 4. 11. 2026 odstraněn `EventMap`, dynamické načítání přesunuto do `EventDiscovery`. Props mapy nyní definuje pouze `LeafletMapProps`; Context není potřeba.

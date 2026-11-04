@@ -1,6 +1,6 @@
 # Boredom Terminator – stav a handoff
 
-> Aktualizováno 2. 11. 2026. Tento soubor je výchozí bod každého nového kontextu.
+> Aktualizováno 4. 11. 2026. Tento soubor je výchozí bod každého nového kontextu.
 
 ## Aktuální stav
 
@@ -35,11 +35,33 @@
 - Studentka hlásila npm audit 35 nálezů ve vývojových nástrojích; `npm audit --omit=dev` podle jejího výstupu hlásí 0. Nepoužívat slepě audit fix --force; navrhoval downgrade Jest a ESLint. Tooling audit je otevřený samostatný úkol.
 - U každé nové komponenty studentka nejdřív sama rozhodne server/client a vysvětlí důvod, podle nového pravidla AGENTS.md. Zadání dávat slovně a nechat ji napsat řešení; neprozrazovat kód předem.
 
+## Otevřená kontrola pro konec Fáze 2A
+
+- Na žádost studentky později vytvořit sdílené komponenty pro tlačítka a nadpisy. Nyní je neimplementovat; tento navazující úkol povinně zmínit v popisu PR Fáze 2A. Poznámka je také v plánu fáze v části „Poznámka pro popis PR a navazující práci“.
+- Kontrola načítacího obalu je uzavřená: `EventMap` byl po dohodě odstraněn, viz aktuální checkpoint níže.
+
+## Checkpoint markerů z mock dat
+
+- `page.tsx` předává `mockEvents` přes typované props EventMap do LeafletMap; mapa vykresluje Marker pro každou událost s klíčem podle ID.
+- Rozbité výchozí ikony měly 404 pro retina obrázek a stín. Na výslovnou žádost studentky přidán `marker-icon.ts`: statické PNG importy z balíčku Leaflet, URL přes normalizaci řetězce nebo objektu se `.src`, explicitní `icon()` se standardními rozměry a ukotvením. Ikona je předána každému Markeru, globální výchozí nastavení se nemění.
+- Nepoužité kopie PNG vytvořené během diagnostiky v public/leaflet byly odstraněny po ověření shody s originály.
+- Samotné `.src` v dev režimu selhalo: generovaný Turbopack bundle exportuje PNG z balíčku jako URL řetězec. `getImageUrl` podporuje řetězec i objekt se `.src`; oba tvary ověřeny izolovaným spuštěním skutečného modulu s náhradou importů.
+- Po opravě prošly Jest testy 3/3, lint, typecheck, formátování a Webpack build. Studentka 4. 11. 2026 potvrdila správné zobrazení pinu a stínu v prohlížeči. Vercel preview ještě zbývá ověřit.
+
 ## Nejbližší krok
 
-1. Ověřit Vercel preview větve `02-event-map`. Základní layout mapy pod hlavičkou je hotový; plovoucí karta a ovládání teprve přijdou. Finální hlavička a footer zatím nejsou rozhodnuté.
+### Aktuální checkpoint po zjednodušení komponent
+
+- Studentka vytvořila `EventDiscovery` a stránka jí předává `mockEvents`. Výběr drží `useState<string | null>` s počátečním `null`.
+- Na výslovnou žádost studentky mentor odstranil `EventMap.tsx` a přesunul dynamický import bez SSR přímo do `EventDiscovery`. Toto rozhodnutí nahrazuje starší poznámky o zachování a porovnání props obalu.
+- `LeafletMap` přijímá `onEventSelect` a při kliknutí na marker předává jeho ID. `EventDiscovery` odvozuje `selectedEvent` přes `find` a podmíněně vykresluje `EventPanel`.
+- `EventPanel` zobrazuje název a tlačítko „Zavřít“, které přes `onClose` nastavuje výběr na `null`. Má dočasné spodní umístění nad mapou a podtržení tlačítka při hoveru. Studentka ověřila přepínání názvu mezi piny, zavření a opětovné otevření v prohlížeči.
+- Před checkpoint commitem 4. 11. 2026 prošly testy 3/3, lint bez varování, format check, typecheck a Webpack production build. Test stránky mockuje `EventDiscovery`; samostatné testy karty ještě nejsou napsané. Turbopack a Vercel preview zůstávají neověřené.
+- Nejbližší mentoringový krok: zavření kliknutím do prázdné mapy. Studentka správně určila, že kliknutí zachytí `LeafletMap`, zatímco stav vlastní `EventDiscovery`. Zatím není doplněn callback pro zavření mapou. Studentka chce nejprve vysvětlení účelu a prostor navrhnout další krok, nikoli detailní diktování kódu.
+
+1. Na výslovnou žádost studentky mentor 4. 11. 2026 doplnil do `mockEvents` události `mock-2` a `mock-3` s různými souřadnicemi v Praze. Jedna má `venueName` a `description`, druhá volitelná pole vynechává. Typecheck a Prettier kontrola souboru prošly. Studentka potvrdila zobrazení tří markerů v prohlížeči. Výběr a základní karta jsou již implementované podle checkpointu výše.
 2. Před dokončením fáze přesunout mapovou konfiguraci z komponenty do map-config.ts podle plánu; zatím je inline.
-3. Doplnit druhou až třetí mock událost, napojit markery, výběr a základní kartu. Pokračovat po malých mentoringových krocích.
+3. Navázat výběrem události a základní kartou. Ověřit Vercel preview větve `02-event-map`. Základní layout mapy pod hlavičkou je hotový; plovoucí karta a ovládání teprve přijdou. Finální hlavička a footer zatím nejsou rozhodnuté. Pokračovat po malých mentoringových krocích.
 
 ## Známé limity
 

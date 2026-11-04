@@ -2,6 +2,10 @@
 
 Tento dokument zaznamenává vědomé změny, které ovlivňují rozsah, architekturu, pořadí práce nebo vývojový proces. Běžné opravy překlepů sem nepatří.
 
+## 2026-11-04 – Odstranění načítacího obalu EventMap
+
+Na výslovnou žádost studentky byl odstraněn `EventMap.tsx`. Dynamické načítání `LeafletMap` s `ssr: false` nyní zajišťuje přímo `EventDiscovery`. Samostatný obal pouze předával props a ztěžoval porozumění toku dat. Mapa a budoucí panel zůstávají oddělené komponenty. Test stránky nyní nahrazuje `EventDiscovery` místo odstraněného obalu.
+
 ## 2026-11-02 – Mapa s mock daty před úplnou doménou
 
 **Původně:** Fáze 2 připravovala úplné typy, pražský čas, filtry, řazení a Google Maps odkazy. Leaflet přicházel až ve Fázi 5 po repository a discovery UI.

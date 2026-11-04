@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import EventMap from "@/components/event-map/EventMap";
+import { mockEvents } from "@/data/mock-events";
+import { EventDiscovery } from "@/components/event-map/EventDiscovery";
 
 export default function Home() {
   return (
@@ -26,7 +27,7 @@ export default function Home() {
         </div>
       </header>
       <main className="bg-base-100 w-full flex-1 relative min-h-0">
-        <EventMap />
+        <EventDiscovery events={mockEvents} />
       </main>
     </div>
   );

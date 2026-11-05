@@ -45,6 +45,11 @@ const LeafletMap = ({ events, selectedEventId, onEventSelect, onMapClick }: Leaf
           zIndexOffset={event.id === selectedEventId ? 1000 : 0}
           eventHandlers={{
             click: () => onEventSelect(event.id),
+            keydown: (keyboardEvent) => {
+              if (keyboardEvent.originalEvent.key === "Enter") {
+                onEventSelect(event.id);
+              }
+            },
           }}
         />
       ))}

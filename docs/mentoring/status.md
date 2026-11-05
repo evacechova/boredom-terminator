@@ -1,6 +1,55 @@
 # Boredom Terminator – stav a handoff
 
+## Otevřené požadavky 5. 11. 2026
+
+- Na následnou žádost studentky hlavička používá `justify-between`: logo vlevo, nadpis vpravo s `text-right`. Responzivní velikosti a odsazení od krajů zůstávají. Cílený ESLint, Prettier a kontrola diffu prošly; vizuální kontrola zbývá.
+
+- Ještě doladit vzájemné umístění, překryv a viditelnost detailního panelu a plovoucího pluska na mobilu i desktopu. Současné skrývání pluska při otevřeném detailu je prozatímní řešení, nikoli uzavřené UX rozhodnutí.
+- Později přidat clusterování pinů při menším zoomu (oddálení mapy), aby se blízké události seskupovaly. Konkrétní fáze, chování a knihovna zatím nejsou určené; nyní neimplementovat. Požadavek je zachovaný také v `docs/product/future-ideas.md` pro budoucí plánování.
+
+### Checkpoint 5. 11. 2026 – Detail přes mobilní obrazovku
+
+- Studentka změnila zadání: plus je znovu aktivní, velikost používá `clamp(3rem, 8vw, 4rem)` a SVG polovinu velikosti tlačítka. Odkaz stále vede na `/events/new`; samotný formulář dosud není implementován.
+- Stránka předává plovoucí odkaz přes `children` do `EventDiscovery`. Ten jej vykreslí pouze bez vybrané události; nevzniká další stav ani nová klientská hranice.
+- Mobilní detail nyní používá `fixed inset-0` a překrývá i hlavičku. Od `sm` zůstává pravým plovoucím panelem, znovu dole bez rezervy na plus. Křížek zůstává; šipka zpět je odložená.
+- Prošly testy 8/8 včetně skrytí a obnovení odkazu při otevření a zavření detailu, lint a formátování. Vizuální kontrola ve skutečném prohlížeči zbývá.
+
+### Checkpoint 5. 11. 2026 – Responzivní hlavička a ikonové ovládání
+
+- Na výslovnou žádost studentky mentor upravil hlavičku: logo a nadpis jsou vedle sebe i na mobilu. Logo používá `clamp(2.5rem, 8vw, 5rem)`, nadpis `clamp(1.125rem, 4vw, 2.25rem)`; mezery a odsazení mají responzivní utility.
+- `Add event` je plovoucí kruhové plus vpravo dole podle opraveného zadání. `ButtonLink` přijímá `disabled`, `className` a `aria-label`. Na výslovný požadavek zachovává `href`; neaktivitu odkazu zajišťuje `inert`, `aria-disabled` a `tabIndex=-1`, nikoli nepodporovaný HTML atribut `disabled`. V `buttons.css` jsou explicitní disabled styly.
+- Zavření panelu používá SVG křížek s přístupným názvem `Zavřít`. Panel je nad plovoucím tlačítkem a od breakpointu `sm` má šířku 20rem vpravo. Stávající Escape handler zůstává.
+- Prošly testy 7/7, lint, typecheck, cílený Prettier, kontrola diffu a produkční Webpack build. Vizuální kontrola na mobilu a desktopu a ověření `inert` ve skutečném prohlížeči zatím neproběhly. Commit nebyl vyžádán.
+
+### Checkpoint 5. 11. 2026 – Sdílené UI komponenty
+
+- Na výslovnou žádost studentky mentor vytvořil `src/components/ui/ButtonLink.tsx` a nahradil jím odkaz `Add event` na hlavní stránce. Přijímá `href` typu `LinkProps["href"]` a `children` typu `ReactNode`; zachovává navigaci i třídy `btn btn-primary`. Server/client rozhodnutí bylo společně vysvětleno před implementací.
+- Prošly testy stránky 3/3, cílený ESLint, Prettier, projektový typecheck a kontrola diffu. Build se v tomto kroku nespouštěl.
+- Studentka zvolila pro `Logo` Server Component, protože jde o statické zobrazení. Mentor následně vyčlenil `src/components/ui/Logo.tsx` a zapojil ho do stránky. Zachovány obrázek, rozměry, alternativní text i `priority`. Po vyčlenění znovu prošly testy stránky 3/3, cílený ESLint, Prettier, projektový typecheck a kontrola diffu.
+- Samostatný nadpis a akční `Button` nyní nevznikají. Commit nebyl vyžádán.
+
 > Aktualizováno 4. 11. 2026. Tento soubor je výchozí bod každého nového kontextu.
+
+### Požadavek 5. 11. 2026 – Základ design systému
+
+- Po souhlasu studentky doplněny pohybové tokeny `--duration-normal: 300ms` a `--ease-standard: ease-in-out`. Přechod transformace pinů používá oba tokeny; jeho délka a průběh se nemění. Cílený Prettier a kontrola diffu prošly.
+
+- Na následnou výslovnou žádost studentky mentor vytvořil základní strukturu: `src/styles/tokens.css` obsahuje stávající daisyUI téma a sdílené hodnoty gradientu a fokusu, `buttons.css` přidává ombré pro `btn-primary`, `focus.css` sdílí pravidlo `:focus-visible`. Specifická pravidla SVG markerů jsou v `src/components/event-map/event-map.css`; vše importuje `globals.css`.
+- Tlačítka a piny používají stejné konce gradientu. SVG prstenec zachovává vlastní geometrii a sdílí barvu fokusu. Nové React komponenty nevznikly.
+- Po změně prošly testy 5/5, lint, typecheck, cílený Prettier, kontrola diffu a produkční Webpack build. V sestaveném CSS ověřena přítomnost tokenů, gradientu tlačítek a markerů. Turbopack build v runneru selhal na zakázaném otevření portu; Webpack vyžadoval síťový přístup ke Google Fonts. Vizuální kontrola gradientu a klávesnicového fokusu zbývá studentce.
+
+- Studentka chce pro odkaz `Add event` stejný jemný svislý ombré přechod jako u pinů: nahoře primary zesvětlená o 18 % bílé, dole základní primary. Současná primary je `#0f766e`.
+- Tento vzhled má tvořit první sdílený vizuální princip budoucího design systému. Zaznamenání požadavku neznamená schválení technické architektury.
+- Návrh k diskusi: sdílené CSS proměnné pro oba konce gradientu, oddělená pravidla tlačítek a markerů; zachovat Tailwind a daisyUI. Sdílené React komponenty zůstávají samostatným navazujícím krokem.
+- Původní diskuse produkční kód ani testy neměnila; následná žádost výše výslovně autorizovala vytvoření struktury a zapojení stylů. Testy mentor neměnil.
+
+## Aktuální priorita – schváleno 5. 11. 2026
+
+Tento checkpoint nahrazuje starší zadání dokončit celý původní rozsah 2A před PR. Studentka schválila rozdělení na 2A a 2A.2 kvůli velikosti review. Větev 2A.2 bude `02a2-event-map-ui`, doménová fáze zůstává 2B a následuje až po ní.
+
+Nyní dokončit pouze fokus do karty a návrat na marker, test tlačítka zavření, kontrolu diffu a závěrečná ověření současného dema na mobilu, desktopu a preview. Potom závěrečný commit a PR podle AGENTS.md. Obsah karty nad rámec názvu, boční panel a rolování, map-config.ts a loading stav patří do plánu `docs/superpowers/plans/02a2-event-map-ui.md`. Další designové úpravy a sdílené UI komponenty nejsou podmínkou uzavření 2A.
+
+Studentka navrhla fokus na název události. Další malý krok: vysvětlit rozdíl mezi programovým fokusem nadpisu, pohybem Tab a klávesou Escape. Zatím nebyl změněn produkční kód ani testy.
 
 ## Aktuální stav
 
@@ -50,6 +99,15 @@
 
 ## Nejbližší krok
 
+### Checkpoint 5. 11. 2026 – zavírání přes Escape
+
+- Studentka doplnila do `EventPanel` posluchač `keydown` na `window` v `useEffect`. Klávesa `Escape` volá `onClose`; cleanup odpojuje stejný posluchač a efekt má závislost `[onClose]`.
+- Studentka potvrdila funkčnost v prohlížeči. Mentor zkontroloval aktuální kód a `npm run typecheck` prošel.
+- `EventDiscovery` používá ternární podmínku pro vykreslení panelu. Změna má podle dohody být součástí commitu s další částí; commit zatím neprovádět.
+- Component testy ověřují jedno zavolání `onClose` při `Escape` a žádné při `Backspace`. Studentka testy napsala; mentor na výslovnou žádost opravil matcher a UTC čas testovacích dat.
+- Ověření: všech 5 testů prošlo, lint a format check prošly; typecheck po opravě testů také prošel. Build pro tento checkpoint nebyl spuštěn.
+- Další krok: řízení fokusu. Starší zadání přidat `Escape` a jeho dva testy je tímto splněné. Před commitem oddělit nebo zkontrolovat také souběžné změny markerů a mapových stylů.
+
 ### Aktuální checkpoint po zjednodušení komponent
 
 - Studentka vytvořila `EventDiscovery` a stránka jí předává `mockEvents`. Výběr drží `useState<string | null>` s počátečním `null`.
@@ -98,3 +156,42 @@
 - Klíč se načítá z `NEXT_PUBLIC_CARTO_API_KEY`. Studentka připravila ignorovaný `.env.local` a proměnné na Vercelu. Hodnota klíče nebyla vypisována.
 - Cílený ESLint, Prettier a projektový typecheck prošly. Studentka potvrdila správný vzhled mapy v prohlížeči. Build ani deployment v tomto kroku neproběhly.
 - Rozpracované testy a komponenty panelu mentor neměnil. Limity poskytovatele jsou v `docs/mentoring/memory/02-carto-basemap-limits.md`.
+
+### Checkpoint 5. 11. 2026 – Vlastní event piny
+
+- Na výslovnou žádost studentky mentor nahradil modré PNG piny vlastním inline SVG přes Leaflet `divIcon`. Pin používá petrolejovou barvu tématu, světlý lem, bílou tečku a jemný stín. SVG ponechává prostor pro budoucí symbol kategorie.
+- Vybraný marker je mírně zvětšený, má grafitový prstenec a vyšší z-index. Výběr používá stávající `selectedEventId` předané do mapy; nový stav nevznikl. Špička zůstává ukotvená na souřadnicích. Fokus má také viditelný prstenec; marker má název události.
+- Cílený ESLint, Prettier a kontrola diffu prošly. Celkový typecheck, lint a Jest blokuje rozpracovaný `EventPanel.test.tsx` (nedokončené deklarace a JSX). Test stránky prošel: 3 testy. Mentor rozepsaný test neměnil.
+- Vzhled v prohlížeči a build zatím nebyly ověřeny. Další krok: vizuálně zkontrolovat piny na mapě, výběr a fokus; potom pokračovat rozepsaným testem panelu.
+
+### Checkpoint 5. 11. 2026 – Animace výběru pinu
+
+- Studentka potvrdila, že po restartu dev serveru mají piny správné barvy. Před restartem server posílal CSS bez pravidel event-marker, přestože na disku byla.
+- Na žádost studentky doplněn přechod transformace `180ms ease-in-out`. Výběr nyní přepíná CSS třídu na existujícím markeru přes callback ref; nevyměňuje ikonu, aby Leaflet znovu nevytvářel SVG a nepřerušoval přechod. Duplicitní selectedMarkerIcon odstraněna.
+- Vizuální ověření animace v prohlížeči zatím neproběhlo.
+
+- Na další žádost studentky přechod prodloužen na `300ms ease-in-out`. Kontrola `public/` a `src/` nenašla žádné staré obrázky pinů ani stínů; kopie byly odstraněny už dříve. Obrázky dodávané balíčkem Leaflet v node_modules se nemažou. Prettier změněného CSS a kontrola diffu prošly; plynulost zbývá posoudit v prohlížeči.
+
+### Checkpoint 5. 11. 2026 – Jemnější vzhled pinů
+
+- Na výslovnou žádost studentky upraven vzhled: grafitový obrys 1.25 px, jemný svislý SVG gradient od petrolejové zesvětlené o 18 % bílé k základní petrolejové a slabší stín (16 %). Prstenec výběru a fokusu ztenčen na 4 px. Přechod transformace zůstává 300 ms ease-in-out.
+- Cílený ESLint, Prettier a kontrola diffu prošly. Vzhled gradientu zbývá ověřit v prohlížeči studentkou.
+
+- Studentka upřesnila vzhled: světlý vnitřní lem má zůstat. Na její žádost obnoven 3px světlý lem, pod něj přidán 4px grafitový tah (viditelný vnější okraj 0.5 px na každé straně). Tečku nahradila vlastní bílá SVG pacička. Gradient a animace zůstávají. Výběrový prstenec je širší než obrys, aby zůstal viditelný. Cílený lint, Prettier a kontrola diffu prošly; vizuální ověření zbývá.
+
+### Checkpoint 5. 11. 2026 – Kapička a obrys podle výběru
+
+- Na žádost studentky pacičku nahradila off-white kapička špičkou dolů. Používá base-100 stejně jako světlý lem.
+- Odstraněn trvalý grafitový obrys. Běžný pin má pouze světlý 3px lem; vybraný pin navíc tenký off-black okraj (4px tah pod světlým lemem). Klávesnicový fokus zachovává stejný viditelný okraj. Gradient a animace zůstávají.
+- Cílený ESLint, Prettier a kontrola diffu prošly. Vizuální ověření zbývá studentce.
+
+- Na další žádost studentky nahrazena kapička off-white tečkou o poloměru 5 px a obnoven tah výběrového prstence 5.5 px. Běžný pin nadále nemá tmavý obrys. Cílený ESLint, Prettier a kontrola diffu prošly.
+
+- Studentka upřesnila požadavek na silnější tmavý obrys při výběru: tah prstence nastaven na původních 7 px. Tečka zůstává off-white (base-100), běžný pin pouze se světlým lemem. Prettier CSS a kontrola diffu prošly.
+
+### Checkpoint 5. 11. 2026 – Enter a fokus nadpisu
+
+- Studentka přidala keydown handler markeru: Enter volá onEventSelect s ID události. EventPanel používá useRef, tabIndex=-1 a efekt závislý na event.id pro fokus nadpisu.
+- Studentka ověřila v prohlížeči otevření Enterem, fokus nadpisu a Shift+Tab na zavírací tlačítko. Tlačítko je v DOM před nadpisem.
+- Prošly testy 8/8, lint a typecheck. Návrat fokusu na marker zatím není implementovaný; jde o nejbližší krok. Build se pro tento checkpoint nespouštěl.
+- Pro návrat fokusu studentka správně určila potřebu ID události; zbývá propojit ID s DOM prvkem markeru. Nové testy Enteru a fokusu zatím nevznikly.

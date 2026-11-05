@@ -1,28 +1,36 @@
-import Image from "next/image";
-import Link from "next/link";
+import { Logo } from "@/components/ui/Logo";
+import { ButtonLink } from "@/components/ui/ButtonLink";
+import { mockEvents } from "@/data/mock-events";
+import { EventDiscovery } from "@/components/event-map/EventDiscovery";
 
 export default function Home() {
   return (
-    <div className="bg-base-100 flex flex-1 flex-col items-center justify-center font-sans">
-      <main className="bg-base-100 flex w-full max-w-3xl flex-1 flex-col items-center justify-between px-16 py-32 sm:items-start">
-        <Image
-          className="h-20 w-20"
-          src="/boredom-terminator-logo-full.png"
-          alt="Boredom Terminator robot cat"
-          width={100}
-          height={100}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="text-base-content max-w-xs text-3xl font-semibold leading-10 tracking-tight">
-            Boredom Terminator
-          </h1>
-          <p className="text-base-content/70 max-w-md text-lg leading-8">
-            <Link href="/events/new" className="btn btn-primary">
-              Add event
-            </Link>
-          </p>
-        </div>
+    <div className="bg-base-100 flex flex-1 flex-col items-center justify-center font-sans h-dvh">
+      <header className="flex w-full items-center justify-between gap-3 px-4 py-3 sm:gap-5 sm:py-4">
+        <Logo />
+        <h1 className="text-base-content text-right text-[clamp(1.125rem,4vw,2.25rem)] font-semibold leading-tight tracking-tight">
+          Boredom Terminator
+        </h1>
+      </header>
+      <main className="bg-base-100 w-full flex-1 relative min-h-0">
+        <EventDiscovery events={mockEvents}>
+          <ButtonLink
+            href="/events/new"
+            aria-label="Add event"
+            className="btn-circle fixed right-4 bottom-[max(2rem,env(safe-area-inset-bottom))] z-[1000] size-[clamp(3rem,8vw,4rem)] shadow-lg sm:right-6"
+          >
+            <svg
+              aria-hidden="true"
+              viewBox="0 0 24 24"
+              className="size-1/2"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path d="M12 5v14M5 12h14" strokeLinecap="round" />
+            </svg>
+          </ButtonLink>
+        </EventDiscovery>
       </main>
     </div>
   );

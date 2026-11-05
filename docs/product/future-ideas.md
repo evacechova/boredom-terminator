@@ -74,6 +74,7 @@ Přihlášení se má řešit společně s backendem a oprávněními. Před ná
 - Výběr města po rozšíření mimo Prahu.
 - Reverzní geokódování pro návrh města a městské části ze souřadnic.
 - Vlastní emoji nebo ilustrované markery jednotlivých kategorií.
+- Clusterování blízkých pinů při menším zoomu (oddálení mapy), požadované studentkou 5. 11. 2026. Termín zařazení do roadmapy a konkrétní chování zatím nejsou určené.
 
 ## Komfort formuláře
 

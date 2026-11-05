@@ -20,7 +20,7 @@
 
 ## Mentoringové kroky
 
-1. Přidat Playwright a pouze Chromium, pokud ještě není nainstalovaný.
+1. Přidat Playwright a pouze Chromium, pokud ještě není nainstalovaný. Navázat na průběžná ruční a component ověření dema; nejde o první kontrolu mobilního layoutu nebo deploymentu.
 2. Nastavit lokální web server a desktopový i mobilní projekt.
 3. Napsat první failing discovery scénář podle rolí a viditelného textu.
 4. Ověřit filtrování, marker, event panel a zavření.

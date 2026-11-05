@@ -1,4 +1,4 @@
-# Fáze 5 – Leaflet mapa, event panel a GPS
+# Fáze 5 – Rozšíření karty a GPS
 
 > Režim: studentka implementuje. Mentor podrobně vysvětluje Leaflet, dynamický import a browser API.
 
@@ -6,7 +6,7 @@
 
 **Závisí na:** discovery stavu z Fáze 4
 
-**Výsledek:** Hlavní obrazovka má mapu Prahy, placeholder markery, responzivní panel události a uživatelem spuštěné GPS centrování.
+**Výsledek:** Existující demo získá úplné informace v kartě, externí odkazy a uživatelem spuštěné GPS centrování. Mapa, základní karta a responzivní layout jsou již hotové z Fáze 2A.
 
 **Specifikace:** části 8, 9, 11, 15 a 16.
 
@@ -28,16 +28,16 @@
 
 ## Mentoringové kroky
 
-1. Nejdřív vykreslit prázdnou mapu Prahy a vysvětlit její životní cyklus.
-2. Načíst Leaflet CSS a nastavit skutečnou výšku mapového kontejneru.
-3. Přidat jeden statický placeholder marker.
-4. Převést filtrované události na markery a propojit výběr s React state.
-5. Zajistit button semantics, `Enter`, `Space` a přístupný název markeru.
+1. Zkontrolovat mapu a její client boundary z Fáze 2A; mapu ani konfiguraci nevytvářet podruhé.
+2. Ověřit stávající CSS, výšku mapy a responzivní rozložení před přidáním panelu.
+3. Rozšířit existující kartu o podkategorii, úplné datum a čas, fallback městské části a podmíněný source odkaz.
+4. Zachovat jediný výběrový stav, mapu a markery z Fáze 4; nezakládat druhou implementaci panelu.
+5. Regresně ověřit button semantics, `Enter`, `Space` a přístupné názvy markerů z Fáze 2A.
 6. Napsat test obsahu event panelu včetně chybějících volitelných dat.
-7. Implementovat mobilní spodní a desktopový pravý plovoucí panel.
+7. Zachovat mobilní spodní a desktopový pravý panel; ověřit delší obsah a nová pole.
 8. Propojit místo s přesnými souřadnicemi v Google Maps.
-9. Implementovat zavření tlačítkem, `Escape` a kliknutím do prázdné mapy.
-10. Přesunout fokus do panelu a po zavření zpět na marker.
+9. Regresně ověřit zavření tlačítkem, `Escape` a kliknutím do prázdné mapy.
+10. Ověřit stávající přesun fokusu do panelu a návrat na marker i po změně filtrů.
 11. Přidat `Use my location`; GPS pouze vycentruje mapu.
 12. Testovat permission denied, unavailable a timeout.
 

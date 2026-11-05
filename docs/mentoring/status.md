@@ -1,5 +1,17 @@
 # Boredom Terminator – stav a handoff
 
+## Finální kontrola Fáze 2A – 5. 11. 2026
+
+Tento checkpoint má přednost před staršími rozpracovanými zadáními níže.
+
+- Studentka potvrdila funkčnost aktuálního dema v prohlížeči. Implementace zúženého rozsahu 2A je hotová; návrat fokusu, Enter a všechny způsoby zavření jsou implementované.
+- Mentor zkontroloval produkční komponenty, datový tok, styly a testy. Nenalezeny nepoužité lokální proměnné, parametry, nedosažitelný kód ani duplicity vyžadující refaktoring. Volitelná disabled podpora ButtonLink a alternativní logo jsou záměrně zachované; nejsou automaticky považované za mrtvý kód.
+- Doplněny tři regresní testy: odpojení Escape listeneru po unmountu, použití aktuálního onClose bez starého listeneru a neobnovení výběru po novém mountu. Produkční kód se při finální kontrole neměnil.
+- Ověření: 18/18 testů ve 4 sadách, lint, standardní typecheck, format check a diff check prošly. Dodatečný TypeScript průchod s noUnusedLocals, noUnusedParameters a allowUnreachableCode=false prošel nad src; generované Next validátory byly z této doplňkové kontroly vynechané, protože obsahují vlastní nepoužité deklarace. Standardní projektový typecheck je zahrnuje.
+- Produkční Webpack build prošel bez chyb a varování. Standardní Turbopack build selhal při zpracování Leaflet CSS kvůli zákazu otevření portu v runneru, stejně i při požadavku na eskalované spuštění. Turbopack zůstává k lokálnímu ověření; nejde o potvrzenou chybu aplikačního kódu.
+- Skutečné nativní pořadí Tabu, dlaždice a hydrataci Jest neověřuje; prohlížečové potvrzení je od studentky. Vercel preview nebylo při této kontrole ověřeno.
+- Další krok: commit doplněných testů a handoffu pouze na výslovnou žádost, ověření preview a příprava názvu, celého popisu a větví PR ke schválení. PR má mít reviewera bobescz. Fáze 2A.2 začíná až po uzavření a merge 2A.
+
 ## Otevřené požadavky 5. 11. 2026
 
 - Na následnou žádost studentky hlavička používá `justify-between`: logo vlevo, nadpis vpravo s `text-right`. Responzivní velikosti a odsazení od krajů zůstávají. Cílený ESLint, Prettier a kontrola diffu prošly; vizuální kontrola zbývá.

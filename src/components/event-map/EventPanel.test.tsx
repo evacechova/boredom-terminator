@@ -40,4 +40,26 @@ describe("EventPanel", () => {
 
     expect(mockOnClose).not.toHaveBeenCalled();
   });
+
+  it("removes the Escape listener when the panel unmounts", () => {
+    const onClose = jest.fn();
+    const { unmount } = render(<EventPanel event={testEvent} onClose={onClose} />);
+
+    unmount();
+    fireEvent.keyDown(window, { key: "Escape" });
+
+    expect(onClose).not.toHaveBeenCalled();
+  });
+
+  it("uses the latest close callback without keeping the previous listener", () => {
+    const previousOnClose = jest.fn();
+    const onClose = jest.fn();
+    const { rerender } = render(<EventPanel event={testEvent} onClose={previousOnClose} />);
+
+    rerender(<EventPanel event={testEvent} onClose={onClose} />);
+    fireEvent.keyDown(window, { key: "Escape" });
+
+    expect(previousOnClose).not.toHaveBeenCalled();
+    expect(onClose).toHaveBeenCalledTimes(1);
+  });
 });

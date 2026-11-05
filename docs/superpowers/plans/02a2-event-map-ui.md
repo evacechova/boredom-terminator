@@ -10,7 +10,7 @@ Studentka dokončí UI stávajícího dema bez přidávání doménových pravid
 
 - Karta zobrazí čas přes Intl.DateTimeFormat s explicitním Europe/Prague, místo a volitelný popis. Chybějící volitelné údaje nezanechají prázdné řádky.
 - Component testy pokryjí obsah, chybějící volitelné údaje a změnu vybrané události.
-- Mobil zachová spodní panel, desktop dostane pravý plovoucí panel. Dlouhý obsah může rolovat a zavření zůstane dostupné.
+- Zachovat schválený mobilní detail přes celou obrazovku a existující pravý plovoucí panel na desktopu (odchylka z 5. 11. 2026). Ověřit dlouhý obsah: může rolovat a zavření zůstane dostupné.
 - Mapová konfigurace se přesune do map-config.ts se zachováním CARTO a atribuce.
 - Dynamický import dostane loading stav.
 

@@ -122,3 +122,14 @@ it("skips focus restoration when the opening marker has left the DOM", () => {
   expect(screen.queryByRole("heading")).not.toBeInTheDocument();
   expect(focus).not.toHaveBeenCalled();
 });
+
+it("starts with no selected event after mounting again", () => {
+  const { unmount } = render(<EventDiscovery events={focusEvents} />);
+  fireEvent.click(screen.getByRole("button", { name: "Select event" }));
+  expect(screen.getByRole("heading", { name: "Concert" })).toBeInTheDocument();
+
+  unmount();
+  render(<EventDiscovery events={focusEvents} />);
+
+  expect(screen.queryByRole("heading")).not.toBeInTheDocument();
+});

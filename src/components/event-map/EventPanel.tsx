@@ -1,8 +1,7 @@
 "use client";
 
 import type { MapEvent } from "@/domain/events/types";
-import { useEffect } from "react";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
 type EventPanelProps = {
   event: MapEvent;

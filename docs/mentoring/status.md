@@ -195,3 +195,20 @@ Studentka navrhla fokus na název události. Další malý krok: vysvětlit rozd
 - Studentka ověřila v prohlížeči otevření Enterem, fokus nadpisu a Shift+Tab na zavírací tlačítko. Tlačítko je v DOM před nadpisem.
 - Prošly testy 8/8, lint a typecheck. Návrat fokusu na marker zatím není implementovaný; jde o nejbližší krok. Build se pro tento checkpoint nespouštěl.
 - Pro návrat fokusu studentka správně určila potřebu ID události; zbývá propojit ID s DOM prvkem markeru. Nové testy Enteru a fokusu zatím nevznikly.
+
+### Checkpoint 5. 11. 2026 – Návrat fokusu na marker
+
+- Na výslovnou žádost studentky mentor dokončil implementaci. EventDiscovery uchovává jediný lastFocusedMarkerRef; výběr přijímá ID a HTML prvek. Zavření Escape nebo tlačítkem vrací fokus pouze na připojený marker a referenci vyčistí. Kliknutí do mapy vyčistí výběr a ref bez přesunu fokusu.
+- LeafletMap sdílí activateMarker mezi kliknutím a Enterem. Target ověřuje přes instanceof LeafletMarker, HTML prvek získává přes getElement(). Enter ignoruje opakování při držení klávesy. Zbytečný preventDefault odstraněn: současný div marker nemá výchozí aktivaci Enterem. CSS callback, selectedEventId, zIndexOffset a MapClickHandler zůstaly zachované; EventPanel se neměnil.
+- Ověřeno proti nainstalovanému Leafletu 1.9.4: vlastní Enter handler zůstává nutný pro div marker. Testy mapy nahrazují hranici React Leaflet a používají skutečné instance Leaflet Marker; nejde o browser test.
+- Prošly všechny testy 15/15, lint, typecheck, format check a diff check. Pokryté je předání markeru kliknutím a Enterem, právě jedna aktivace bez opakování, CSS a z-index při změně výběru, fokus nadpisu a návrat na poslední marker, zavření mapou bez přesunu a odpojený marker.
+- Zbývá ruční ověření výsledného toku v prohlížeči a závěrečné ověření fáze včetně buildu a preview. Commit tohoto kroku nebyl vyžádán. Nejbližší krok: Tab na marker, Enter, Escape a kontrola návratu fokusu; zopakovat s jiným markerem.
+
+### Checkpoint 5. 11. 2026 – Pořadí prvků panelu
+
+- Po souhlasu studentky přesunut nadpis před zavírací tlačítko v JSX EventPanel. Programový fokus nadpisu zůstává; následující Tab tak může pokračovat na zavření. Absolutní pozice tlačítka zachovává vzhled. Starší poznámky o Shift+Tab na zavření již neplatí.
+- Skutečný průchod Tabem je nutné znovu ověřit v prohlížeči; Jest nenapodobuje nativní přesun fokusu klávesou Tab.
+
+### Checkpoint 5. 11. 2026 – Obnovení původního pořadí panelu
+
+- Na výslovnou žádost studentky vrácena poslední změna pořadí JSX: zavírací tlačítko je opět před nadpisem. Programový fokus nadpisu zůstává. Z nadpisu vede na zavření Shift+Tab; předchozí checkpoint s opačným pořadím je tímto nahrazen.

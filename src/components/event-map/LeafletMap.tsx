@@ -1,6 +1,7 @@
 "use client";
 
 import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
+import { Marker as LeafletMarker } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { defaultMarkerIcon } from "./marker-icon";
 import type { MapEvent } from "@/domain/events/types";
@@ -8,7 +9,7 @@ import type { MapEvent } from "@/domain/events/types";
 type LeafletMapProps = {
   events: MapEvent[];
   selectedEventId: string | null;
-  onEventSelect: (eventId: string) => void;
+  onEventSelect: (eventId: string, markerElement: HTMLElement | null) => void;
   onMapClick: () => void;
 };
 
@@ -21,6 +22,10 @@ const MapClickHandler = ({ onMapClick }: { onMapClick: () => void }) => {
 };
 
 const LeafletMap = ({ events, selectedEventId, onEventSelect, onMapClick }: LeafletMapProps) => {
+  const activateMarker = (eventId: string, marker: LeafletMarker) => {
+    onEventSelect(eventId, marker.getElement() ?? null);
+  };
+
   return (
     <MapContainer center={[50.0755, 14.4378]} zoom={13} className="absolute inset-0">
       <MapClickHandler onMapClick={onMapClick} />
@@ -44,10 +49,18 @@ const LeafletMap = ({ events, selectedEventId, onEventSelect, onMapClick }: Leaf
           alt={event.title}
           zIndexOffset={event.id === selectedEventId ? 1000 : 0}
           eventHandlers={{
-            click: () => onEventSelect(event.id),
+            click: (mouseEvent) => {
+              if (mouseEvent.target instanceof LeafletMarker) {
+                activateMarker(event.id, mouseEvent.target);
+              }
+            },
             keydown: (keyboardEvent) => {
-              if (keyboardEvent.originalEvent.key === "Enter") {
-                onEventSelect(event.id);
+              const keyEvent = keyboardEvent.originalEvent;
+              if (keyEvent.key !== "Enter" || keyEvent.repeat) {
+                return;
+              }
+              if (keyboardEvent.target instanceof LeafletMarker) {
+                activateMarker(event.id, keyboardEvent.target);
               }
             },
           }}

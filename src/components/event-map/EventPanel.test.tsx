@@ -1,4 +1,4 @@
-import { fireEvent, render } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { EventPanel } from "./EventPanel";
 import type { MapEvent } from "@/domain/events/types";
 
@@ -12,6 +12,15 @@ describe("EventPanel", () => {
     },
     startsAt: "2026-11-05T18:00:00Z",
   };
+
+  it("closes through the named icon button", () => {
+    const onClose = jest.fn();
+    render(<EventPanel event={testEvent} onClose={onClose} />);
+
+    fireEvent.click(screen.getByRole("button", { name: "Zavřít" }));
+
+    expect(onClose).toHaveBeenCalledTimes(1);
+  });
 
   it("calls onClose when Escape is pressed", () => {
     const mockOnClose = jest.fn();

@@ -49,3 +49,45 @@ body {
   color: var(--color-base-content);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
 }
+
+.event-marker svg {
+  overflow: visible;
+  filter: drop-shadow(0 2px 3px rgb(37 50 58 / 16%));
+  transform-origin: 22px 44px;
+  transition: transform 300ms ease-in-out;
+}
+
+.event-marker-body {
+  fill: url(#event-marker-green);
+  stroke: var(--color-base-100);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+
+.event-marker-highlight {
+  stop-color: color-mix(in srgb, var(--color-primary), white 18%);
+}
+
+.event-marker-base {
+  stop-color: var(--color-primary);
+}
+
+.event-marker-dot {
+  fill: var(--color-base-100);
+}
+
+.event-marker-ring {
+  fill: none;
+  stroke: var(--color-neutral);
+  stroke-width: 7px;
+  opacity: 0;
+}
+
+.event-marker-selected svg {
+  transform: scale(1.1);
+}
+
+.event-marker-selected .event-marker-ring,
+.event-marker:focus-visible .event-marker-ring {
+  opacity: 1;
+}

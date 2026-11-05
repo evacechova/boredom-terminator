@@ -23,6 +23,7 @@ export const EventDiscovery = ({ events }: EventDiscoveryProps) => {
     <>
       <LeafletMap
         events={events}
+        selectedEventId={selectedEventId}
         onEventSelect={setSelectedEventId}
         onMapClick={() => setSelectedEventId(null)}
       />

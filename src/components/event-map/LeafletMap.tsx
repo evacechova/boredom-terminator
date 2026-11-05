@@ -7,6 +7,7 @@ import type { MapEvent } from "@/domain/events/types";
 
 type LeafletMapProps = {
   events: MapEvent[];
+  selectedEventId: string | null;
   onEventSelect: (eventId: string) => void;
   onMapClick: () => void;
 };
@@ -19,7 +20,7 @@ const MapClickHandler = ({ onMapClick }: { onMapClick: () => void }) => {
   return null;
 };
 
-const LeafletMap = ({ events, onEventSelect, onMapClick }: LeafletMapProps) => {
+const LeafletMap = ({ events, selectedEventId, onEventSelect, onMapClick }: LeafletMapProps) => {
   return (
     <MapContainer center={[50.0755, 14.4378]} zoom={13} className="absolute inset-0">
       <MapClickHandler onMapClick={onMapClick} />
@@ -34,6 +35,14 @@ const LeafletMap = ({ events, onEventSelect, onMapClick }: LeafletMapProps) => {
           key={event.id}
           position={[event.location.latitude, event.location.longitude]}
           icon={defaultMarkerIcon}
+          ref={(marker) => {
+            marker
+              ?.getElement()
+              ?.classList.toggle("event-marker-selected", event.id === selectedEventId);
+          }}
+          title={event.title}
+          alt={event.title}
+          zIndexOffset={event.id === selectedEventId ? 1000 : 0}
           eventHandlers={{
             click: () => onEventSelect(event.id),
           }}

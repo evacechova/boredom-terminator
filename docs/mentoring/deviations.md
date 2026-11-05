@@ -65,3 +65,7 @@ Na výslovnou žádost studentky byl odstraněn `EventMap.tsx`. Dynamické nač�
 **Důvod:** Číslo zachovává vazbu na roadmapu a pořadí. Prefix `phase/` nepřidával užitečnou informaci o obsahu změny.
 
 **Dopad:** Roadmapa, plány fází, handoff a pravidla spolupráce používají nový formát názvů větví. Počet commitů ve větvi se nemění; fáze může obsahovat jeden nebo více logických commitů.
+
+## 2026-11-05 – Mapový podklad CARTO Positron
+
+Na výslovnou žádost studentky nahrazuje CARTO Positron původně plánované standardní dlaždice OpenStreetMap. Leaflet a datový tok zůstávají zachované. Podklad vyžaduje `NEXT_PUBLIC_CARTO_API_KEY` a viditelnou atribuci OpenStreetMap i CARTO. Podmínky a limity jsou zaznamenané v projektové paměti; před komerčním využitím je nutné je znovu ověřit.

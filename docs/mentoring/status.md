@@ -91,3 +91,10 @@
 - Výchozí dokumentační checkpoint je commit `a588d6c docs: simplify phase branch names`.
 - Scaffold checkpoint je commit `01cfc09 chore: scaffold Next.js application`.
 - Po scaffold checkpointu následoval tooling checkpoint `c2a8326`.
+
+### Checkpoint 5. 11. 2026 – CARTO Positron
+
+- Na výslovnou žádost studentky mentor změnil pouze konfiguraci podkladu v `LeafletMap.tsx` na CARTO Positron (`light_all`, včetně popisků), doplnil atribuci CARTO, subdomény `abcd` a maximální zoom 20.
+- Klíč se načítá z `NEXT_PUBLIC_CARTO_API_KEY`. Studentka připravila ignorovaný `.env.local` a proměnné na Vercelu. Hodnota klíče nebyla vypisována.
+- Cílený ESLint, Prettier a projektový typecheck prošly. Studentka potvrdila správný vzhled mapy v prohlížeči. Build ani deployment v tomto kroku neproběhly.
+- Rozpracované testy a komponenty panelu mentor neměnil. Limity poskytovatele jsou v `docs/mentoring/memory/02-carto-basemap-limits.md`.

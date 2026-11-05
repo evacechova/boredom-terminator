@@ -24,8 +24,10 @@ const LeafletMap = ({ events, onEventSelect, onMapClick }: LeafletMapProps) => {
     <MapContainer center={[50.0755, 14.4378]} zoom={13} className="absolute inset-0">
       <MapClickHandler onMapClick={onMapClick} />
       <TileLayer
-        url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        url={`https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png?key=${process.env.NEXT_PUBLIC_CARTO_API_KEY}`}
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+        subdomains="abcd"
+        maxZoom={20}
       />
       {events.map((event) => (
         <Marker

@@ -1,5 +1,9 @@
 # Odchylky od specifikace a plánů
 
+## 2026-11-05 – Mobilní detail přes celou obrazovku
+
+Na výslovnou žádost studentky mobilní detail nahrazuje původní spodní panel plochou přes celou obrazovku včetně hlavičky. Desktop zachovává plovoucí panel vpravo. Plovoucí odkaz pro vytvoření události se při otevřeném detailu skrývá na všech šířkách. Prozatím zůstává zavírání křížkem; šipka zpět je odložená.
+
 Tento dokument zaznamenává vědomé změny, které ovlivňují rozsah, architekturu, pořadí práce nebo vývojový proces. Běžné opravy překlepů sem nepatří.
 
 ## 2026-11-04 – Odstranění načítacího obalu EventMap
@@ -69,3 +73,7 @@ Na výslovnou žádost studentky byl odstraněn `EventMap.tsx`. Dynamické nač�
 ## 2026-11-05 – Mapový podklad CARTO Positron
 
 Na výslovnou žádost studentky nahrazuje CARTO Positron původně plánované standardní dlaždice OpenStreetMap. Leaflet a datový tok zůstávají zachované. Podklad vyžaduje `NEXT_PUBLIC_CARTO_API_KEY` a viditelnou atribuci OpenStreetMap i CARTO. Podmínky a limity jsou zaznamenané v projektové paměti; před komerčním využitím je nutné je znovu ověřit.
+
+## 2026-11-05 – Rozdělení mapového dema na 2A a 2A.2
+
+Studentka schválila menší rozsah review. Fáze 2A uzavře současnou mapu a kartu s názvem, doplní řízení fokusu a test tlačítka zavření a projde závěrečným ověřením. Čas, místo, popis a jejich testy, responzivní boční panel s rolováním, map-config.ts a loading stav se přesouvají do samostatné Fáze 2A.2 na větvi `02a2-event-map-ui`. Ta předchází doménové Fázi 2B, jejíž název i větev zůstávají zachované. Sdílené UI komponenty a další designové úpravy zůstávají samostatným navazujícím tématem. Produktové požadavky se nemění, mění se rozdělení dodávky.

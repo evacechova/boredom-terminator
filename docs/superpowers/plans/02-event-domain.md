@@ -10,6 +10,14 @@
 
 **Specifikace:** části 5, 6, 8 a 16; záměrně jde o zjednodušené demo, nikoli finální MVP.
 
+## Schválené zúžení rozsahu 5. 11. 2026
+
+Tento oddíl má přednost před původním checklistem a podmínkami níže. Studentka schválila rozdělení kvůli velikosti review.
+
+Fáze 2A končí současnou mapou, mock markery, výběrem události a kartou s názvem. Před uzavřením zbývá dokončit přesun fokusu do karty a návrat na marker, test tlačítka zavření, kontrolu diffu a ověření dema na mobilu i desktopu včetně přepínání a všech způsobů zavření. Současné rozložení musí zůstat použitelné a zachovat dostupné Add event a atribuci. Platí společné kontroly, preview, handoff, závěrečný commit a schválený PR podle AGENTS.md.
+
+Do Fáze 2A.2 se přesouvá čas, místo a popis s testy, desktopový boční panel a rolování dlouhého obsahu, map-config.ts a loading stav. Další designové úpravy a sdílené UI komponenty nejsou podmínkou uzavření 2A. Podrobný rozsah je v `02a2-event-map-ui.md`. Doménová fáze zůstává 2B.
+
 ## Rozsah a struktura
 
 - `src/domain/events/types.ts`: minimální `MapEvent` s `id`, `title`, `startsAt` (UTC ISO), volitelným `description` a `venueName` a `location` obsahující číselné `latitude` a `longitude`.

@@ -4,7 +4,7 @@
 
 **Větev:** `02b-event-domain`
 
-**Závisí na:** dokončené Fázi 2A; rozšíří její minimální typ a mock data
+**Závisí na:** dokončené Fázi 2A.2; rozšíří její minimální typ a mock data
 
 **Výsledek:** Čisté TypeScript typy a funkce pro události, čas, filtrování, řazení a Google Maps URL.
 

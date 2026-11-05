@@ -23,6 +23,7 @@ Nejdřív vznikne zjednodušené funkční demo s pevnými mock daty: mapa, výb
 | 1A   | `01-nextjs-foundation`        | Next.js základ, tooling a test infrastruktura  | [01-foundation.md](01-foundation.md)                                   |
 | 1B   | `01-foundation-ui`            | Základní UI, téma a první nasazení             | [01b-foundation-ui.md](01b-foundation-ui.md)                           |
 | 2A   | `02-event-map`                | Zjednodušené demo: mapa, karta, mobilní UI     | [02-event-domain.md](02-event-domain.md)                               |
+| 2A.2 | `02a2-event-map-ui`           | Dokončení karty a mapového UI                  | [02a2-event-map-ui.md](02a2-event-map-ui.md)                           |
 | 2B   | `02b-event-domain`            | Úplný model, časová pravidla a filtry          | [02b-event-domain.md](02b-event-domain.md)                             |
 | 3    | `03-local-repository`         | Seed data a bezpečný `localStorage` repository | [03-local-repository.md](03-local-repository.md)                       |
 | 4    | `04-discovery-ui`             | Stav hlavní obrazovky, filtry a textový seznam | [04-discovery-ui.md](04-discovery-ui.md)                               |

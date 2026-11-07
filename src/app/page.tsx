@@ -1,8 +1,6 @@
 import { Logo } from "@/components/ui/Logo";
-import { ButtonLink } from "@/components/ui/ButtonLink";
 import { mockEvents } from "@/data/mock-events";
 import { EventDiscovery } from "@/components/event-map/EventDiscovery";
-import { PlusIcon } from "@heroicons/react/24/outline";
 
 export default function Home() {
   return (
@@ -14,15 +12,7 @@ export default function Home() {
         </h1>
       </header>
       <main className="bg-base-100 w-full flex-1 relative min-h-0">
-        <EventDiscovery events={mockEvents}>
-          <ButtonLink
-            href="/events/new"
-            aria-label="Add event"
-            className="btn-circle fixed right-4 bottom-[max(2rem,env(safe-area-inset-bottom))] z-[1000] size-[clamp(3rem,8vw,4rem)] shadow-lg sm:right-6"
-          >
-            <PlusIcon aria-hidden="true" className="size-1/2" strokeWidth={2} />
-          </ButtonLink>
-        </EventDiscovery>
+        <EventDiscovery events={mockEvents} />
       </main>
     </div>
   );

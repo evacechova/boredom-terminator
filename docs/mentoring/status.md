@@ -1,5 +1,11 @@
 # Boredom Terminator – stav a handoff
 
+## Checkpoint 7. 11. 2026 – Tlačítko Add v EventDiscovery
+
+- Na výslovnou žádost studentky přesunuto tlačítko Add včetně `PlusIcon` a importů z `page.tsx` do `EventDiscovery`. Odebrán prop `children` a typ `ReactNode`. Stránka zůstává Server Component.
+- Skrývání tlačítka při otevřeném detailu, vzhled, responzivní velikost a cílová URL zůstávají zachované. Trvalá viditelnost tlačítka je nadále odložená.
+- Testy odkazu a jeho dostupnosti přesunuty ze stránky do testů `EventDiscovery`; test skrývání používá skutečné tlačítko komponenty. Prošlo 18/18 testů, typecheck, lint a cílená kontrola formátování. Studentka následně výslovně schválila commit tohoto kroku.
+
 ## Checkpoint 7. 11. 2026 – Heroicons po review
 
 - Na výslovnou žádost studentky nainstalován `@heroicons/react` a standardní SVG v `EventPanel.tsx` a `page.tsx` nahrazeny komponentami `XMarkIcon` a `PlusIcon` z `24/outline`.

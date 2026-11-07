@@ -42,11 +42,7 @@ it("hides event creation while a detail is open and restores it on close", () =>
     },
   ];
 
-  render(
-    <EventDiscovery events={events}>
-      <a href="/events/new">Add event</a>
-    </EventDiscovery>,
-  );
+  render(<EventDiscovery events={events} />);
 
   expect(screen.getByRole("link", { name: "Add event" })).toBeInTheDocument();
   fireEvent.click(screen.getByRole("button", { name: "Select event" }));
@@ -90,6 +86,20 @@ const focusEvents: MapEvent[] = [
     location: { latitude: 51, longitude: 15 },
   },
 ];
+
+it("renders link to add an event", () => {
+  render(<EventDiscovery events={focusEvents} />);
+  expect(screen.getByRole("link", { name: "Add event" })).toHaveAttribute("href", "/events/new");
+});
+
+it("keeps event creation enabled", () => {
+  render(<EventDiscovery events={focusEvents} />);
+  const addEvent = screen.getByRole("link", { name: "Add event" });
+
+  expect(addEvent).not.toHaveAttribute("aria-disabled");
+  expect(addEvent).not.toHaveAttribute("inert");
+  expect(addEvent).not.toHaveAttribute("tabindex", "-1");
+});
 
 it("returns focus to the latest selected marker when the panel closes", () => {
   render(<EventDiscovery events={focusEvents} />);

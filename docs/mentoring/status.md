@@ -1,5 +1,11 @@
 # Boredom Terminator – stav a handoff
 
+## Checkpoint 7. 11. 2026 – Named exporty komponent
+
+- Na žádost studentky po review sjednocen `LeafletMap` na named export přímo u deklarace. Dynamický import v `EventDiscovery` vybírá `module.LeafletMap`; test používá named import. `ssr: false` zůstává zachováno.
+- `AGENTS.md` nově vyžaduje named exporty komponent přímo u deklarace. Výjimkou jsou default exporty vyžadované Next.js nebo nástroji, například routy a konfigurace.
+- Po změně prošlo 18/18 testů, typecheck, lint, cílená kontrola formátování a kontrola diffu. Studentka následně výslovně schválila commit `refactor: standardize component named exports`.
+
 ## Finální kontrola Fáze 2A – 5. 11. 2026
 
 Tento checkpoint má přednost před staršími rozpracovanými zadáními níže.

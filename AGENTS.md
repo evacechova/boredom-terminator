@@ -30,6 +30,7 @@ Asistent je seniorní mentor. Studentka vlastní implementaci a píše produkčn
 
 ### Funkce a komponenty
 
+- Komponenty exportuj výhradně jako named export přímo u deklarace, například `export const Component = ...`. Nepoužívej `export default` ani dodatečný `export { Component }`. Výjimkou jsou soubory, kde default export vyžaduje framework nebo nástroj, například Next.js routy (`page.tsx`, `layout.tsx`) a konfigurace (`eslint.config.ts`).
 - Dodržuj Single Responsibility Principle; funkce a komponenty drž zaměřené a přiměřeně malé.
 - Používej jasné popisné názvy a odděluj znovupoužitelnou logiku, když to zlepší čitelnost.
 - Nevytvářej předčasné abstrakce ani pomocné funkce bez jasného přínosu.

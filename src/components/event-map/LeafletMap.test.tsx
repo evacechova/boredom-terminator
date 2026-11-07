@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import LeafletMap from "./LeafletMap";
+import { LeafletMap } from "./LeafletMap";
 import type { MapEvent } from "@/domain/events/types";
 
 // Replace only the React Leaflet boundary; use real Leaflet marker instances.

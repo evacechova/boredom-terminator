@@ -21,7 +21,12 @@ const MapClickHandler = ({ onMapClick }: { onMapClick: () => void }) => {
   return null;
 };
 
-const LeafletMap = ({ events, selectedEventId, onEventSelect, onMapClick }: LeafletMapProps) => {
+export const LeafletMap = ({
+  events,
+  selectedEventId,
+  onEventSelect,
+  onMapClick,
+}: LeafletMapProps) => {
   const activateMarker = (eventId: string, marker: LeafletMarker) => {
     onEventSelect(eventId, marker.getElement() ?? null);
   };
@@ -69,4 +74,3 @@ const LeafletMap = ({ events, selectedEventId, onEventSelect, onMapClick }: Leaf
     </MapContainer>
   );
 };
-export default LeafletMap;

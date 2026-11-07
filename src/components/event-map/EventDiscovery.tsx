@@ -11,7 +11,7 @@ type EventDiscoveryProps = {
   children?: ReactNode;
 };
 
-const LeafletMap = dynamic(() => import("./LeafletMap"), {
+const LeafletMap = dynamic(() => import("./LeafletMap").then((module) => module.LeafletMap), {
   ssr: false,
 });
 

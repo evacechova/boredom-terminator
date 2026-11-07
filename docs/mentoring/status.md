@@ -1,5 +1,11 @@
 # Boredom Terminator – stav a handoff
 
+## Checkpoint 7. 11. 2026 – Heroicons po review
+
+- Na výslovnou žádost studentky nainstalován `@heroicons/react` a standardní SVG v `EventPanel.tsx` a `page.tsx` nahrazeny komponentami `XMarkIcon` a `PlusIcon` z `24/outline`.
+- Zachovány velikosti `size-5` u křížku a `size-1/2` u plusu, tloušťka tahu 2 a `aria-hidden`. Vlastní marker zůstává podle review beze změny.
+- Prošlo 11/11 cílených testů panelu a discovery, typecheck, cílený lint a kontrola formátování. Vizuální kontrola zbývá studentce. Studentka následně výslovně požádala o commit všech zbývajících změn včetně úpravy PR šablony.
+
 ## Checkpoint 7. 11. 2026 – Named exporty komponent
 
 - Na žádost studentky po review sjednocen `LeafletMap` na named export přímo u deklarace. Dynamický import v `EventDiscovery` vybírá `module.LeafletMap`; test používá named import. `ssr: false` zůstává zachováno.

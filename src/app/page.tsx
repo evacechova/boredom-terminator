@@ -2,6 +2,7 @@ import { Logo } from "@/components/ui/Logo";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { mockEvents } from "@/data/mock-events";
 import { EventDiscovery } from "@/components/event-map/EventDiscovery";
+import { PlusIcon } from "@heroicons/react/24/outline";
 
 export default function Home() {
   return (
@@ -19,16 +20,7 @@ export default function Home() {
             aria-label="Add event"
             className="btn-circle fixed right-4 bottom-[max(2rem,env(safe-area-inset-bottom))] z-[1000] size-[clamp(3rem,8vw,4rem)] shadow-lg sm:right-6"
           >
-            <svg
-              aria-hidden="true"
-              viewBox="0 0 24 24"
-              className="size-1/2"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth={2}
-            >
-              <path d="M12 5v14M5 12h14" strokeLinecap="round" />
-            </svg>
+            <PlusIcon aria-hidden="true" className="size-1/2" strokeWidth={2} />
           </ButtonLink>
         </EventDiscovery>
       </main>

@@ -1,0 +1,18 @@
+@layer components {
+  .btn.btn-primary {
+    background-image: linear-gradient(
+      to bottom,
+      var(--surface-primary-highlight),
+      var(--surface-primary-base)
+    );
+  }
+
+  .btn.btn-primary[aria-disabled="true"] {
+    background-image: none;
+    background-color: var(--color-base-300);
+    color: color-mix(in srgb, var(--color-base-content), var(--color-base-300) 40%);
+    border-color: var(--color-base-300);
+    box-shadow: none;
+    cursor: not-allowed;
+  }
+}

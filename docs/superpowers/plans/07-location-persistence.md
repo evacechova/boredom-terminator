@@ -4,7 +4,7 @@
 
 **Větev:** `07-location-persistence`
 
-**Závisí na:** mapě z Fáze 5, formuláři z Fáze 6 a repository z Fáze 3
+**Závisí na:** mapě a kartě z Fáze 2A rozšířených ve Fázích 4–5, GPS z Fáze 5, formuláři z Fáze 6 a repository z Fáze 3
 
 **Výsledek:** Uživatel zvolí polohu mapou nebo GPS, uloží platnou událost a vrátí se na mapu s otevřeným panelem nové události.
 

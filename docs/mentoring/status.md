@@ -1,43 +1,163 @@
 # Boredom Terminator – stav a handoff
 
-> Aktualizováno 30. 10. 2026. Tento soubor je výchozí bod každého nového kontextu.
+## Checkpoint 7. 11. 2026 – Tlačítko Add v EventDiscovery
+
+- Na výslovnou žádost studentky přesunuto tlačítko Add včetně `PlusIcon` a importů z `page.tsx` do `EventDiscovery`. Odebrán prop `children` a typ `ReactNode`. Stránka zůstává Server Component.
+- Skrývání tlačítka při otevřeném detailu, vzhled, responzivní velikost a cílová URL zůstávají zachované. Trvalá viditelnost tlačítka je nadále odložená.
+- Testy odkazu a jeho dostupnosti přesunuty ze stránky do testů `EventDiscovery`; test skrývání používá skutečné tlačítko komponenty. Prošlo 18/18 testů, typecheck, lint a cílená kontrola formátování. Studentka následně výslovně schválila commit tohoto kroku.
+
+## Checkpoint 7. 11. 2026 – Heroicons po review
+
+- Na výslovnou žádost studentky nainstalován `@heroicons/react` a standardní SVG v `EventPanel.tsx` a `page.tsx` nahrazeny komponentami `XMarkIcon` a `PlusIcon` z `24/outline`.
+- Zachovány velikosti `size-5` u křížku a `size-1/2` u plusu, tloušťka tahu 2 a `aria-hidden`. Vlastní marker zůstává podle review beze změny.
+- Prošlo 11/11 cílených testů panelu a discovery, typecheck, cílený lint a kontrola formátování. Vizuální kontrola zbývá studentce. Studentka následně výslovně požádala o commit všech zbývajících změn včetně úpravy PR šablony.
+
+## Checkpoint 7. 11. 2026 – Named exporty komponent
+
+- Na žádost studentky po review sjednocen `LeafletMap` na named export přímo u deklarace. Dynamický import v `EventDiscovery` vybírá `module.LeafletMap`; test používá named import. `ssr: false` zůstává zachováno.
+- `AGENTS.md` nově vyžaduje named exporty komponent přímo u deklarace. Výjimkou jsou default exporty vyžadované Next.js nebo nástroji, například routy a konfigurace.
+- Po změně prošlo 18/18 testů, typecheck, lint, cílená kontrola formátování a kontrola diffu. Studentka následně výslovně schválila commit `refactor: standardize component named exports`.
+
+## Finální kontrola Fáze 2A – 5. 11. 2026
+
+Tento checkpoint má přednost před staršími rozpracovanými zadáními níže.
+
+- Studentka potvrdila funkčnost aktuálního dema v prohlížeči. Implementace zúženého rozsahu 2A je hotová; návrat fokusu, Enter a všechny způsoby zavření jsou implementované.
+- Mentor zkontroloval produkční komponenty, datový tok, styly a testy. Nenalezeny nepoužité lokální proměnné, parametry, nedosažitelný kód ani duplicity vyžadující refaktoring. Volitelná disabled podpora ButtonLink a alternativní logo jsou záměrně zachované; nejsou automaticky považované za mrtvý kód.
+- Doplněny tři regresní testy: odpojení Escape listeneru po unmountu, použití aktuálního onClose bez starého listeneru a neobnovení výběru po novém mountu. Produkční kód se při finální kontrole neměnil.
+- Ověření: 18/18 testů ve 4 sadách, lint, standardní typecheck, format check a diff check prošly. Dodatečný TypeScript průchod s noUnusedLocals, noUnusedParameters a allowUnreachableCode=false prošel nad src; generované Next validátory byly z této doplňkové kontroly vynechané, protože obsahují vlastní nepoužité deklarace. Standardní projektový typecheck je zahrnuje.
+- Produkční Webpack build prošel bez chyb a varování. Standardní Turbopack build selhal při zpracování Leaflet CSS kvůli zákazu otevření portu v runneru, stejně i při požadavku na eskalované spuštění. Turbopack zůstává k lokálnímu ověření; nejde o potvrzenou chybu aplikačního kódu.
+- Skutečné nativní pořadí Tabu, dlaždice a hydrataci Jest neověřuje; prohlížečové potvrzení je od studentky. Vercel preview nebylo při této kontrole ověřeno.
+- Další krok: commit doplněných testů a handoffu pouze na výslovnou žádost, ověření preview a příprava názvu, celého popisu a větví PR ke schválení. PR má mít reviewera bobescz. Fáze 2A.2 začíná až po uzavření a merge 2A.
+
+## Otevřené požadavky 5. 11. 2026
+
+- Na následnou žádost studentky hlavička používá `justify-between`: logo vlevo, nadpis vpravo s `text-right`. Responzivní velikosti a odsazení od krajů zůstávají. Cílený ESLint, Prettier a kontrola diffu prošly; vizuální kontrola zbývá.
+
+- Ještě doladit vzájemné umístění, překryv a viditelnost detailního panelu a plovoucího pluska na mobilu i desktopu. Současné skrývání pluska při otevřeném detailu je prozatímní řešení, nikoli uzavřené UX rozhodnutí.
+- Později přidat clusterování pinů při menším zoomu (oddálení mapy), aby se blízké události seskupovaly. Konkrétní fáze, chování a knihovna zatím nejsou určené; nyní neimplementovat. Požadavek je zachovaný také v `docs/product/future-ideas.md` pro budoucí plánování.
+
+### Checkpoint 5. 11. 2026 – Detail přes mobilní obrazovku
+
+- Studentka změnila zadání: plus je znovu aktivní, velikost používá `clamp(3rem, 8vw, 4rem)` a SVG polovinu velikosti tlačítka. Odkaz stále vede na `/events/new`; samotný formulář dosud není implementován.
+- Stránka předává plovoucí odkaz přes `children` do `EventDiscovery`. Ten jej vykreslí pouze bez vybrané události; nevzniká další stav ani nová klientská hranice.
+- Mobilní detail nyní používá `fixed inset-0` a překrývá i hlavičku. Od `sm` zůstává pravým plovoucím panelem, znovu dole bez rezervy na plus. Křížek zůstává; šipka zpět je odložená.
+- Prošly testy 8/8 včetně skrytí a obnovení odkazu při otevření a zavření detailu, lint a formátování. Vizuální kontrola ve skutečném prohlížeči zbývá.
+
+### Checkpoint 5. 11. 2026 – Responzivní hlavička a ikonové ovládání
+
+- Na výslovnou žádost studentky mentor upravil hlavičku: logo a nadpis jsou vedle sebe i na mobilu. Logo používá `clamp(2.5rem, 8vw, 5rem)`, nadpis `clamp(1.125rem, 4vw, 2.25rem)`; mezery a odsazení mají responzivní utility.
+- `Add event` je plovoucí kruhové plus vpravo dole podle opraveného zadání. `ButtonLink` přijímá `disabled`, `className` a `aria-label`. Na výslovný požadavek zachovává `href`; neaktivitu odkazu zajišťuje `inert`, `aria-disabled` a `tabIndex=-1`, nikoli nepodporovaný HTML atribut `disabled`. V `buttons.css` jsou explicitní disabled styly.
+- Zavření panelu používá SVG křížek s přístupným názvem `Zavřít`. Panel je nad plovoucím tlačítkem a od breakpointu `sm` má šířku 20rem vpravo. Stávající Escape handler zůstává.
+- Prošly testy 7/7, lint, typecheck, cílený Prettier, kontrola diffu a produkční Webpack build. Vizuální kontrola na mobilu a desktopu a ověření `inert` ve skutečném prohlížeči zatím neproběhly. Commit nebyl vyžádán.
+
+### Checkpoint 5. 11. 2026 – Sdílené UI komponenty
+
+- Na výslovnou žádost studentky mentor vytvořil `src/components/ui/ButtonLink.tsx` a nahradil jím odkaz `Add event` na hlavní stránce. Přijímá `href` typu `LinkProps["href"]` a `children` typu `ReactNode`; zachovává navigaci i třídy `btn btn-primary`. Server/client rozhodnutí bylo společně vysvětleno před implementací.
+- Prošly testy stránky 3/3, cílený ESLint, Prettier, projektový typecheck a kontrola diffu. Build se v tomto kroku nespouštěl.
+- Studentka zvolila pro `Logo` Server Component, protože jde o statické zobrazení. Mentor následně vyčlenil `src/components/ui/Logo.tsx` a zapojil ho do stránky. Zachovány obrázek, rozměry, alternativní text i `priority`. Po vyčlenění znovu prošly testy stránky 3/3, cílený ESLint, Prettier, projektový typecheck a kontrola diffu.
+- Samostatný nadpis a akční `Button` nyní nevznikají. Commit nebyl vyžádán.
+
+> Aktualizováno 4. 11. 2026. Tento soubor je výchozí bod každého nového kontextu.
+
+### Požadavek 5. 11. 2026 – Základ design systému
+
+- Po souhlasu studentky doplněny pohybové tokeny `--duration-normal: 300ms` a `--ease-standard: ease-in-out`. Přechod transformace pinů používá oba tokeny; jeho délka a průběh se nemění. Cílený Prettier a kontrola diffu prošly.
+
+- Na následnou výslovnou žádost studentky mentor vytvořil základní strukturu: `src/styles/tokens.css` obsahuje stávající daisyUI téma a sdílené hodnoty gradientu a fokusu, `buttons.css` přidává ombré pro `btn-primary`, `focus.css` sdílí pravidlo `:focus-visible`. Specifická pravidla SVG markerů jsou v `src/components/event-map/event-map.css`; vše importuje `globals.css`.
+- Tlačítka a piny používají stejné konce gradientu. SVG prstenec zachovává vlastní geometrii a sdílí barvu fokusu. Nové React komponenty nevznikly.
+- Po změně prošly testy 5/5, lint, typecheck, cílený Prettier, kontrola diffu a produkční Webpack build. V sestaveném CSS ověřena přítomnost tokenů, gradientu tlačítek a markerů. Turbopack build v runneru selhal na zakázaném otevření portu; Webpack vyžadoval síťový přístup ke Google Fonts. Vizuální kontrola gradientu a klávesnicového fokusu zbývá studentce.
+
+- Studentka chce pro odkaz `Add event` stejný jemný svislý ombré přechod jako u pinů: nahoře primary zesvětlená o 18 % bílé, dole základní primary. Současná primary je `#0f766e`.
+- Tento vzhled má tvořit první sdílený vizuální princip budoucího design systému. Zaznamenání požadavku neznamená schválení technické architektury.
+- Návrh k diskusi: sdílené CSS proměnné pro oba konce gradientu, oddělená pravidla tlačítek a markerů; zachovat Tailwind a daisyUI. Sdílené React komponenty zůstávají samostatným navazujícím krokem.
+- Původní diskuse produkční kód ani testy neměnila; následná žádost výše výslovně autorizovala vytvoření struktury a zapojení stylů. Testy mentor neměnil.
+
+## Aktuální priorita – schváleno 5. 11. 2026
+
+Tento checkpoint nahrazuje starší zadání dokončit celý původní rozsah 2A před PR. Studentka schválila rozdělení na 2A a 2A.2 kvůli velikosti review. Větev 2A.2 bude `02a2-event-map-ui`, doménová fáze zůstává 2B a následuje až po ní.
+
+Nyní dokončit pouze fokus do karty a návrat na marker, test tlačítka zavření, kontrolu diffu a závěrečná ověření současného dema na mobilu, desktopu a preview. Potom závěrečný commit a PR podle AGENTS.md. Obsah karty nad rámec názvu, boční panel a rolování, map-config.ts a loading stav patří do plánu `docs/superpowers/plans/02a2-event-map-ui.md`. Další designové úpravy a sdílené UI komponenty nejsou podmínkou uzavření 2A.
+
+Studentka navrhla fokus na název události. Další malý krok: vysvětlit rozdíl mezi programovým fokusem nadpisu, pohybem Tab a klávesou Escape. Zatím nebyl změněn produkční kód ani testy.
 
 ## Aktuální stav
 
-- Finální MVP specifikace byla schválena: `docs/superpowers/specs/2026-10-24-mvp-design.md`.
-- Implementace je rozdělena do samostatných branch plánů: `docs/superpowers/plans/README.md`.
-- Po dokončení MVP naváže Fáze 10: komplexní review kódu a tvorba aktivní post-MVP roadmapy, specifikací a dalších implementačních plánů.
-- Spolupráce probíhá v learner-led mentoring režimu podle `AGENTS.md`.
-- Aktivní fáze: Fáze 1B – základní UI a první nasazení.
-- Aktivní větev: `01-foundation-ui`.
-- Fáze 1 byla rozdělena na samostatné PR: setup ve Fázi 1A a UI s prvním deploymentem ve Fázi 1B.
-- Fáze 1A byla sloučena do `main` přes PR #1 jako commit `0d42cfb chore: set up Next.js foundation and test tooling (#1)`.
-- Next.js scaffold používá TypeScript, App Router v `src/app`, Tailwind CSS, ESLint a Turbopack.
-- Nainstalované hlavní verze: Node.js `26.12.0`, npm `11.20.0`, Next.js `16.4.3`, React `19.3.0`, TypeScript `5.9.3` a Prettier `3.9.10`.
-- Výchozí stránka byla ověřena přes dev server požadavkem `GET / 200`.
-- ESLint používá Next.js flat config, vlastní pravidla kvality kódu a `eslint-config-prettier`.
-- Prettier, npm skripty a stručná clean-code pravidla v `AGENTS.md` jsou nastavené.
-- `npm run lint`, `npm run format:check` a `npm run typecheck` procházejí bez problémů.
-- `npm run build` prochází včetně TypeScript kontroly a statického renderu route `/`.
-- Jest a React Testing Library jsou nainstalované a nakonfigurované. Fáze 1A je dokončená.
-- Základní stránka a její component test jsou uložené v checkpointu `5a3bf84 feat: add foundation landing page`; testy pro heading, logo a odkaz `Add event` procházejí.
-- Původní stash s component testem byl po checkpointu odstraněn.
-- daisyUI `5.7.50` je nainstalované jako dev dependency. Vlastní světlé téma `boredom-terminator` je nakonfigurované, landing page používá theme tokeny a odkaz `Add event` používá `btn btn-primary`.
-- Závěrečné ověření 29. 10. 2026 prošlo: `npm test` (`3/3`), `npm run lint`, `npm run format:check`, `npm run typecheck`, `npx next build --webpack` v Codex runneru a lokální `npm run build` s Turbopackem. Vizuální kontrola landing page proběhla 28. 10. 2026.
-- Landing page používá dočasné `public/boredom-terminator-logo-full.png` o velikosti přibližně 1,5 MB. Další optimalizace loga je známý problém odložený na později a neblokuje první deployment.
-- Nepoužitý `public/boredom-terminator-logo.png` se záměrně ponechává jako alternativní podklad pro pozdější práci s logem.
-- Vercel projekt je připojený. Production URL `https://boredom-terminator.vercel.app` je dostupná a aktuálně nasazuje `main`.
-- Preview deployment větve `01-foundation-ui` na `https://boredom-terminator-ro7kgif4z-evacechova.vercel.app/` dosáhl stavu `Ready` a landing page byla vizuálně ověřena 29. 10. 2026. Preview vyžaduje přihlášení k Vercelu.
-- Metadata používají title `Boredom Terminator` a popis `Discover local K-pop events in Prague.` místo výchozích textů Create Next App.
-- Známá instalační varování: ESLint `9.39.5` je EOL a nepřímé závislosti `whatwg-encoding@3.1.1` a `glob@10.5.0` jsou označené jako zastaralé. `npm audit` hlásí `0 vulnerabilities`.
-- Instalační skripty `unrs-resolver@1.12.2` a `@parcel/watcher@2.6.0` jsou po kontrole výslovně zakázané přes `allowScripts`; oba nativní moduly se bez nich načtou.
-- `npm run build` v Codex runneru blokuje omezení lokálního portu uvnitř Turbopack CSS child procesu. Projektový Turbopack build však prošel v lokálním terminálu; Codex runner používá pro ověření Webpack fallback.
+- Schválená produktová specifikace: `docs/superpowers/specs/2026-10-24-mvp-design.md`.
+- Learner-led mentoring podle `AGENTS.md`: studentka píše produkční kód i testy, mentor vysvětluje a kontroluje.
+- Fáze 1B je podle potvrzení studentky sloučená do `main`. Přesný merge commit a production deployment v tomto kontextu zatím nebyly ověřeny.
+- Aktivní větev je `02-event-map`. Studentka potvrdila pull merge Fáze 1B; nevyžadovat opakovanou synchronizaci bez nového důkazu.
+- Landing page, vlastní daisyUI téma, testy a oprava metadat jsou hotové. Veřejná URL: `https://boredom-terminator.vercel.app`.
+- Poslední zdokumentované ověření Fáze 1B: testy 3/3, lint, format check, typecheck, Webpack build v runneru a lokální Turbopack build. Nové ověření implementace v tomto kontextu neproběhlo.
+- Studentka 2. 11. 2026 schválila změnu pořadí: nejdřív zjednodušené funkční demo: minimální typ, mock data, mapa, výběr pinu, základní karta, zavírání, fokus a mobilní i desktopové UI; úplná doména, časy a filtry až potom.
+- Další implementační fáze je **2A – zjednodušené funkční demo**, plán `docs/superpowers/plans/02-event-domain.md`, cílová větev `02-event-map`.
+- Původní doménový rozsah je zachován ve Fázi 2B: `docs/superpowers/plans/02b-event-domain.md`, větev `02b-event-domain`.
+- Dokumentační checkpoint nové roadmapy vzniká na výslovnou žádost studentky na větvi `02-event-map`. Produkční kód ani testy mentor nemění.
+
+## Aktuální mentoringový checkpoint
+
+- Studentka vytvořila `src/domain/events/types.ts` s exportovaným `MapEvent`: povinné `id`, `title`, `startsAt` a `location.latitude`/`longitude`; volitelné `description` a `venueName`.
+- Vysvětleny odpovědnosti složek domain/data/components/app, objektový typ, vnořený objekt, rozdíl type/interface, volitelné vlastnosti a UTC ISO řetězec. Typ `string` sám formát času za běhu neověřuje.
+- `npm run typecheck` po vytvoření typu prošel 2. 11. 2026.
+- Studentka potvrdila, že merge již pullnula. Dřívější lokální Git pozorování není podklad pro další požadavek na rebase; opakovaný fetch/rebase nezadávat bez nového důkazu.
+
+- `src/data/mock-events.ts` obsahuje typované pole `mockEvents` s první minimální událostí `mock-1`. Mentor ji vložil na výslovnou žádost studentky. Volitelná pole jsou vynechána.
+- Vysvětlen rozdíl mezi typem pole a hodnotou pole, `import type`, alias `@/` a zápis skutečného objektu. Typecheck první mock události prošel.
+
+## Checkpoint první mapy
+
+- Nainstalované Leaflet 1.9.4, React Leaflet 5.0.0 a vývojové typy @types/leaflet 1.9.22.
+- `LeafletMap.tsx` vykresluje Prahu přes MapContainer a OpenStreetMap TileLayer s atribucí a Leaflet CSS. Mapa nyní přes `absolute inset-0` vyplňuje relativně pozicovaný main pod hlavičkou; vnější obal má h-dvh. Studentka ověřila zobrazení v prohlížeči.
+- `EventMap.tsx` používá next/dynamic s `ssr: false`; serverová stránka jej vykresluje vedle původního obsahu. Mock data zatím mapa nepoužívá.
+- Studentka ověřila mapu v prohlížeči. Ověření 2. 11. 2026: Jest 3/3, lint, format check, typecheck a `npx next build --webpack` prošly. Standardní Turbopack production build tohoto checkpointu zatím nebyl ověřen.
+- Varování Jest o aktualizaci mimo `act(...)` je vyřešené: test stránky nahrazuje EventMap mockem vracejícím null. Jest konfigurace mapuje alias `@/` na `src/`; mock používá `__esModule: true` pro rozpoznání default exportu. Po opravě prošly testy 3/3 bez warningu, formátování změněných souborů a kontrola diffu. Oprava tvoří samostatný checkpoint `test: isolate homepage from Leaflet loading`.
+- Studentka hlásila npm audit 35 nálezů ve vývojových nástrojích; `npm audit --omit=dev` podle jejího výstupu hlásí 0. Nepoužívat slepě audit fix --force; navrhoval downgrade Jest a ESLint. Tooling audit je otevřený samostatný úkol.
+- U každé nové komponenty studentka nejdřív sama rozhodne server/client a vysvětlí důvod, podle nového pravidla AGENTS.md. Zadání dávat slovně a nechat ji napsat řešení; neprozrazovat kód předem.
+
+## Otevřená kontrola pro konec Fáze 2A
+
+- Na žádost studentky později vytvořit sdílené komponenty pro tlačítka a nadpisy. Nyní je neimplementovat; tento navazující úkol povinně zmínit v popisu PR Fáze 2A. Poznámka je také v plánu fáze v části „Poznámka pro popis PR a navazující práci“.
+- Kontrola načítacího obalu je uzavřená: `EventMap` byl po dohodě odstraněn, viz aktuální checkpoint níže.
+
+## Checkpoint markerů z mock dat
+
+- `page.tsx` předává `mockEvents` přes typované props EventMap do LeafletMap; mapa vykresluje Marker pro každou událost s klíčem podle ID.
+- Rozbité výchozí ikony měly 404 pro retina obrázek a stín. Na výslovnou žádost studentky přidán `marker-icon.ts`: statické PNG importy z balíčku Leaflet, URL přes normalizaci řetězce nebo objektu se `.src`, explicitní `icon()` se standardními rozměry a ukotvením. Ikona je předána každému Markeru, globální výchozí nastavení se nemění.
+- Nepoužité kopie PNG vytvořené během diagnostiky v public/leaflet byly odstraněny po ověření shody s originály.
+- Samotné `.src` v dev režimu selhalo: generovaný Turbopack bundle exportuje PNG z balíčku jako URL řetězec. `getImageUrl` podporuje řetězec i objekt se `.src`; oba tvary ověřeny izolovaným spuštěním skutečného modulu s náhradou importů.
+- Po opravě prošly Jest testy 3/3, lint, typecheck, formátování a Webpack build. Studentka 4. 11. 2026 potvrdila správné zobrazení pinu a stínu v prohlížeči. Vercel preview ještě zbývá ověřit.
 
 ## Nejbližší krok
 
-1. Commitnout a pushnout opravu metadata a aktualizovaný handoff.
-2. Ověřit nový Vercel preview deployment a vytvořit pull request do `main`.
-3. Ověřit kontroly, použít `Squash and merge`, zkontrolovat production URL a připravit první krok Fáze 2.
+### Checkpoint 5. 11. 2026 – zavírání přes Escape
+
+- Studentka doplnila do `EventPanel` posluchač `keydown` na `window` v `useEffect`. Klávesa `Escape` volá `onClose`; cleanup odpojuje stejný posluchač a efekt má závislost `[onClose]`.
+- Studentka potvrdila funkčnost v prohlížeči. Mentor zkontroloval aktuální kód a `npm run typecheck` prošel.
+- `EventDiscovery` používá ternární podmínku pro vykreslení panelu. Změna má podle dohody být součástí commitu s další částí; commit zatím neprovádět.
+- Component testy ověřují jedno zavolání `onClose` při `Escape` a žádné při `Backspace`. Studentka testy napsala; mentor na výslovnou žádost opravil matcher a UTC čas testovacích dat.
+- Ověření: všech 5 testů prošlo, lint a format check prošly; typecheck po opravě testů také prošel. Build pro tento checkpoint nebyl spuštěn.
+- Další krok: řízení fokusu. Starší zadání přidat `Escape` a jeho dva testy je tímto splněné. Před commitem oddělit nebo zkontrolovat také souběžné změny markerů a mapových stylů.
+
+### Aktuální checkpoint po zjednodušení komponent
+
+- Studentka vytvořila `EventDiscovery` a stránka jí předává `mockEvents`. Výběr drží `useState<string | null>` s počátečním `null`.
+- Na výslovnou žádost studentky mentor odstranil `EventMap.tsx` a přesunul dynamický import bez SSR přímo do `EventDiscovery`. Toto rozhodnutí nahrazuje starší poznámky o zachování a porovnání props obalu.
+- `LeafletMap` přijímá `onEventSelect` a při kliknutí na marker předává jeho ID. `EventDiscovery` odvozuje `selectedEvent` přes `find` a podmíněně vykresluje `EventPanel`.
+- `EventPanel` zobrazuje název a tlačítko „Zavřít“, které přes `onClose` nastavuje výběr na `null`. Má dočasné spodní umístění nad mapou a podtržení tlačítka při hoveru. Studentka ověřila přepínání názvu mezi piny, zavření a opětovné otevření v prohlížeči.
+- Před checkpoint commitem 4. 11. 2026 prošly testy 3/3, lint bez varování, format check, typecheck a Webpack production build. Test stránky mockuje `EventDiscovery`; samostatné testy karty ještě nejsou napsané. Turbopack a Vercel preview zůstávají neověřené.
+- Studentka doplnila `onMapClick` z `EventDiscovery` do `LeafletMap` a pomocnou komponentu `MapClickHandler` ve stejném souboru. Je vykreslená pod `MapContainer`, přes `useMapEvents` zachytí kliknutí a zavolá předané zavření. Před commitem prošly testy 3/3, lint, format check a typecheck. Samostatné ověření tohoto chování v prohlížeči studentka zatím výslovně nepotvrdila.
+- Nejbližší mentoringový krok: ověřit otevření pinem, zavření prázdnou mapou a opětovné otevření jiným pinem; potom navázat zavíráním přes `Escape`. Studentka chce nejprve vysvětlení účelu a prostor navrhnout další krok, nikoli detailní diktování kódu. Před dalším zadáním vždy přečíst aktuální kód; při nepochopení otázku přeformulovat a nechat studentku odpovědět.
+
+1. Na výslovnou žádost studentky mentor 4. 11. 2026 doplnil do `mockEvents` události `mock-2` a `mock-3` s různými souřadnicemi v Praze. Jedna má `venueName` a `description`, druhá volitelná pole vynechává. Typecheck a Prettier kontrola souboru prošly. Studentka potvrdila zobrazení tří markerů v prohlížeči. Výběr a základní karta jsou již implementované podle checkpointu výše.
+2. Před dokončením fáze přesunout mapovou konfiguraci z komponenty do map-config.ts podle plánu; zatím je inline.
+3. Navázat výběrem události a základní kartou. Ověřit Vercel preview větve `02-event-map`. Základní layout mapy pod hlavičkou je hotový; plovoucí karta a ovládání teprve přijdou. Finální hlavička a footer zatím nejsou rozhodnuté. Pokračovat po malých mentoringových krocích.
+
+## Známé limity
+
+- Dočasné logo `public/boredom-terminator-logo-full.png` má přibližně 1,5 MB; optimalizace neblokuje mapu.
+- Alternativní `public/boredom-terminator-logo.png` se záměrně zachovává.
+- Preview deployment může vyžadovat přihlášení k Vercelu.
+- Turbopack build v Codex runneru může narazit na omezení portu CSS child procesu. Ověřený fallback je `npx next build --webpack`; standardní Turbopack build ověřit lokálně.
 
 ## Tooling checkpoint
 
@@ -60,19 +180,65 @@
 - Scaffold checkpoint je commit `01cfc09 chore: scaffold Next.js application`.
 - Po scaffold checkpointu následoval tooling checkpoint `c2a8326`.
 
-## Následující fáze
+### Checkpoint 5. 11. 2026 – CARTO Positron
 
-Fáze 1B obsahuje component test, základní stránku, daisyUI téma a první veřejné nasazení. Přesné kroky a podmínky dokončení jsou v `docs/superpowers/plans/01b-foundation-ui.md`.
+- Na výslovnou žádost studentky mentor změnil pouze konfiguraci podkladu v `LeafletMap.tsx` na CARTO Positron (`light_all`, včetně popisků), doplnil atribuci CARTO, subdomény `abcd` a maximální zoom 20.
+- Klíč se načítá z `NEXT_PUBLIC_CARTO_API_KEY`. Studentka připravila ignorovaný `.env.local` a proměnné na Vercelu. Hodnota klíče nebyla vypisována.
+- Cílený ESLint, Prettier a projektový typecheck prošly. Studentka potvrdila správný vzhled mapy v prohlížeči. Build ani deployment v tomto kroku neproběhly.
+- Rozpracované testy a komponenty panelu mentor neměnil. Limity poskytovatele jsou v `docs/mentoring/memory/02-carto-basemap-limits.md`.
 
-## Handoff šablona po dokončení fáze
+### Checkpoint 5. 11. 2026 – Vlastní event piny
 
-Po každé fázi nahradit aktuální stav těmito údaji:
+- Na výslovnou žádost studentky mentor nahradil modré PNG piny vlastním inline SVG přes Leaflet `divIcon`. Pin používá petrolejovou barvu tématu, světlý lem, bílou tečku a jemný stín. SVG ponechává prostor pro budoucí symbol kategorie.
+- Vybraný marker je mírně zvětšený, má grafitový prstenec a vyšší z-index. Výběr používá stávající `selectedEventId` předané do mapy; nový stav nevznikl. Špička zůstává ukotvená na souřadnicích. Fokus má také viditelný prstenec; marker má název události.
+- Cílený ESLint, Prettier a kontrola diffu prošly. Celkový typecheck, lint a Jest blokuje rozpracovaný `EventPanel.test.tsx` (nedokončené deklarace a JSX). Test stránky prošel: 3 testy. Mentor rozepsaný test neměnil.
+- Vzhled v prohlížeči a build zatím nebyly ověřeny. Další krok: vizuálně zkontrolovat piny na mapě, výběr a fokus; potom pokračovat rozepsaným testem panelu.
 
-- dokončená fáze a větev,
-- výsledný commit,
-- co je funkční,
-- jaké testy, lint a build proběhly,
-- známé problémy,
-- nové odchylky a jejich odkazy,
-- relevantní memory soubory,
-- přesný první krok další fáze.
+### Checkpoint 5. 11. 2026 – Animace výběru pinu
+
+- Studentka potvrdila, že po restartu dev serveru mají piny správné barvy. Před restartem server posílal CSS bez pravidel event-marker, přestože na disku byla.
+- Na žádost studentky doplněn přechod transformace `180ms ease-in-out`. Výběr nyní přepíná CSS třídu na existujícím markeru přes callback ref; nevyměňuje ikonu, aby Leaflet znovu nevytvářel SVG a nepřerušoval přechod. Duplicitní selectedMarkerIcon odstraněna.
+- Vizuální ověření animace v prohlížeči zatím neproběhlo.
+
+- Na další žádost studentky přechod prodloužen na `300ms ease-in-out`. Kontrola `public/` a `src/` nenašla žádné staré obrázky pinů ani stínů; kopie byly odstraněny už dříve. Obrázky dodávané balíčkem Leaflet v node_modules se nemažou. Prettier změněného CSS a kontrola diffu prošly; plynulost zbývá posoudit v prohlížeči.
+
+### Checkpoint 5. 11. 2026 – Jemnější vzhled pinů
+
+- Na výslovnou žádost studentky upraven vzhled: grafitový obrys 1.25 px, jemný svislý SVG gradient od petrolejové zesvětlené o 18 % bílé k základní petrolejové a slabší stín (16 %). Prstenec výběru a fokusu ztenčen na 4 px. Přechod transformace zůstává 300 ms ease-in-out.
+- Cílený ESLint, Prettier a kontrola diffu prošly. Vzhled gradientu zbývá ověřit v prohlížeči studentkou.
+
+- Studentka upřesnila vzhled: světlý vnitřní lem má zůstat. Na její žádost obnoven 3px světlý lem, pod něj přidán 4px grafitový tah (viditelný vnější okraj 0.5 px na každé straně). Tečku nahradila vlastní bílá SVG pacička. Gradient a animace zůstávají. Výběrový prstenec je širší než obrys, aby zůstal viditelný. Cílený lint, Prettier a kontrola diffu prošly; vizuální ověření zbývá.
+
+### Checkpoint 5. 11. 2026 – Kapička a obrys podle výběru
+
+- Na žádost studentky pacičku nahradila off-white kapička špičkou dolů. Používá base-100 stejně jako světlý lem.
+- Odstraněn trvalý grafitový obrys. Běžný pin má pouze světlý 3px lem; vybraný pin navíc tenký off-black okraj (4px tah pod světlým lemem). Klávesnicový fokus zachovává stejný viditelný okraj. Gradient a animace zůstávají.
+- Cílený ESLint, Prettier a kontrola diffu prošly. Vizuální ověření zbývá studentce.
+
+- Na další žádost studentky nahrazena kapička off-white tečkou o poloměru 5 px a obnoven tah výběrového prstence 5.5 px. Běžný pin nadále nemá tmavý obrys. Cílený ESLint, Prettier a kontrola diffu prošly.
+
+- Studentka upřesnila požadavek na silnější tmavý obrys při výběru: tah prstence nastaven na původních 7 px. Tečka zůstává off-white (base-100), běžný pin pouze se světlým lemem. Prettier CSS a kontrola diffu prošly.
+
+### Checkpoint 5. 11. 2026 – Enter a fokus nadpisu
+
+- Studentka přidala keydown handler markeru: Enter volá onEventSelect s ID události. EventPanel používá useRef, tabIndex=-1 a efekt závislý na event.id pro fokus nadpisu.
+- Studentka ověřila v prohlížeči otevření Enterem, fokus nadpisu a Shift+Tab na zavírací tlačítko. Tlačítko je v DOM před nadpisem.
+- Prošly testy 8/8, lint a typecheck. Návrat fokusu na marker zatím není implementovaný; jde o nejbližší krok. Build se pro tento checkpoint nespouštěl.
+- Pro návrat fokusu studentka správně určila potřebu ID události; zbývá propojit ID s DOM prvkem markeru. Nové testy Enteru a fokusu zatím nevznikly.
+
+### Checkpoint 5. 11. 2026 – Návrat fokusu na marker
+
+- Na výslovnou žádost studentky mentor dokončil implementaci. EventDiscovery uchovává jediný lastFocusedMarkerRef; výběr přijímá ID a HTML prvek. Zavření Escape nebo tlačítkem vrací fokus pouze na připojený marker a referenci vyčistí. Kliknutí do mapy vyčistí výběr a ref bez přesunu fokusu.
+- LeafletMap sdílí activateMarker mezi kliknutím a Enterem. Target ověřuje přes instanceof LeafletMarker, HTML prvek získává přes getElement(). Enter ignoruje opakování při držení klávesy. Zbytečný preventDefault odstraněn: současný div marker nemá výchozí aktivaci Enterem. CSS callback, selectedEventId, zIndexOffset a MapClickHandler zůstaly zachované; EventPanel se neměnil.
+- Ověřeno proti nainstalovanému Leafletu 1.9.4: vlastní Enter handler zůstává nutný pro div marker. Testy mapy nahrazují hranici React Leaflet a používají skutečné instance Leaflet Marker; nejde o browser test.
+- Prošly všechny testy 15/15, lint, typecheck, format check a diff check. Pokryté je předání markeru kliknutím a Enterem, právě jedna aktivace bez opakování, CSS a z-index při změně výběru, fokus nadpisu a návrat na poslední marker, zavření mapou bez přesunu a odpojený marker.
+- Zbývá ruční ověření výsledného toku v prohlížeči a závěrečné ověření fáze včetně buildu a preview. Commit tohoto kroku nebyl vyžádán. Nejbližší krok: Tab na marker, Enter, Escape a kontrola návratu fokusu; zopakovat s jiným markerem.
+
+### Checkpoint 5. 11. 2026 – Pořadí prvků panelu
+
+- Po souhlasu studentky přesunut nadpis před zavírací tlačítko v JSX EventPanel. Programový fokus nadpisu zůstává; následující Tab tak může pokračovat na zavření. Absolutní pozice tlačítka zachovává vzhled. Starší poznámky o Shift+Tab na zavření již neplatí.
+- Skutečný průchod Tabem je nutné znovu ověřit v prohlížeči; Jest nenapodobuje nativní přesun fokusu klávesou Tab.
+
+### Checkpoint 5. 11. 2026 – Obnovení původního pořadí panelu
+
+- Na výslovnou žádost studentky vrácena poslední změna pořadí JSX: zavírací tlačítko je opět před nadpisem. Programový fokus nadpisu zůstává. Z nadpisu vede na zavření Shift+Tab; předchozí checkpoint s opačným pořadím je tímto nahrazen.

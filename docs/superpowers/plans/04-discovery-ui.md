@@ -6,7 +6,7 @@
 
 **Závisí na:** repository z Fáze 3
 
-**Výsledek:** Hlavní route načte události na klientovi, spravuje filtry a výběr události a umí vykreslit přístupný textový seznam bez Leafletu.
+**Výsledek:** Hlavní route načte události na klientovi, spravuje filtry a výběr události a umí vykreslit přístupný textový seznam vedle již existující mapy z Fáze 2A.
 
 **Specifikace:** části 7, 8, 14 a 15 bez mapové implementace.
 
@@ -31,7 +31,7 @@
 3. Napsat failing test výchozího rolling výsledku.
 4. Přidat test, že konkrétní datum nahradí rolling filtr.
 5. Přidat test městské části a resetu filtrů.
-6. Implementovat controller hook bez mapových detailů.
+6. Rozšířit stávající discovery celek z Fáze 2A o controller hook, repository a filtry. Zachovat jediný `selectedEventId`, existující mapu a kartu; filtrované události nahradí přímá mock data. Pokud výběr po filtrování zmizí, kartu zavřít.
 7. Vytvořit přístupné formulářové prvky filtrů.
 8. Přidat textový seznam a prázdný stav.
 9. Ověřit, že server render nesahá na `window.localStorage`.
@@ -48,7 +48,8 @@
 
 ## Fáze neobsahuje
 
-- Leaflet mapu, markery, GPS ani panel.
+- Novou implementaci Leaflet mapy a markerů; existující mapa se pouze napojí na filtrovaná data.
+- GPS ani novou implementaci karty; základní karta z Fáze 2A zůstává funkční.
 - Recovery akce pro poškozená data.
 
 ## Doporučený závěrečný commit

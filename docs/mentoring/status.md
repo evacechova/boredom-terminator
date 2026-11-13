@@ -1,5 +1,46 @@
 # Boredom Terminator – stav a handoff
 
+## Checkpoint 13. 11. 2026 – Schválení commitu struktury
+
+- Studentka výslovně požádala o commit dosavadních změn struktury. Commit zahrnuje přejmenování kontejneru, podsložky mapy a panelu, `core`, přesun vizuálních podkladů do `styles` a související dokumentaci.
+- Před commitem prošlo 18/18 testů, typecheck, lint, formátování a kontrola diffu. Build a prohlížeč nebyly v této kontrole ověřovány.
+
+## Checkpoint 13. 11. 2026 – Podsložky mapy a panelu
+
+- Na výslovnou žádost studentky přesunuty `EventPanel.tsx` a jeho test do `src/components/event-map-container/event-panel/`. `LeafletMap.tsx`, jeho test a `marker-icon.ts` přesunuty do sourozenecké složky `leaflet-map/`.
+- V `EventMapContainer` upraven import panelu a cesta dynamického importu mapy. `ssr: false` zůstává zachované. SVG a mapové CSS zůstávají v `src/styles`; sdílené UI v `src/components/ui`.
+- Prošlo 18/18 testů, typecheck, cílený ESLint, Prettier a kontrola diffu. Commit nebyl vytvořen.
+
+## Checkpoint 13. 11. 2026 – Schválené oddělení UI a stylů
+
+- Studentka schválila zachování `components/ui` pro sdílené React komponenty a `styles` pro vizuální podklady. SVG markeru přesunuto do `src/styles/map-marker.ts`, import v Leaflet adaptéru upraven a prázdná složka `src/design-system` odstraněna.
+- Tento checkpoint nahrazuje předchozí umístění SVG v `design-system`. Oddělení SVG od Leaflet adaptéru zůstává zachované.
+- Prošlo 18/18 testů, typecheck, cílený ESLint, Prettier a kontrola diffu. Commit nebyl vytvořen.
+
+## Checkpoint 13. 11. 2026 – Oddělení vzhledu markeru
+
+- Na výslovnou žádost studentky přesunut SVG řetězec markeru do `src/design-system/map-marker.ts` jako `mapMarkerSvg`. Soubor nemá závislost na Leafletu ani Reactu.
+- `src/components/event-map-container/marker-icon.ts` SVG importuje a nadále zajišťuje Leaflet `divIcon`, CSS třídu, rozměry a ukotvení. SVG obsah i nastavení ikony zůstávají zachované. Nová React komponenta nevznikla.
+- Před změnou i po ní prošlo 18/18 testů. Po změně prošel typecheck, cílený ESLint, Prettier a kontrola diffu. Vizuální kontrola v prohlížeči neproběhla. Commit nebyl vytvořen.
+
+## Checkpoint 13. 11. 2026 – Mapové styly ve společné složce
+
+- Na výslovnou žádost studentky přesunut `event-map.css` do `src/styles/event-map.css` a upraven import v `src/app/globals.css`. Obsah CSS zůstal bajtově shodný; přesun byl ověřen porovnáním obsahu.
+- Cílený Prettier a kontrola diffu prošly. Commit nebyl vytvořen.
+
+## Checkpoint 13. 11. 2026 – Přejmenování domain na core
+
+- Na výslovnou žádost studentky přejmenována složka `src/domain` na `src/core`. Všech sedm importů typu `MapEvent` v produkčním kódu a testech nyní používá `@/core/events/types`.
+- Jde pouze o změnu názvu; oddělení společných typů a pravidel od UI a datové vrstvy zůstává zachované. Starší dokumentace může používat původní cestu `src/domain`.
+- Prošlo 18/18 testů, typecheck, cílený ESLint, Prettier a kontrola diffu. Commit nebyl vytvořen.
+
+## Checkpoint 13. 11. 2026 – Přejmenování mapového kontejneru
+
+- Na další výslovnou žádost studentky přejmenována složka `src/components/event-map` na `src/components/event-map-container`. Upraveny importy stránky, testovací mock a CSS import v `globals.css`. Název souboru `event-map.css` zůstává. Po přesunu prošlo 18/18 testů, typecheck, cílený ESLint, Prettier a kontrola diffu.
+- Na výslovnou žádost studentky přejmenován `EventDiscovery` na `EventMapContainer`, včetně props typu, souboru komponenty, souboru testů, importu ve stránce a mocku v testu stránky.
+- Název zdůrazňuje rodičovskou roli vůči `LeafletMap` a `EventPanel`. Sdílený `ButtonLink` zůstává v `components/ui`; chování se nemění.
+- Před změnou i po ní prošlo 18/18 testů. Po změně prošel typecheck, cílený ESLint, Prettier a kontrola diffu. Commit nebyl vytvořen.
+
 ## Checkpoint 13. 11. 2026 – Zahájení pokračování 2A.2
 
 - Fáze 2A je na lokálním `main` sloučená commitem `e812cea` (`#3`). Pracovní strom byl před vytvořením větve čistý.

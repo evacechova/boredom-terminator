@@ -1,4 +1,4 @@
-import type { MapEvent } from "@/domain/events/types";
+import type { MapEvent } from "@/core/events/types";
 
 export const mockEvents: MapEvent[] = [
   {

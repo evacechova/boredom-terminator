@@ -1,22 +1,25 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import type { MapEvent } from "@/domain/events/types";
+import type { MapEvent } from "@/core/events/types";
 import { useState, useRef } from "react";
-import { EventPanel } from "./EventPanel";
+import { EventPanel } from "./event-panel/EventPanel";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { PlusIcon } from "@heroicons/react/24/outline";
 
 type SelectedEventId = string | null;
-type EventDiscoveryProps = {
+type EventMapContainerProps = {
   events: MapEvent[];
 };
 
-const LeafletMap = dynamic(() => import("./LeafletMap").then((module) => module.LeafletMap), {
-  ssr: false,
-});
+const LeafletMap = dynamic(
+  () => import("./leaflet-map/LeafletMap").then((module) => module.LeafletMap),
+  {
+    ssr: false,
+  },
+);
 
-export const EventDiscovery = ({ events }: EventDiscoveryProps) => {
+export const EventMapContainer = ({ events }: EventMapContainerProps) => {
   const [selectedEventId, setSelectedEventId] = useState<SelectedEventId>(null);
   const lastFocusedMarkerRef = useRef<HTMLElement | null>(null);
   const selectedEvent = events.find((event) => event.id === selectedEventId);

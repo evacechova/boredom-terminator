@@ -1,6 +1,6 @@
 "use client";
 
-import type { MapEvent } from "@/domain/events/types";
+import type { MapEvent } from "@/core/events/types";
 import { useEffect, useRef } from "react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 

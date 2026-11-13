@@ -4,7 +4,7 @@ import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
 import { Marker as LeafletMarker } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { defaultMarkerIcon } from "./marker-icon";
-import type { MapEvent } from "@/domain/events/types";
+import type { MapEvent } from "@/core/events/types";
 
 type LeafletMapProps = {
   events: MapEvent[];

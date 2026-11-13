@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import { EventDiscovery } from "./EventDiscovery";
-import type { MapEvent } from "@/domain/events/types";
+import { EventMapContainer } from "./EventMapContainer";
+import type { MapEvent } from "@/core/events/types";
 
 jest.mock("next/dynamic", () => ({
   __esModule: true,
@@ -42,7 +42,7 @@ it("hides event creation while a detail is open and restores it on close", () =>
     },
   ];
 
-  render(<EventDiscovery events={events} />);
+  render(<EventMapContainer events={events} />);
 
   expect(screen.getByRole("link", { name: "Add event" })).toBeInTheDocument();
   fireEvent.click(screen.getByRole("button", { name: "Select event" }));
@@ -53,7 +53,7 @@ it("hides event creation while a detail is open and restores it on close", () =>
 
 it("returns focus to the opening marker after Escape", () => {
   render(
-    <EventDiscovery
+    <EventMapContainer
       events={[
         {
           id: "event-1",
@@ -88,12 +88,12 @@ const focusEvents: MapEvent[] = [
 ];
 
 it("renders link to add an event", () => {
-  render(<EventDiscovery events={focusEvents} />);
+  render(<EventMapContainer events={focusEvents} />);
   expect(screen.getByRole("link", { name: "Add event" })).toHaveAttribute("href", "/events/new");
 });
 
 it("keeps event creation enabled", () => {
-  render(<EventDiscovery events={focusEvents} />);
+  render(<EventMapContainer events={focusEvents} />);
   const addEvent = screen.getByRole("link", { name: "Add event" });
 
   expect(addEvent).not.toHaveAttribute("aria-disabled");
@@ -102,7 +102,7 @@ it("keeps event creation enabled", () => {
 });
 
 it("returns focus to the latest selected marker when the panel closes", () => {
-  render(<EventDiscovery events={focusEvents} />);
+  render(<EventMapContainer events={focusEvents} />);
   fireEvent.click(screen.getByRole("button", { name: "Select event" }));
   const second = screen.getByRole("button", { name: "Select second" });
   fireEvent.click(second);
@@ -112,7 +112,7 @@ it("returns focus to the latest selected marker when the panel closes", () => {
 });
 
 it("does not move focus back to a marker when the map closes the panel", () => {
-  render(<EventDiscovery events={focusEvents} />);
+  render(<EventMapContainer events={focusEvents} />);
   fireEvent.click(screen.getByRole("button", { name: "Select event" }));
   const map = screen.getByRole("button", { name: "Empty map" });
   map.focus();
@@ -122,7 +122,7 @@ it("does not move focus back to a marker when the map closes the panel", () => {
 });
 
 it("skips focus restoration when the opening marker has left the DOM", () => {
-  render(<EventDiscovery events={focusEvents} />);
+  render(<EventMapContainer events={focusEvents} />);
   const marker = screen.getByRole("button", { name: "Select event" });
   fireEvent.click(marker);
   const focus = jest.spyOn(marker, "focus");
@@ -134,12 +134,12 @@ it("skips focus restoration when the opening marker has left the DOM", () => {
 });
 
 it("starts with no selected event after mounting again", () => {
-  const { unmount } = render(<EventDiscovery events={focusEvents} />);
+  const { unmount } = render(<EventMapContainer events={focusEvents} />);
   fireEvent.click(screen.getByRole("button", { name: "Select event" }));
   expect(screen.getByRole("heading", { name: "Concert" })).toBeInTheDocument();
 
   unmount();
-  render(<EventDiscovery events={focusEvents} />);
+  render(<EventMapContainer events={focusEvents} />);
 
   expect(screen.queryByRole("heading")).not.toBeInTheDocument();
 });

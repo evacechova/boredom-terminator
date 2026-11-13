@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { EventPanel } from "./EventPanel";
-import type { MapEvent } from "@/domain/events/types";
+import type { MapEvent } from "@/core/events/types";
 
 describe("EventPanel", () => {
   const testEvent: MapEvent = {

@@ -2,7 +2,7 @@
 @import "../styles/tokens.css";
 @import "../styles/buttons.css";
 @import "../styles/focus.css";
-@import "../components/event-map/event-map.css";
+@import "../styles/event-map.css";
 
 @plugin "daisyui" {
   themes: false;

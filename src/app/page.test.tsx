@@ -1,8 +1,8 @@
 import { render, screen } from "@testing-library/react";
 import Home from "./page";
 
-jest.mock("@/components/event-map/EventDiscovery", () => {
-  return { EventDiscovery: () => null };
+jest.mock("@/components/event-map-container/EventMapContainer", () => {
+  return { EventMapContainer: () => null };
 });
 
 describe("Homepage", () => {

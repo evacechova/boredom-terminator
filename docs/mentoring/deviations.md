@@ -1,5 +1,13 @@
 # Odchylky od specifikace a plánů
 
+## 2026-11-13 – Oddělení SVG vzhledu od mapové knihovny
+
+Po dohodě se studentkou je SVG vzhled markeru v `src/styles/map-marker.ts`. Původně zavedená složka `src/design-system` byla odstraněna; sdílené React komponenty zůstávají v `src/components/ui`. Leaflet adaptér zůstává u mapových komponent. Jde o rozšíření organizačních úprav fáze 2A.2; vzhled a chování markeru se nemění.
+
+## 2026-11-13 – Název společné aplikační vrstvy
+
+Na žádost studentky se `src/domain` přejmenovává na `src/core`. Změna zpřehledňuje názvosloví; odpovědnost vrstvy ani schválená architektura se nemění. Typy událostí jsou nyní v `src/core/events/types.ts`.
+
 ## 2026-11-13 – Automatické testy před commitem
 
 Na žádost studentky přidán v pokračování Fáze 2A.2 Husky jako vývojová závislost, skript `prepare` a hook `pre-commit`, který spouští `npm test`. Jde o rozšíření vývojového procesu mimo původní UI rozsah fáze. Lokální hook nenahrazuje závěrečná ověření fáze.

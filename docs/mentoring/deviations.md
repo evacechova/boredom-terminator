@@ -1,5 +1,9 @@
 # Odchylky od specifikace a plánů
 
+## 2026-11-13 – Automatické testy před commitem
+
+Na žádost studentky přidán v pokračování Fáze 2A.2 Husky jako vývojová závislost, skript `prepare` a hook `pre-commit`, který spouští `npm test`. Jde o rozšíření vývojového procesu mimo původní UI rozsah fáze. Lokální hook nenahrazuje závěrečná ověření fáze.
+
 ## 2026-11-05 – Mobilní detail přes celou obrazovku
 
 Na výslovnou žádost studentky mobilní detail nahrazuje původní spodní panel plochou přes celou obrazovku včetně hlavičky. Desktop zachovává plovoucí panel vpravo. Plovoucí odkaz pro vytvoření události se při otevřeném detailu skrývá na všech šířkách. Prozatím zůstává zavírání křížkem; šipka zpět je odložená.

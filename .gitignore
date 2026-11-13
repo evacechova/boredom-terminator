@@ -163,3 +163,6 @@ vite.config.ts.timestamp-*
 
 # Local CodeGraph index
 .codegraph/
+
+# Personal live programming checklist
+/live-programming-checklist.local.md

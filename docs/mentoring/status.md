@@ -1,5 +1,16 @@
 # Boredom Terminator – stav a handoff
 
+## Checkpoint 13. 11. 2026 – Zahájení pokračování 2A.2
+
+- Fáze 2A je na lokálním `main` sloučená commitem `e812cea` (`#3`). Pracovní strom byl před vytvořením větve čistý.
+- Vytvořena a aktivována větev `02a2-event-map-ui` z `main`. Tento údaj nahrazuje starší označení aktivní větve níže.
+- Pokračování vychází z plánu `docs/superpowers/plans/02a2-event-map-ui.md`: obsah karty, testy, dlouhý obsah a rolování, mapová konfigurace a loading stav.
+- Studentka požaduje doplnit Husky pro automatické spouštění testů a upravit složkovou strukturu. Přesný hook a cílová struktura zatím nejsou dohodnuté; jde o rozšíření k návrhu, nikoli dokončený setup.
+- Další krok: vyjasnit zamýšlenou změnu struktury, dohodnout rozsah automatických kontrol a potom aktualizovat plán. Produkční kód ani testy mentor v tomto kroku neměnil.
+- Na výslovnou žádost studentky mentor nainstaloval Husky jako vývojovou závislost. Instalace ještě neaktivuje hook; následuje inicializace a ověření `pre-commit` pro testy. Commit nebyl vytvořen.
+- Studentka následně výslovně požádala o dokončení setupu: `prepare: husky`, `.husky/pre-commit` s `npm test` a lokální `core.hooksPath=.husky/_`. Ruční spuštění vstupního hooku přes `sh .husky/_/pre-commit` prošlo: 4 sady, 18 testů. Commit nebyl vytvořen; selhání testu v hooku nebylo samostatně simulováno.
+- Vytvořen osobní `live-programming-checklist.local.md` pro přípravu na pohovor s AI. Obsahuje Husky, strukturu, exporty typů a komponent, testování a pracovní postup. Přesná cesta je v `.gitignore`; ignorování ověřeno přes `git check-ignore`. Soubor zůstává pouze lokální.
+
 ## Checkpoint 7. 11. 2026 – Tlačítko Add v EventDiscovery
 
 - Na výslovnou žádost studentky přesunuto tlačítko Add včetně `PlusIcon` a importů z `page.tsx` do `EventDiscovery`. Odebrán prop `children` a typ `ReactNode`. Stránka zůstává Server Component.

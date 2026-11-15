@@ -1,3 +1,16 @@
+.event-map-loading {
+  animation: event-map-loading-reveal 400ms step-end;
+}
+
+@keyframes event-map-loading-reveal {
+  from {
+    visibility: hidden;
+  }
+  to {
+    visibility: visible;
+  }
+}
+
 .event-marker svg {
   overflow: visible;
   filter: drop-shadow(0 2px 3px rgb(37 50 58 / 16%));

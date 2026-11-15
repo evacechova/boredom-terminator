@@ -13,6 +13,61 @@ describe("EventPanel", () => {
     startsAt: "2026-11-05T18:00:00Z",
   };
 
+  it("shows the venue, description and start time in Prague time", () => {
+    const event: MapEvent = {
+      ...testEvent,
+      startsAt: "2026-11-07T14:00:00Z",
+      venueName: "Letenské sady",
+      description: "An informal K-pop dance meetup.",
+    };
+
+    render(<EventPanel event={event} onClose={jest.fn()} />);
+
+    expect(screen.getByText("Letenské sady")).toBeInTheDocument();
+    expect(screen.getByText("An informal K-pop dance meetup.")).toBeInTheDocument();
+    const time = screen.getByText("7. 11. 2026 15:00");
+    expect(time.tagName).toBe("TIME");
+    expect(time).toHaveAttribute("datetime", "2026-11-07T14:00:00Z");
+  });
+
+  it("omits paragraphs when the venue and description are missing", () => {
+    render(<EventPanel event={testEvent} onClose={jest.fn()} />);
+
+    expect(screen.getByRole("heading", { name: testEvent.title })).toBeInTheDocument();
+    expect(screen.getByText("5. 11. 2026 19:00")).toBeInTheDocument();
+    expect(screen.queryAllByRole("paragraph")).toHaveLength(0);
+  });
+
+  it("updates the content and focuses the heading when the selected event changes", () => {
+    const firstEvent: MapEvent = {
+      ...testEvent,
+      venueName: "Letenské sady",
+      description: "An informal K-pop dance meetup.",
+    };
+    const nextEvent: MapEvent = {
+      ...testEvent,
+      id: "2",
+      title: "Cover practice",
+      startsAt: "2026-11-08T13:00:00Z",
+    };
+    const onClose = jest.fn();
+    const { rerender } = render(<EventPanel event={firstEvent} onClose={onClose} />);
+
+    expect(screen.getByText("Letenské sady")).toBeInTheDocument();
+    expect(screen.getByText("An informal K-pop dance meetup.")).toBeInTheDocument();
+    screen.getByRole("button", { name: "Zavřít" }).focus();
+
+    rerender(<EventPanel event={nextEvent} onClose={onClose} />);
+
+    expect(screen.getByRole("heading", { name: "Cover practice" })).toHaveFocus();
+    expect(screen.queryByRole("heading", { name: firstEvent.title })).not.toBeInTheDocument();
+    expect(screen.queryByText("Letenské sady")).not.toBeInTheDocument();
+    expect(screen.queryByText("An informal K-pop dance meetup.")).not.toBeInTheDocument();
+    expect(screen.queryByText("5. 11. 2026 19:00")).not.toBeInTheDocument();
+    expect(screen.getByText("8. 11. 2026 14:00")).toHaveAttribute("datetime", nextEvent.startsAt);
+    expect(onClose).not.toHaveBeenCalled();
+  });
+
   it("closes through the named icon button", () => {
     const onClose = jest.fn();
     render(<EventPanel event={testEvent} onClose={onClose} />);

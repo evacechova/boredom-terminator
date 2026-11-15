@@ -4,6 +4,7 @@ import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
 import { Marker as LeafletMarker } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { defaultMarkerIcon } from "./marker-icon";
+import { mapCenter, mapZoom, tileLayerConfig } from "./map-config";
 import type { MapEvent } from "@/core/events/types";
 
 type LeafletMapProps = {
@@ -32,13 +33,13 @@ export const LeafletMap = ({
   };
 
   return (
-    <MapContainer center={[50.0755, 14.4378]} zoom={13} className="absolute inset-0">
+    <MapContainer center={mapCenter} zoom={mapZoom} className="absolute inset-0">
       <MapClickHandler onMapClick={onMapClick} />
       <TileLayer
-        url={`https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png?key=${process.env.NEXT_PUBLIC_CARTO_API_KEY}`}
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
-        subdomains="abcd"
-        maxZoom={20}
+        url={tileLayerConfig.url}
+        attribution={tileLayerConfig.attribution}
+        subdomains={tileLayerConfig.subdomains}
+        maxZoom={tileLayerConfig.maxZoom}
       />
       {events.map((event) => (
         <Marker

@@ -16,6 +16,17 @@ const LeafletMap = dynamic(
   () => import("./leaflet-map/LeafletMap").then((module) => module.LeafletMap),
   {
     ssr: false,
+    loading: () => {
+      return (
+        <div
+          role="status"
+          className="event-map-loading absolute inset-0 flex items-center justify-center gap-2"
+        >
+          <span className="loading loading-spinner loading-md" aria-hidden="true"></span>
+          Načítání mapy…
+        </div>
+      );
+    },
   },
 );
 

@@ -10,6 +10,7 @@
 - Zvážit rozšíření z pražského K-popu na další komunity, žánry, typy akcí a města.
 - Nepředstírat ověřené, sdílené nebo moderované informace dřív, než pro ně existuje skutečný backend a proces.
 - Organizovat texty tak, aby šlo později přidat češtinu bez přepisování komponent.
+- Soustředit texty UI včetně přístupných názvů do překladových slovníků a zpřístupnit je funkcí typu `t("map.loading")`. Požadavek studentky; konkrétní řešení a termín zatím nejsou schválené. Uživatelský obsah událostí řešit odděleně.
 
 ## Sdílený backend a databáze
 

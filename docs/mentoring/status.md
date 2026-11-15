@@ -1,5 +1,49 @@
 # Boredom Terminator – stav a handoff
 
+## Závěrečná kontrola 2A.2
+
+- Studentka následně potvrdila, že v prohlížeči vše funguje; tím jsou potvrzené probírané ruční kontroly včetně rolování, zavírání a loading stavu. Nebylo upřesněno, zda kontrola proběhla na nasazeném preview, proto preview nadále není evidované jako ověřené.
+
+- Prošlo všech 21 testů ve 4 sadách, lint, celoprojektové formátování, typecheck a `git diff --check`. Zkontrolován produkční diff i oba nové konfigurační/formátovací moduly; nebyl nalezen problém vyžadující změnu kódu.
+- Standardní build nejprve selhal při stahování Google Fonts. Po opakování s eskalací narazil Turbopack na zákaz otevření portu při zpracování Leaflet CSS (`Operation not permitted`). Produkční build přes `npm run build -- --webpack` prošel. Standardní Turbopack build zůstává k ověření mimo omezení runneru.
+- Studentka potvrdila vzhled loaderu i po přidání prodlevy 400 ms. Potvrdila také rolování dlouhého obsahu; dostupnost zavření po odrolování a obě šířky zatím nejsou výslovně potvrzené.
+- Zbývá ověřit preview a uvedené ruční podmínky, vytvořit závěrečný commit na výslovnou žádost a připravit PR ke schválení. Fáze zatím není uzavřená. Návrh commit message: `feat: complete event panel and map UI`.
+
+## Loading stav mapy
+
+- Na žádost studentky doplněna prodleva zobrazení loaderu 400 ms přes CSS animaci `visibility` s `step-end`. Při rychlejším načtení komponenty se loader odstraní před zobrazením; mapa se nijak nezdržuje. Tato úprava prodlevy zatím nebyla vizuálně ověřena.
+
+- Dynamický import mapy má loading funkci se spinnerem daisyUI a textem `Načítání mapy…` v obalu `role="status"`. Spinner je skrytý před čtečkami přes `aria-hidden`.
+- Na výslovnou žádost studentky přidáno centrování přes `absolute inset-0 flex items-center justify-center gap-2`. Jde o načítání JavaScriptu komponenty, nikoli mapových dlaždic. Studentka následně potvrdila ověření loading stavu v prohlížeči. Prošlo 8 testů kontejneru, typecheck a cílená kontrola formátování. Commit nebyl vytvořen.
+
+## Mapová konfigurace – první krok
+
+- Na výslovnou žádost studentky přesunuty URL CARTO dlaždic včetně čtení `NEXT_PUBLIC_CARTO_API_KEY`, úplná atribuce, subdomény a maximální zoom do objektu `tileLayerConfig` v `map-config.ts`. `LeafletMap` používá jednotlivé položky konfigurace. Hodnoty zůstávají zachované; další krok plánu je loading stav dynamického importu.
+
+- Na další výslovnou žádost studentky zapojeny `mapCenter` a `mapZoom` do props `MapContainer` v `LeafletMap`. Hodnoty zůstávají stejné. Další krok je oddělení konfigurace dlaždic.
+
+- Na výslovnou žádost studentky vytvořen `src/components/event-map-container/leaflet-map/map-config.ts` s exporty `mapCenter: [number, number] = [50.0755, 14.4378]` a `mapZoom = 13` podle současných hodnot v mapě.
+- Konstanty zatím nejsou zapojené do `LeafletMap`. Další krok: importovat je a nahradit původní hodnoty props; následně oddělit konfiguraci dlaždic se zachováním CARTO a atribuce. Commit nebyl vytvořen.
+
+## Ruční ověření dlouhého obsahu
+
+- Na žádost studentky dočasně prodloužen popis `mock-2` v `src/data/mock-events.ts` o 20 očíslovaných kol a koncový text `END OF DESCRIPTION`. Studentka ověří rolování a dostupnost zavření na mobilu i desktopu v prohlížeči.
+- Studentka potvrdila funkční rolování. Na její žádost obnoven původní krátký popis. Dostupnost zavření po odrolování a jednotlivé šířky nebyly výslovně potvrzené. Mentor prohlížečovou kontrolu neprovedl: browser host byl nedostupný.
+
+## Checkpoint 15. 11. 2026 – Samostatný formátovač data
+
+- Na výslovnou žádost studentky přidán test změny vybrané události přes `rerender`: aktualizuje se název, čas i `datetime`, zmizí původní místo a popis a fokus se vrátí z tlačítka zavření na nadpis. Přepnutí nevolá `onClose`. Všech 8 testů panelu prošlo. Další krok: ověření dlouhého obsahu a dostupnosti zavření na mobilu i desktopu podle plánu 2A.2. Commit nebyl vytvořen.
+
+- Na výslovnou žádost studentky doplněn test chybějícího místa a popisu: název a čas zůstávají zobrazené, nevzniknou žádné odstavce. Všech 7 testů panelu prošlo. Další krok je test přepnutí vybrané události. Commit nebyl vytvořen.
+
+- Na výslovnou žádost studentky doplněn test obsahu karty: místo, popis, pevně očekávaný pražský čas `7. 11. 2026 15:00`, element `time` a zachování původního ISO údaje v `datetime`. Všech 6 testů panelu prošlo. Zbývají testy chybějících volitelných údajů a přepnutí události, následně další kroky plánu 2A.2. Commit nebyl vytvořen.
+
+- Na další výslovnou žádost studentky napojen formátovač do `EventPanel`: element `time` pod nadpisem obsahuje původní ISO údaj v `dateTime` a formátovaný text jako obsah. Napojení je hotové; další krok jsou cílené testy a vizuální ověření.
+
+- Studentka doplnila podmíněné vykreslení místa a popisu v `EventPanel` a potvrdila funkčnost v prohlížeči.
+- Na výslovnou žádost studentky vytvořen modul `src/core/events/format-event-date.ts`. Exportovaná funkce `formatEventDate` přijímá ISO řetězec a formátuje datum i čas pro `cs-CZ` v `Europe/Prague`. Formátovač vzniká jednou na úrovni modulu.
+- Další krok: studentka importuje funkci do `EventPanel` a zobrazí `startsAt`; následně doplní cílené testy obsahu karty a pražského času. Napojení zatím není hotové. Commit nebyl vytvořen.
+
 ## Checkpoint 13. 11. 2026 – Schválení commitu struktury
 
 - Studentka výslovně požádala o commit dosavadních změn struktury. Commit zahrnuje přejmenování kontejneru, podsložky mapy a panelu, `core`, přesun vizuálních podkladů do `styles` a související dokumentaci.

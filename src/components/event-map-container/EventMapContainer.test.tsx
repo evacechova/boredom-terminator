@@ -37,8 +37,10 @@ it("hides event creation while a detail is open and restores it on close", () =>
     {
       id: "event-1",
       title: "Concert",
+      category: "concert",
+      createdAt: "2026-11-01T12:00:00Z",
       startsAt: "2026-11-05T18:00:00Z",
-      location: { latitude: 50.08, longitude: 14.42 },
+      location: { city: "Praha", latitude: 50.08, longitude: 14.42 },
     },
   ];
 
@@ -58,8 +60,10 @@ it("returns focus to the opening marker after Escape", () => {
         {
           id: "event-1",
           title: "Concert",
+          category: "concert",
+          createdAt: "2026-11-01T12:00:00Z",
           startsAt: "2026-11-05T18:00:00Z",
-          location: { latitude: 50.08, longitude: 14.42 },
+          location: { city: "Praha", latitude: 50.08, longitude: 14.42 },
         },
       ]}
     />,
@@ -76,14 +80,18 @@ const focusEvents: MapEvent[] = [
   {
     id: "event-1",
     title: "Concert",
+    category: "concert",
+    createdAt: "2026-11-01T12:00:00Z",
     startsAt: "2026-11-05T18:00:00Z",
-    location: { latitude: 50, longitude: 14 },
+    location: { city: "Praha", latitude: 50, longitude: 14 },
   },
   {
     id: "event-2",
     title: "Dance",
+    category: "concert",
+    createdAt: "2026-11-01T12:00:00Z",
     startsAt: "2026-11-05T18:00:00Z",
-    location: { latitude: 51, longitude: 15 },
+    location: { city: "Praha", latitude: 51, longitude: 15 },
   },
 ];
 

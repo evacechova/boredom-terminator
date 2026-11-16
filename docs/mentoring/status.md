@@ -1,5 +1,33 @@
 # Boredom Terminator – stav a handoff
 
+## 16. 11. 2026 – Příprava PR rozšířené fáze 2A.2
+
+- Studentka schválila přechod k ověření, commitu a pushi před návrhem PR. Aktuálně prošlo všech 25 testů v 5 sadách, typecheck, lint, formátování, kontrola diffu a produkční Webpack build. Omezení standardního Turbopack buildu v runneru je popsané níže.
+- Rozsah končí rozšířeným modelem a samostatným výpočtem výchozího konce. Automatické doplnění konce při vytváření a validace konce proti začátku a aktuálnímu času zůstávají navazující prací. Městská část je odložená.
+- Další krok: návrh celého PR z `02a2-event-map-ui` do `main` ke schválení, reviewer `bobescz`; preview a screenshoty zatím nejsou doplněné. PR nevytvářet bez schválení obsahu.
+
+## 16. 11. 2026 – Městská část odložena
+
+- Studentka výslovně odložila městskou část včetně jejího filtru a výběru ve formuláři. `district` ani `PragueDistrict` nyní nepřidávat. Platí odchylka z 16. 11.; starší pokyny k doplnění městské části jsou překonané.
+- Model polohy zůstává se souřadnicemi a `city: "Praha"`; název místa zůstává volitelný. Další krok: zkontrolovat aktuální model proti zbývajícím požadavkům a ověřit změny. Produkční kód se v tomto kroku neměnil.
+
+## Model polohy – město
+
+- Na výslovnou žádost studentky doplněno povinné `location.city` s literálovým typem `"Praha"`. Hodnota je doplněná v mock datech a testovacích událostech. Typecheck, všech 25 testů a formátování prošly.
+- Studentka mezitím doplnila `endsAt?: string`, `sourceUrl?: string` a `createdAt: string`. Další krok modelu je volitelná městská část `district` s typem `PragueDistrict`. Commit nebyl vytvořen.
+
+## Výchozí konec události
+
+- Na žádost studentky doplněno pevné `createdAt: "2026-11-01T12:00:00Z"` do mock dat a základních testovacích událostí. Odvozené fixtures hodnotu dědí přes spread. Typecheck, všech 25 testů a celoprojektová kontrola formátování prošly. Commit nebyl vytvořen.
+
+- Na výslovnou žádost studentky vytvořena čistá funkce `getDefaultEventEnd` v `src/core/events/get-default-event-end.ts`. Přijímá platný ISO začátek a vrací UTC ISO konec po dvou uplynulých hodinách. Není to React hook a zatím se nikde automaticky nevolá.
+- Doplněny testy běžného času, přechodu přes půlnoc a obou změn pražského času. Rozsah 2A.2 a odchylky jsou aktualizované. Commit nebyl vytvořen.
+
+## Rozšíření rozsahu 2A.2 – kategorie
+
+- Na výslovnou žádost studentky zaveden `EventCategory` s osmi schválenými hodnotami a povinné `MapEvent.category`. Doplněny mock události a testovací fixtures. Kategorie se zatím nevykresluje.
+- Studentka přesunula rozšíření modelu do současné fáze; časová pravidla a filtry zůstávají ve 2B. Další krok: pokračovat zbývajícími poli modelu. Taneční styl je odložený námět. Tyto nové změny nejsou commitnuté.
+
 ## Závěrečná kontrola 2A.2
 
 - Studentka následně potvrdila, že v prohlížeči vše funguje; tím jsou potvrzené probírané ruční kontroly včetně rolování, zavírání a loading stavu. Nebylo upřesněno, zda kontrola proběhla na nasazeném preview, proto preview nadále není evidované jako ověřené.

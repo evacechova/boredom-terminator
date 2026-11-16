@@ -6,7 +6,10 @@ describe("EventPanel", () => {
   const testEvent: MapEvent = {
     id: "1",
     title: "Test concert",
+    category: "concert",
+    createdAt: "2026-11-01T12:00:00Z",
     location: {
+      city: "Praha",
       latitude: 50.08,
       longitude: 14.42,
     },

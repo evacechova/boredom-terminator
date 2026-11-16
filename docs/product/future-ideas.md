@@ -69,6 +69,10 @@ Přihlášení se má řešit společně s backendem a oprávněními. Před ná
 
 ## Vyhledávání, kategorie a geografické rozšíření
 
+- Případný návrat městské části, jejího výběru a filtru. Studentka je 16. 11. 2026 odložila mimo aktuální MVP.
+
+- Samostatné pole pro taneční styl nebo zaměření, oddělené od typu akce. Studentka jeho zavedení odložila; aktuální model obsahuje pouze kategorii akce.
+
 - Filtrování podle podkategorie.
 - Další typy K-pop akcí, například trading nebo fan setkání.
 - Jednoduchý návrh kategorie podle klíčových slov bez povinné AI; uživatel jej musí moci změnit.

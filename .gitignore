@@ -164,5 +164,8 @@ vite.config.ts.timestamp-*
 # Local CodeGraph index
 .codegraph/
 
+# Local Playwright browser testing artifacts
+.playwright-mcp/
+
 # Personal live programming checklist
 /live-programming-checklist.local.md

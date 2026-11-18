@@ -1,5 +1,29 @@
 # Odchylky od specifikace a plánů
 
+## 2026-11-16 – Odložení městské části
+
+Studentka odložila městskou část. Aktuální MVP nebude obsahovat `location.district`, typ `PragueDistrict`, ruční výběr městské části ve formuláři ani filtr podle městské části. Odpadá také fallback názvu místa na městskou část. Souřadnice, `city: "Praha"` a volitelný `venueName` zůstávají. Toto rozhodnutí má přednost před odpovídajícími požadavky původní specifikace a plánů; návrat funkce vyžaduje další domluvu.
+
+## Výchozí délka události v 2A.2
+
+Studentka výslovně přesunula také výpočet výchozího konce do aktuální fáze. Funkce `getDefaultEventEnd` přičítá dvě skutečně uplynulé hodiny k předanému začátku a vrací UTC ISO řetězec. Zatím není napojená na vytváření událostí. Ostatní časová pravidla zůstávají ve 2B.
+
+## Rozšíření modelu ve fázi 2A.2 a kategorie akcí
+
+Studentka přesunula rozšíření modelu z 2B do 2A.2; časová pravidla a filtry zůstávají ve 2B. Kategorie nyní označují typ akce: `random_play_dance`, `cover_shoot`, `dance_class`, `festival`, `party`, `fan_event`, `concert`, `store_event`. Každá událost má jednu povinnou kategorii. Taneční styl se nyní nepřidává. Jde o schválenou změnu oproti třem původním kategoriím specifikace.
+
+## 2026-11-13 – Oddělení SVG vzhledu od mapové knihovny
+
+Po dohodě se studentkou je SVG vzhled markeru v `src/styles/map-marker.ts`. Původně zavedená složka `src/design-system` byla odstraněna; sdílené React komponenty zůstávají v `src/components/ui`. Leaflet adaptér zůstává u mapových komponent. Jde o rozšíření organizačních úprav fáze 2A.2; vzhled a chování markeru se nemění.
+
+## 2026-11-13 – Název společné aplikační vrstvy
+
+Na žádost studentky se `src/domain` přejmenovává na `src/core`. Změna zpřehledňuje názvosloví; odpovědnost vrstvy ani schválená architektura se nemění. Typy událostí jsou nyní v `src/core/events/types.ts`.
+
+## 2026-11-13 – Automatické testy před commitem
+
+Na žádost studentky přidán v pokračování Fáze 2A.2 Husky jako vývojová závislost, skript `prepare` a hook `pre-commit`, který spouští `npm test`. Jde o rozšíření vývojového procesu mimo původní UI rozsah fáze. Lokální hook nenahrazuje závěrečná ověření fáze.
+
 ## 2026-11-05 – Mobilní detail přes celou obrazovku
 
 Na výslovnou žádost studentky mobilní detail nahrazuje původní spodní panel plochou přes celou obrazovku včetně hlavičky. Desktop zachovává plovoucí panel vpravo. Plovoucí odkaz pro vytvoření události se při otevřeném detailu skrývá na všech šířkách. Prozatím zůstává zavírání křížkem; šipka zpět je odložená.

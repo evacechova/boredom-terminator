@@ -1,8 +1,9 @@
 "use client";
 
-import type { MapEvent } from "@/domain/events/types";
+import type { MapEvent } from "@/core/events/types";
 import { useEffect, useRef } from "react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
+import { formatEventDate } from "@/core/events/format-event-date";
 
 type EventPanelProps = {
   event: MapEvent;
@@ -40,6 +41,9 @@ export const EventPanel = ({ event, onClose }: EventPanelProps) => {
       <h2 className="pr-12" ref={headingRef} tabIndex={-1}>
         {event.title}
       </h2>
+      <time dateTime={event.startsAt}>{formatEventDate(event.startsAt)}</time>
+      {event.venueName && <p>{event.venueName}</p>}
+      {event.description && <p>{event.description}</p>}
     </section>
   );
 };

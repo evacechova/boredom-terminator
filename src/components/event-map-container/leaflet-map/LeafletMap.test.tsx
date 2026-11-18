@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { LeafletMap } from "./LeafletMap";
-import type { MapEvent } from "@/domain/events/types";
+import type { MapEvent } from "@/core/events/types";
 
 // Replace only the React Leaflet boundary; use real Leaflet marker instances.
 jest.mock("react-leaflet", () => {
@@ -46,14 +46,18 @@ const events: MapEvent[] = [
   {
     id: "first",
     title: "First",
+    category: "concert",
+    createdAt: "2026-11-01T12:00:00Z",
     startsAt: "2026-11-05T18:00:00Z",
-    location: { latitude: 50, longitude: 14 },
+    location: { city: "Praha", latitude: 50, longitude: 14 },
   },
   {
     id: "second",
     title: "Second",
+    category: "concert",
+    createdAt: "2026-11-01T12:00:00Z",
     startsAt: "2026-11-05T18:00:00Z",
-    location: { latitude: 51, longitude: 15 },
+    location: { city: "Praha", latitude: 51, longitude: 15 },
   },
 ];
 

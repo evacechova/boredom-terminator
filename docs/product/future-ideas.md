@@ -10,6 +10,7 @@
 - Zvážit rozšíření z pražského K-popu na další komunity, žánry, typy akcí a města.
 - Nepředstírat ověřené, sdílené nebo moderované informace dřív, než pro ně existuje skutečný backend a proces.
 - Organizovat texty tak, aby šlo později přidat češtinu bez přepisování komponent.
+- Soustředit texty UI včetně přístupných názvů do překladových slovníků a zpřístupnit je funkcí typu `t("map.loading")`. Požadavek studentky; konkrétní řešení a termín zatím nejsou schválené. Uživatelský obsah událostí řešit odděleně.
 
 ## Sdílený backend a databáze
 
@@ -67,6 +68,10 @@ Přihlášení se má řešit společně s backendem a oprávněními. Před ná
 - Sdílení oblíbené hudby a hledání podobně zaměřených lidí.
 
 ## Vyhledávání, kategorie a geografické rozšíření
+
+- Případný návrat městské části, jejího výběru a filtru. Studentka je 16. 11. 2026 odložila mimo aktuální MVP.
+
+- Samostatné pole pro taneční styl nebo zaměření, oddělené od typu akce. Studentka jeho zavedení odložila; aktuální model obsahuje pouze kategorii akce.
 
 - Filtrování podle podkategorie.
 - Další typy K-pop akcí, například trading nebo fan setkání.

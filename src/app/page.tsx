@@ -1,6 +1,6 @@
 import { Logo } from "@/components/ui/Logo";
 import { mockEvents } from "@/data/mock-events";
-import { EventDiscovery } from "@/components/event-map/EventDiscovery";
+import { EventMapContainer } from "@/components/event-map-container/EventMapContainer";
 
 export default function Home() {
   return (
@@ -12,7 +12,7 @@ export default function Home() {
         </h1>
       </header>
       <main className="bg-base-100 w-full flex-1 relative min-h-0">
-        <EventDiscovery events={mockEvents} />
+        <EventMapContainer events={mockEvents} />
       </main>
     </div>
   );

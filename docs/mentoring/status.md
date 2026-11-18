@@ -1,5 +1,129 @@
 # Boredom Terminator – stav a handoff
 
+## 16. 11. 2026 – Příprava PR rozšířené fáze 2A.2
+
+- Studentka schválila přechod k ověření, commitu a pushi před návrhem PR. Aktuálně prošlo všech 25 testů v 5 sadách, typecheck, lint, formátování, kontrola diffu a produkční Webpack build. Omezení standardního Turbopack buildu v runneru je popsané níže.
+- Rozsah končí rozšířeným modelem a samostatným výpočtem výchozího konce. Automatické doplnění konce při vytváření a validace konce proti začátku a aktuálnímu času zůstávají navazující prací. Městská část je odložená.
+- Další krok: návrh celého PR z `02a2-event-map-ui` do `main` ke schválení, reviewer `bobescz`; preview a screenshoty zatím nejsou doplněné. PR nevytvářet bez schválení obsahu.
+
+## 16. 11. 2026 – Městská část odložena
+
+- Studentka výslovně odložila městskou část včetně jejího filtru a výběru ve formuláři. `district` ani `PragueDistrict` nyní nepřidávat. Platí odchylka z 16. 11.; starší pokyny k doplnění městské části jsou překonané.
+- Model polohy zůstává se souřadnicemi a `city: "Praha"`; název místa zůstává volitelný. Další krok: zkontrolovat aktuální model proti zbývajícím požadavkům a ověřit změny. Produkční kód se v tomto kroku neměnil.
+
+## Model polohy – město
+
+- Na výslovnou žádost studentky doplněno povinné `location.city` s literálovým typem `"Praha"`. Hodnota je doplněná v mock datech a testovacích událostech. Typecheck, všech 25 testů a formátování prošly.
+- Studentka mezitím doplnila `endsAt?: string`, `sourceUrl?: string` a `createdAt: string`. Další krok modelu je volitelná městská část `district` s typem `PragueDistrict`. Commit nebyl vytvořen.
+
+## Výchozí konec události
+
+- Na žádost studentky doplněno pevné `createdAt: "2026-11-01T12:00:00Z"` do mock dat a základních testovacích událostí. Odvozené fixtures hodnotu dědí přes spread. Typecheck, všech 25 testů a celoprojektová kontrola formátování prošly. Commit nebyl vytvořen.
+
+- Na výslovnou žádost studentky vytvořena čistá funkce `getDefaultEventEnd` v `src/core/events/get-default-event-end.ts`. Přijímá platný ISO začátek a vrací UTC ISO konec po dvou uplynulých hodinách. Není to React hook a zatím se nikde automaticky nevolá.
+- Doplněny testy běžného času, přechodu přes půlnoc a obou změn pražského času. Rozsah 2A.2 a odchylky jsou aktualizované. Commit nebyl vytvořen.
+
+## Rozšíření rozsahu 2A.2 – kategorie
+
+- Na výslovnou žádost studentky zaveden `EventCategory` s osmi schválenými hodnotami a povinné `MapEvent.category`. Doplněny mock události a testovací fixtures. Kategorie se zatím nevykresluje.
+- Studentka přesunula rozšíření modelu do současné fáze; časová pravidla a filtry zůstávají ve 2B. Další krok: pokračovat zbývajícími poli modelu. Taneční styl je odložený námět. Tyto nové změny nejsou commitnuté.
+
+## Závěrečná kontrola 2A.2
+
+- Studentka následně potvrdila, že v prohlížeči vše funguje; tím jsou potvrzené probírané ruční kontroly včetně rolování, zavírání a loading stavu. Nebylo upřesněno, zda kontrola proběhla na nasazeném preview, proto preview nadále není evidované jako ověřené.
+
+- Prošlo všech 21 testů ve 4 sadách, lint, celoprojektové formátování, typecheck a `git diff --check`. Zkontrolován produkční diff i oba nové konfigurační/formátovací moduly; nebyl nalezen problém vyžadující změnu kódu.
+- Standardní build nejprve selhal při stahování Google Fonts. Po opakování s eskalací narazil Turbopack na zákaz otevření portu při zpracování Leaflet CSS (`Operation not permitted`). Produkční build přes `npm run build -- --webpack` prošel. Standardní Turbopack build zůstává k ověření mimo omezení runneru.
+- Studentka potvrdila vzhled loaderu i po přidání prodlevy 400 ms. Potvrdila také rolování dlouhého obsahu; dostupnost zavření po odrolování a obě šířky zatím nejsou výslovně potvrzené.
+- Zbývá ověřit preview a uvedené ruční podmínky, vytvořit závěrečný commit na výslovnou žádost a připravit PR ke schválení. Fáze zatím není uzavřená. Návrh commit message: `feat: complete event panel and map UI`.
+
+## Loading stav mapy
+
+- Na žádost studentky doplněna prodleva zobrazení loaderu 400 ms přes CSS animaci `visibility` s `step-end`. Při rychlejším načtení komponenty se loader odstraní před zobrazením; mapa se nijak nezdržuje. Tato úprava prodlevy zatím nebyla vizuálně ověřena.
+
+- Dynamický import mapy má loading funkci se spinnerem daisyUI a textem `Načítání mapy…` v obalu `role="status"`. Spinner je skrytý před čtečkami přes `aria-hidden`.
+- Na výslovnou žádost studentky přidáno centrování přes `absolute inset-0 flex items-center justify-center gap-2`. Jde o načítání JavaScriptu komponenty, nikoli mapových dlaždic. Studentka následně potvrdila ověření loading stavu v prohlížeči. Prošlo 8 testů kontejneru, typecheck a cílená kontrola formátování. Commit nebyl vytvořen.
+
+## Mapová konfigurace – první krok
+
+- Na výslovnou žádost studentky přesunuty URL CARTO dlaždic včetně čtení `NEXT_PUBLIC_CARTO_API_KEY`, úplná atribuce, subdomény a maximální zoom do objektu `tileLayerConfig` v `map-config.ts`. `LeafletMap` používá jednotlivé položky konfigurace. Hodnoty zůstávají zachované; další krok plánu je loading stav dynamického importu.
+
+- Na další výslovnou žádost studentky zapojeny `mapCenter` a `mapZoom` do props `MapContainer` v `LeafletMap`. Hodnoty zůstávají stejné. Další krok je oddělení konfigurace dlaždic.
+
+- Na výslovnou žádost studentky vytvořen `src/components/event-map-container/leaflet-map/map-config.ts` s exporty `mapCenter: [number, number] = [50.0755, 14.4378]` a `mapZoom = 13` podle současných hodnot v mapě.
+- Konstanty zatím nejsou zapojené do `LeafletMap`. Další krok: importovat je a nahradit původní hodnoty props; následně oddělit konfiguraci dlaždic se zachováním CARTO a atribuce. Commit nebyl vytvořen.
+
+## Ruční ověření dlouhého obsahu
+
+- Na žádost studentky dočasně prodloužen popis `mock-2` v `src/data/mock-events.ts` o 20 očíslovaných kol a koncový text `END OF DESCRIPTION`. Studentka ověří rolování a dostupnost zavření na mobilu i desktopu v prohlížeči.
+- Studentka potvrdila funkční rolování. Na její žádost obnoven původní krátký popis. Dostupnost zavření po odrolování a jednotlivé šířky nebyly výslovně potvrzené. Mentor prohlížečovou kontrolu neprovedl: browser host byl nedostupný.
+
+## Checkpoint 15. 11. 2026 – Samostatný formátovač data
+
+- Na výslovnou žádost studentky přidán test změny vybrané události přes `rerender`: aktualizuje se název, čas i `datetime`, zmizí původní místo a popis a fokus se vrátí z tlačítka zavření na nadpis. Přepnutí nevolá `onClose`. Všech 8 testů panelu prošlo. Další krok: ověření dlouhého obsahu a dostupnosti zavření na mobilu i desktopu podle plánu 2A.2. Commit nebyl vytvořen.
+
+- Na výslovnou žádost studentky doplněn test chybějícího místa a popisu: název a čas zůstávají zobrazené, nevzniknou žádné odstavce. Všech 7 testů panelu prošlo. Další krok je test přepnutí vybrané události. Commit nebyl vytvořen.
+
+- Na výslovnou žádost studentky doplněn test obsahu karty: místo, popis, pevně očekávaný pražský čas `7. 11. 2026 15:00`, element `time` a zachování původního ISO údaje v `datetime`. Všech 6 testů panelu prošlo. Zbývají testy chybějících volitelných údajů a přepnutí události, následně další kroky plánu 2A.2. Commit nebyl vytvořen.
+
+- Na další výslovnou žádost studentky napojen formátovač do `EventPanel`: element `time` pod nadpisem obsahuje původní ISO údaj v `dateTime` a formátovaný text jako obsah. Napojení je hotové; další krok jsou cílené testy a vizuální ověření.
+
+- Studentka doplnila podmíněné vykreslení místa a popisu v `EventPanel` a potvrdila funkčnost v prohlížeči.
+- Na výslovnou žádost studentky vytvořen modul `src/core/events/format-event-date.ts`. Exportovaná funkce `formatEventDate` přijímá ISO řetězec a formátuje datum i čas pro `cs-CZ` v `Europe/Prague`. Formátovač vzniká jednou na úrovni modulu.
+- Další krok: studentka importuje funkci do `EventPanel` a zobrazí `startsAt`; následně doplní cílené testy obsahu karty a pražského času. Napojení zatím není hotové. Commit nebyl vytvořen.
+
+## Checkpoint 13. 11. 2026 – Schválení commitu struktury
+
+- Studentka výslovně požádala o commit dosavadních změn struktury. Commit zahrnuje přejmenování kontejneru, podsložky mapy a panelu, `core`, přesun vizuálních podkladů do `styles` a související dokumentaci.
+- Před commitem prošlo 18/18 testů, typecheck, lint, formátování a kontrola diffu. Build a prohlížeč nebyly v této kontrole ověřovány.
+
+## Checkpoint 13. 11. 2026 – Podsložky mapy a panelu
+
+- Na výslovnou žádost studentky přesunuty `EventPanel.tsx` a jeho test do `src/components/event-map-container/event-panel/`. `LeafletMap.tsx`, jeho test a `marker-icon.ts` přesunuty do sourozenecké složky `leaflet-map/`.
+- V `EventMapContainer` upraven import panelu a cesta dynamického importu mapy. `ssr: false` zůstává zachované. SVG a mapové CSS zůstávají v `src/styles`; sdílené UI v `src/components/ui`.
+- Prošlo 18/18 testů, typecheck, cílený ESLint, Prettier a kontrola diffu. Commit nebyl vytvořen.
+
+## Checkpoint 13. 11. 2026 – Schválené oddělení UI a stylů
+
+- Studentka schválila zachování `components/ui` pro sdílené React komponenty a `styles` pro vizuální podklady. SVG markeru přesunuto do `src/styles/map-marker.ts`, import v Leaflet adaptéru upraven a prázdná složka `src/design-system` odstraněna.
+- Tento checkpoint nahrazuje předchozí umístění SVG v `design-system`. Oddělení SVG od Leaflet adaptéru zůstává zachované.
+- Prošlo 18/18 testů, typecheck, cílený ESLint, Prettier a kontrola diffu. Commit nebyl vytvořen.
+
+## Checkpoint 13. 11. 2026 – Oddělení vzhledu markeru
+
+- Na výslovnou žádost studentky přesunut SVG řetězec markeru do `src/design-system/map-marker.ts` jako `mapMarkerSvg`. Soubor nemá závislost na Leafletu ani Reactu.
+- `src/components/event-map-container/marker-icon.ts` SVG importuje a nadále zajišťuje Leaflet `divIcon`, CSS třídu, rozměry a ukotvení. SVG obsah i nastavení ikony zůstávají zachované. Nová React komponenta nevznikla.
+- Před změnou i po ní prošlo 18/18 testů. Po změně prošel typecheck, cílený ESLint, Prettier a kontrola diffu. Vizuální kontrola v prohlížeči neproběhla. Commit nebyl vytvořen.
+
+## Checkpoint 13. 11. 2026 – Mapové styly ve společné složce
+
+- Na výslovnou žádost studentky přesunut `event-map.css` do `src/styles/event-map.css` a upraven import v `src/app/globals.css`. Obsah CSS zůstal bajtově shodný; přesun byl ověřen porovnáním obsahu.
+- Cílený Prettier a kontrola diffu prošly. Commit nebyl vytvořen.
+
+## Checkpoint 13. 11. 2026 – Přejmenování domain na core
+
+- Na výslovnou žádost studentky přejmenována složka `src/domain` na `src/core`. Všech sedm importů typu `MapEvent` v produkčním kódu a testech nyní používá `@/core/events/types`.
+- Jde pouze o změnu názvu; oddělení společných typů a pravidel od UI a datové vrstvy zůstává zachované. Starší dokumentace může používat původní cestu `src/domain`.
+- Prošlo 18/18 testů, typecheck, cílený ESLint, Prettier a kontrola diffu. Commit nebyl vytvořen.
+
+## Checkpoint 13. 11. 2026 – Přejmenování mapového kontejneru
+
+- Na další výslovnou žádost studentky přejmenována složka `src/components/event-map` na `src/components/event-map-container`. Upraveny importy stránky, testovací mock a CSS import v `globals.css`. Název souboru `event-map.css` zůstává. Po přesunu prošlo 18/18 testů, typecheck, cílený ESLint, Prettier a kontrola diffu.
+- Na výslovnou žádost studentky přejmenován `EventDiscovery` na `EventMapContainer`, včetně props typu, souboru komponenty, souboru testů, importu ve stránce a mocku v testu stránky.
+- Název zdůrazňuje rodičovskou roli vůči `LeafletMap` a `EventPanel`. Sdílený `ButtonLink` zůstává v `components/ui`; chování se nemění.
+- Před změnou i po ní prošlo 18/18 testů. Po změně prošel typecheck, cílený ESLint, Prettier a kontrola diffu. Commit nebyl vytvořen.
+
+## Checkpoint 13. 11. 2026 – Zahájení pokračování 2A.2
+
+- Fáze 2A je na lokálním `main` sloučená commitem `e812cea` (`#3`). Pracovní strom byl před vytvořením větve čistý.
+- Vytvořena a aktivována větev `02a2-event-map-ui` z `main`. Tento údaj nahrazuje starší označení aktivní větve níže.
+- Pokračování vychází z plánu `docs/superpowers/plans/02a2-event-map-ui.md`: obsah karty, testy, dlouhý obsah a rolování, mapová konfigurace a loading stav.
+- Studentka požaduje doplnit Husky pro automatické spouštění testů a upravit složkovou strukturu. Přesný hook a cílová struktura zatím nejsou dohodnuté; jde o rozšíření k návrhu, nikoli dokončený setup.
+- Další krok: vyjasnit zamýšlenou změnu struktury, dohodnout rozsah automatických kontrol a potom aktualizovat plán. Produkční kód ani testy mentor v tomto kroku neměnil.
+- Na výslovnou žádost studentky mentor nainstaloval Husky jako vývojovou závislost. Instalace ještě neaktivuje hook; následuje inicializace a ověření `pre-commit` pro testy. Commit nebyl vytvořen.
+- Studentka následně výslovně požádala o dokončení setupu: `prepare: husky`, `.husky/pre-commit` s `npm test` a lokální `core.hooksPath=.husky/_`. Ruční spuštění vstupního hooku přes `sh .husky/_/pre-commit` prošlo: 4 sady, 18 testů. Commit nebyl vytvořen; selhání testu v hooku nebylo samostatně simulováno.
+- Vytvořen osobní `live-programming-checklist.local.md` pro přípravu na pohovor s AI. Obsahuje Husky, strukturu, exporty typů a komponent, testování a pracovní postup. Přesná cesta je v `.gitignore`; ignorování ověřeno přes `git check-ignore`. Soubor zůstává pouze lokální.
+
 ## Checkpoint 7. 11. 2026 – Tlačítko Add v EventDiscovery
 
 - Na výslovnou žádost studentky přesunuto tlačítko Add včetně `PlusIcon` a importů z `page.tsx` do `EventDiscovery`. Odebrán prop `children` a typ `ReactNode`. Stránka zůstává Server Component.

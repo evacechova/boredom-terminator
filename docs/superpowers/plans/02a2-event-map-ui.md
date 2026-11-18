@@ -6,6 +6,10 @@
 
 ## Cíl a rozsah
 
+Na další žádost studentky je součástí fáze také čistá funkce pro výchozí konec dvě skutečně uplynulé hodiny po začátku. Ostatní časová pravidla a filtry zůstávají ve 2B.
+
+Po dohodě se studentkou fáze zahrnuje také rozšíření datového modelu původně plánované v 2B. Časová pravidla a filtry zůstávají ve 2B. Prvním krokem je povinná kategorie s osmi hodnotami podle aktuálních odchylek.
+
 Studentka dokončí UI stávajícího dema bez přidávání doménových pravidel:
 
 - Karta zobrazí čas přes Intl.DateTimeFormat s explicitním Europe/Prague, místo a volitelný popis. Chybějící volitelné údaje nezanechají prázdné řádky.

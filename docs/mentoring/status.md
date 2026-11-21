@@ -16,8 +16,10 @@
 
 ### Proud 3 – `03-local-repository`
 
-- Stav: připravený aktualizovaný plán; větev, worktree ani implementace zatím neexistují.
-- Po společném dokumentačním commitu založit větev ze stejného základu jako 2B a připravit vlastní worktree a chat podle následného pokynu studentky. První mentoringový krok: odvození aktivní, blízké a pozdější seed události od předaného `now: Date` se zachováním stávajících identit.
+- Stav k 21. 11.: vlastní worktree `boredom-terminator-03-local-repository` a větev `03-local-repository` existují nad společným základem `0550180`; druhý worktree s 2B ukazuje na stejný základ. Starší společná poznámka o neexistujících worktrees už pro proud 3 neplatí.
+- Studentka vytvořila `src/data/seed-events.ts` s hlavičkou `createSeedEvents(now: Date): MapEvent[]`. Na její výslovnou žádost mentor doplnil první událost: `mock-1`, Random play dance na Vyšehradě, začátek hodinu před `now`, konec pomocí existujícího `getDefaultEventEnd` hodinu po `now`. Vstupní datum se nemění. `createdAt` se odvozuje od `now`. Souřadnice ukázkového místa jsou podle [Encyklopedie Prahy 2](https://encyklopedie.praha2.cz/promena-casem/1426-vysehrad-mapy): 50.064174, 14.418650.
+- Jeden parametrizovaný test ověřuje probíhající událost pro dvě různá předaná data a neměnnost vstupu. Nejprve selhal proti prázdnému poli; po doplnění prošlo všech 27 testů v 6 sadách, cílený ESLint a Prettier. Projektový typecheck hlásí `src/app/layout.tsx(20,50): error TS2304: Cannot find name 'LayoutProps'.` Stejná chyba zůstala po `npx next typegen`; layout ani konfigurace se neměnily. Build a prohlížeč se v tomto kroku neověřovaly.
+- Funkce zatím není napojená na stránku; ta stále používá původní mock data. Druhá a třetí seed událost ani repository nejsou implementované. Další krok: společně projít hotovou první událost a poté dořešit relativní časy zbývajících dvou. Studentka požaduje pouze testy s konkrétním přínosem, ne testy pro samotné pokrytí. Studentka následně výslovně požádala o commit tohoto kroku se zprávou `feat: add ongoing seed event factory`.
 - Na nehotových funkcích 2B nezačínat záviset. Po merge 2B začlenit aktuální `main`, vyřešit případnou integraci a ověřit celek před vlastním PR. Fáze 4 začne až po dokončení obou proudů.
 
 ### Nejbližší společný krok

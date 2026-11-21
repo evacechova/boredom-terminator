@@ -1,5 +1,9 @@
 # Odchylky od specifikace a plánů
 
+## 2026-11-21 – Nový obsah seed událostí ve Fázi 3
+
+Studentka nahradila původní obsah mock událostí třemi ukázkami: Random play dance na Vyšehradě, natáčení coveru Cute Cats na Václavském náměstí (19:00–22:00) a photocard event v PunchyCupu (za tři dny v 9:00, trvání týden). Následně zvolila první událost vždy probíhající, od hodiny před předaným `now` do hodiny po něm. Požadavek původního plánu zachovat texty a souřadnice původních mock dat je tímto nahrazen; ID `mock-1`, `mock-2`, `mock-3` zůstávají. Přesný vztah druhé a třetí události k `now` ještě není dořešen. Zatím vznikla pouze první seed událost, bez napojení do UI.
+
 ## 2026-11-21 – Paralelní vývoj 2B a 3 a zachování historie
 
 Studentka schválila úzce vymezenou výjimku ze sekvenčního postupu. Fáze 2B (`02b-event-domain`) a 3 (`03-local-repository`) mohou běžet ve vlastních worktrees a chatech nad stejným commitem se schválenou společnou dokumentací. Nová fáze 3A nevzniká a funkce se mezi fázemi nepřesouvají. Nejprve se sloučí 2B, potom se aktuální `main` začlení do větve 3 a ověří integrace. Fáze 4 čeká na obě dokončené fáze.

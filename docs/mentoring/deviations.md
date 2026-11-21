@@ -2,7 +2,7 @@
 
 ## 2026-11-21 – Nový obsah seed událostí ve Fázi 3
 
-Studentka nahradila původní obsah mock událostí třemi ukázkami: Random play dance na Vyšehradě, natáčení coveru Cute Cats na Václavském náměstí (19:00–22:00) a photocard event v PunchyCupu (za tři dny v 9:00, trvání týden). Následně zvolila první událost vždy probíhající, od hodiny před předaným `now` do hodiny po něm. Požadavek původního plánu zachovat texty a souřadnice původních mock dat je tímto nahrazen; ID `mock-1`, `mock-2`, `mock-3` zůstávají. Přesný vztah druhé a třetí události k `now` ještě není dořešen. Zatím vznikla pouze první seed událost, bez napojení do UI.
+Studentka nahradila původní obsah mock událostí třemi ukázkami: Random play dance na Vyšehradě, natáčení coveru Cute Cats na Václavském náměstí (původně 19:00–22:00) a photocard event v PunchyCupu (za tři dny v 9:00, trvání týden). Následně zvolila první událost vždy probíhající, od hodiny před předaným `now` do hodiny po něm, a výslovně potvrdila druhou relativně od sedmi do deseti hodin po `now`. Třetí zachovává začátek v 9:00 pražského kalendářního dne o tři dny později a konec o týden později v 9:00 pražského času; týden přes změnu DST proto nemusí mít 168 uplynulých hodin. Požadavek původního plánu zachovat texty a souřadnice původních mock dat je tímto nahrazen; ID `mock-1`, `mock-2`, `mock-3` zůstávají. Na výslovnou žádost studentky mentor implementoval všechny tři události, zatím bez napojení do UI. Převod pevného ranního času je soukromý pomocník seed modulu, nezavádí obecný převod formulářového vstupu ani závislost na rozpracované doméně 2B.
 
 ## 2026-11-21 – Paralelní vývoj 2B a 3 a zachování historie
 

@@ -22,7 +22,7 @@
 ## Veřejná rozhraní fáze
 
 - `LocationPicker` vrací poslední souřadnice pinu.
-- Převod formulářových hodnot vytvoří normalizovaný `Event` s UUID a UTC ISO časy.
+- Převod formulářových hodnot vytvoří normalizovaný `MapEvent` s unikátním ID `user:<UUID>` a UTC ISO časy podle kontraktu Fáze 3. ID nesmí kolidovat se seed ani lokálními záznamy.
 - Úspěšný návrat předá ID události a jednorázový stav `Event added`; hlavní route poté odstraní přechodné parametry.
 
 ## Mentoringové kroky
@@ -33,8 +33,8 @@
 4. Přidat drag pinu a ověřit poslední souřadnice.
 5. Připojit GPS; odmítnutí zachová ruční mapu.
 6. Na desktopu použít jednu mapu vedle plovoucího formuláře; na mobilu mapovou sekci ve formuláři.
-7. Napsat test převodu validních formulářových hodnot na `Event`.
-8. Při prázdném konci uložit vypočtený dvouhodinový konec.
+7. Napsat test převodu validních formulářových hodnot na `MapEvent` včetně unikátního uživatelského ID.
+8. Při prázdném konci uložit výsledek existujícího `getDefaultEventEnd`; nevytvářet druhý výpočet. Ověřit pravidla vytváření proti předanému `now`.
 9. Napsat test, že repository zápis proběhne před navigací.
 10. Přidat úspěšný návrat, vycentrování nové události, otevření panelu a `Event added`.
 11. Po načtení odstranit přechodné URL parametry, aby reload panel znovu neotevřel.
@@ -47,6 +47,7 @@
 - GPS úspěch i odmítnutí mají očekávané chování.
 - Ukládá se poloha události, ne obecný GPS stav uživatele.
 - Selhání zápisu nenaviguje a neztratí hodnoty.
+- Přidání nezmění jiné lokální záznamy včetně historie a neplatných položek; kolize ID nebo nečitelný obsah skončí chybou se zachováním formuláře.
 - Úspěšný zápis zobrazí novou událost a jednorázovou zprávu.
 - Reload zachová událost, ale neotevře panel.
 - Cílené testy, lint a build projdou.
@@ -56,6 +57,7 @@
 - Automatický draft.
 - Reverzní geokódování.
 - Finální recovery UI poškozených uložených dat.
+- Editaci historie; skončenou událost už uživatel nesmí zpětně upravovat. Serverové vynucení patří k budoucímu backendu.
 
 ## Doporučený závěrečný commit
 

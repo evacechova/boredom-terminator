@@ -1,5 +1,21 @@
 # Odchylky od specifikace a plánů
 
+## 2026-11-21 – Paralelní vývoj 2B a 3 a zachování historie
+
+Studentka schválila úzce vymezenou výjimku ze sekvenčního postupu. Fáze 2B (`02b-event-domain`) a 3 (`03-local-repository`) mohou běžet ve vlastních worktrees a chatech nad stejným commitem se schválenou společnou dokumentací. Nová fáze 3A nevzniká a funkce se mezi fázemi nepřesouvají. Nejprve se sloučí 2B, potom se aktuální `main` začlení do větve 3 a ověří integrace. Fáze 4 čeká na obě dokončené fáze.
+
+Společný model `MapEvent` z 2A.2 zůstává beze změny názvu a struktury: osm kategorií, `city: "Praha"`, UTC ISO časy a volitelné `endsAt`. Výchozí efektivní konec počítá existující `getDefaultEventEnd`. Nové funkce závislé na aktuálním čase dostávají `now: Date` zvenku. 2B vlastní čas, DST, filtry, řazení a mapové URL; 3 vlastní seed data, Zod a storage. Na nehotové funkce 2B se repository při samostatné implementaci nespoléhá.
+
+Schválené hranice rolling filtru: probíhající událost splňuje `startsAt <= now` a efektivní konec `> now`; nadcházející `startsAt > now` a `startsAt <= now + 24 hodin`. Zvolený den je pražský kalendářní den podle začátku, nikoli pevný UTC interval. Neexistující DST čas má vést k chybě a dvojznačný se nesmí tiše převést. Jednoduchý návrh v plánu 2B odmítá oba druhy místního vstupu bez přidání výběrového UI.
+
+Historické uživatelské události se uchovávají bez automatického mazání, zůstávají platnými záznamy a výchozí aktuální filtr je skryje. Skončenou událost nesmí uživatel zpětně upravovat. Aktuálně se editace, backend, statistiky ani gamifikace neimplementují; při budoucím backendu je nutné zachovat vazbu na autora a zákaz úprav vynucovat serverově. Platná historie přežije i odstranění neplatných položek. Výslovně potvrzený reset nadále smaže všechny lokální uživatelské události včetně historie, nikoli seed nebo jiné storage klíče. MVP neposkytuje backendový archiv ani zálohu proti vymazání browser dat.
+
+Při běžném přidání se zachovají i neplatné původní položky. Nečitelný JSON, nesprávný kořen a chyby čtení nesmějí vést k přepsání úložiště; zápis se odmítne a chyba se předá volajícímu. Seed záznamy zůstávají pouze v kódu. Duplicity ID se hlásí a nevedou k tichému přepsání.
+
+Technické volby plánu pro jednoduchou implementaci: nová uživatelská ID mají formát `user:<UUID>`, stávající seed ID zůstávají zachovaná. Při čtení má seed přednost před kolidující lokální položkou; mezi lokálními záznamy se vrací první platná položka daného ID a další se nahlásí. `add` kolidující ID odmítne bez zápisu. Tyto volby nemění strukturu `MapEvent` a nevyžadují migraci ani nový framework.
+
+Společné dokumentační změny se připravují na `main` a po schválení se commitnou před založením obou worktrees. Mentor commit provádí pouze na výslovnou žádost. Úprava dokumentace sama neznamená spuštění implementace nebo vytvoření worktrees.
+
 ## 2026-11-16 – Odložení městské části
 
 Studentka odložila městskou část. Aktuální MVP nebude obsahovat `location.district`, typ `PragueDistrict`, ruční výběr městské části ve formuláři ani filtr podle městské části. Odpadá také fallback názvu místa na městskou část. Souřadnice, `city: "Praha"` a volitelný `venueName` zůstávají. Toto rozhodnutí má přednost před odpovídajícími požadavky původní specifikace a plánů; návrat funkce vyžaduje další domluvu.

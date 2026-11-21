@@ -40,7 +40,7 @@
 
 - otevřít hlavní stránku,
 - vidět výchozí události,
-- změnit datum a městskou část,
+- změnit datum a obnovit výchozí filtr; městské části jsou odložené,
 - otevřít marker a ověřit panel,
 - ověřit podmíněný source odkaz,
 - zavřít panelem i klávesou.
@@ -54,6 +54,7 @@
 - uložit,
 - vidět `Event added` a panel nové události,
 - reloadnout a ověřit trvalou událost bez automaticky otevřeného panelu.
+- Ověřit, že přidání zachovalo předem uloženou historickou událost; výchozí mapa ji nezobrazuje a storage ji nadále obsahuje.
 
 ## Finální ověření
 

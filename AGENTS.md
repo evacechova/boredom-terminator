@@ -55,6 +55,10 @@ Asistent je seniorní mentor. Studentka vlastní implementaci a píše produkčn
 
 ## Jeden kontext a větev na jednu fázi
 
+Při zahájení práce, po přepnutí kontextu nebo worktree a před každou sadou úprav ověř aktuální větev a pracovní stav pomocí `git status --short --branch`. Ověř také, že pracuješ v zamýšleném pracovním adresáři. Porovnej větev s rozsahem aktuálního úkolu; případnou neshodu vyřeš před úpravami. Existující necommitnuté změny zachovej.
+
+Implementace a dokumentace konkrétní fáze patří do její větve. Společné změny pravidel a plánů, ze kterých mají vycházet další větve, připravuj na `main`, pokud studentka neurčí jiný postup. Samotná skutečnost, že jde o dokumentaci, neurčuje správnou větev.
+
 Každá fáze má vlastní plán v `docs/superpowers/plans/` a vlastní větev `NN-name`. Nový kontext začíná přečtením:
 
 1. této instrukce,
@@ -66,6 +70,10 @@ Každá fáze má vlastní plán v `docs/superpowers/plans/` a vlastní větev `
 7. relevantních souborů v `docs/mentoring/memory/`.
 
 Nepokračuj do další fáze, dokud aktuální fáze nemá ověřené podmínky dokončení a vlastní commit.
+
+Výjimka schválená 21. 11. 2026 platí pouze pro souběh Fází 2B a 3. Každá má vlastní worktree, větev a Codex chat; oba proudy vycházejí ze stejného commitu obsahujícího schválenou společnou dokumentaci. Existující větev 2B před implementací musí tento základ obsahovat. Společný `MapEvent` se bez dohody nemění. Nejprve se sloučí 2B do `main`, potom se aktuální `main` začlení do větve 3 a ověří integrace. Fáze 4 začne až po dokončení obou. Ostatní fáze nadále postupují sekvenčně.
+
+Každý chat upravuje pouze svůj worktree a svou část handoffu. Změny mezi větvemi se přenášejí přes Git, ne kopírováním souborů. Souběžné vývojové servery používají rozdílné porty. Každá fáze má vlastní ověření, commit a schválený PR. Kolize společné dokumentace a dependency manifestů se slučují se zachováním práce obou větví.
 
 ## Průběh mentoringového kroku
 

@@ -25,6 +25,7 @@
 3. Přidat potvrzovanou akci `Remove invalid data`.
 4. Napsat test nečitelného kořene a potvrzovaného `Reset saved events`.
 5. Ověřit, že žádná recovery akce neběží bez potvrzení.
+   `Remove invalid data` zachová platnou historii. Potvrzení resetu musí vysvětlit, že smaže i historické lokální události; seed data ani jiné klíče neovlivní.
 6. Zachytit první `tileerror` jako MVP selhání a zobrazit `Map couldn't load`.
 7. Vykreslit seřazený textový seznam s funkčními source a Google Maps odkazy.
 8. `Try again` remountne vrstvu; fallback zmizí až po `tileload`.
@@ -37,7 +38,7 @@
 ## Testy a ověření
 
 - Platná data a seed data přežijí neplatné sousedy.
-- Recovery akce mají potvrzení a omezený storage klíč.
+- Recovery akce mají potvrzení a omezený storage klíč. Historie přežije odstranění neplatných položek; smaže se pouze při výslovně potvrzeném resetu.
 - Tile fallback respektuje aktuální filtry a řazení.
 - Retry má ověřený přechod failure → loading → map.
 - Statusy a alerty používají správné role.

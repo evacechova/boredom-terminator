@@ -4,6 +4,8 @@
 >
 > Datum: 24. 10. 2026
 
+> Aktualizováno podle schválených odchylek a rozhodnutí z 21. 11. 2026: společný model, paralelní fáze a uchování historie. Podrobnosti změn jsou v `docs/mentoring/deviations.md`.
+
 ## 1. Záměr
 
 Boredom Terminator je mobile-first webová aplikace pro objevování menších K-pop akcí v Praze. Má uživateli rychle odpovědět na otázku „Co se děje poblíž teď nebo brzy?“ bez registrace a bez složitého vyhledávání.
@@ -14,7 +16,7 @@ Projekt vzniká v tříměsíčním mentoringu. Výsledkem má být funkční ve
 
 - Zobrazit pražské K-pop události na interaktivní mapě.
 - Standardně zobrazit probíhající události a události začínající během následujících 24 hodin.
-- Umožnit filtrování podle data začátku a městské části.
+- Umožnit filtrování podle data začátku. Městské části a jejich filtr jsou odložené.
 - Zobrazit stručný panel vybrané události bez samostatné detailní stránky.
 - Umožnit přidat událost bez účtu a uložit ji do `localStorage`.
 - Zachovat použitelnost při odmítnutí GPS, selhání mapových dlaždic nebo částečně poškozených lokálních datech.
@@ -75,7 +77,7 @@ Vestavěný React state pokrývá rozsah MVP. Redux se nepoužije. Zustand nebo 
 - `npm` a `package-lock.json`
 - Turbopack; Webpack pouze jako fallback konkrétní nekompatibility
 - Leaflet + React Leaflet
-- OpenStreetMap standard tiles pro malé soukromé demo s povinnou atribucí
+- CARTO Positron s povinnou atribucí OpenStreetMap i CARTO podle schválené odchylky
 - Browser Geolocation API
 - `localStorage`
 - Tailwind CSS + daisyUI
@@ -90,9 +92,17 @@ Konfigurace mapových dlaždic oddělí URL, atribuci a zoom limity od mapové k
 ## 6. Datový model
 
 ```ts
-type EventCategory = "random_play_dance" | "cover_shoot" | "one_off_kpop_class";
+type EventCategory =
+  | "random_play_dance"
+  | "cover_shoot"
+  | "dance_class"
+  | "festival"
+  | "party"
+  | "fan_event"
+  | "concert"
+  | "store_event";
 
-type Event = {
+type MapEvent = {
   id: string;
   title: string;
   category: EventCategory;
@@ -103,7 +113,6 @@ type Event = {
     latitude: number;
     longitude: number;
     city: "Praha";
-    district?: PragueDistrict;
   };
   venueName?: string;
   sourceUrl?: string;
@@ -113,7 +122,9 @@ type Event = {
 
 Všechny události MVP spadají do K-pop zaměření. Samostatné pole pro komunitu zatím není potřeba. Podkategorie se ukládá a zobrazuje, ale nepoužívá se jako filtr.
 
-Pokud uživatel nezadá konec, doménová vrstva vypočítá dvě hodiny od začátku. Zadaný nebo vypočtený konec musí být při uložení v budoucnosti.
+`MapEvent` je společný model existující v kódu. Během souběhu 2B a 3 se jeho název ani struktura bez dohody nemění. Městské části ani samostatný model `Event` se nezavádějí.
+
+Pokud uživatel nezadá konec, použije se existující `getDefaultEventEnd`: dvě skutečně uplynulé hodiny od začátku. `endsAt` zůstává v modelu volitelné; výpočty při jeho absenci používají tento efektivní konec. Při vytváření musí být zadaný nebo vypočtený konec v budoucnosti; nejde o podmínku platnosti historických uložených dat.
 
 Datum a čas se interpretují v `Europe/Prague`. Aplikace ukládá `startsAt`, `endsAt` a `createdAt` jako UTC ISO řetězce a pro zobrazení je převádí zpět do pražského času.
 
@@ -125,11 +136,15 @@ Obsahuje typy a čisté funkce pro:
 
 - validaci a normalizaci události,
 - výpočet výchozího konce,
-- filtrování podle času, data a městské části,
+- filtrování podle času a data,
 - řazení událostí,
 - vytvoření bezpečného odkazu na Google Maps.
 
 Výběr konkrétního data zobrazí pouze události, jejichž `startsAt` leží v daném pražském kalendářním dni. Událost začínající před vybraným dnem se nezobrazí, ani když do něj svým trváním zasahuje.
+
+Výchozí filtr zahrnuje probíhající události (`startsAt <= now` a efektivní konec `> now`) a nadcházející události (`startsAt > now` a `startsAt <= now + 24 hodin`). Konec přesně v `now` už znamená skončenou událost. Funkce závislé na aktuálním čase přijímají `now` zvenku.
+
+Neexistující pražský lokální čas při změně DST má vést k validační chybě. Dvojznačný čas se nesmí tiše převést na jeden ze dvou okamžiků. Jednoduchý návrh odmítnutí obou druhů vstupu popisuje plán 2B; formulářové zobrazení chyby patří do Fáze 6.
 
 Doménová vrstva nezávisí na Reactu, Leafletu ani browser API.
 
@@ -146,6 +161,18 @@ První implementace:
 - neplatné lokální záznamy přeskočí bez automatického smazání.
 
 Seed data použijí stabilní identity, texty a souřadnice. Jejich časy vytvoří testovatelná factory relativně k předanému `now`, aby demo vždy obsahovalo probíhající, blízké i pozdější události.
+
+Seed data jsou definována v kódu a neukládají se do `localStorage`; ukládají se pouze uživatelské události včetně historie. ID uživatelské události musí být unikátní a nesmí kolidovat se seed daty. Duplicity se hlásí a nesmějí vést k tichému přepsání.
+
+Přidání zachová původní lokální záznamy včetně neplatných položek. Nezapisuje sloučený a očištěný výsledek načítání. Pokud původní obsah nelze bezpečně přečíst jako pole, zápis skončí chybou bez jeho přepsání; seed data zůstávají dostupná. Selhání trvalého zápisu se vždy předá volajícímu.
+
+### Historické události
+
+- Skončené uživatelské události se uchovávají bez časového limitu a automaticky se nemažou. Jsou platnými historickými záznamy, ne poškozenými daty.
+- Výchozí aktuální mapa je nezobrazuje. Filtr konkrétního dne nadále rozhoduje podle `startsAt`; skrytí filtrem nemění uložená data.
+- Skončenou událost už uživatel nesmí zpětně upravovat. MVP editaci vůbec nezavádí; při budoucím přidání editace je nutné toto pravidlo zachovat.
+- Výslovně potvrzený reset lokálních událostí maže i historii. Neovlivní seed data ani jiné storage klíče. Uchování v MVP je lokální, nikoli backendový archiv nebo záloha proti odstranění dat prohlížeče.
+- Budoucí backend musí zachovat historii, vazbu na autora a zákaz úprav skončené události vynucovat serverově. Evidence komunitních příspěvků, odměny a gamifikace jsou motivací uchování, nikoli současnou implementací. Rozpracování patří do Fáze 10.
 
 ### UI stav
 
@@ -169,7 +196,6 @@ Obrazovka obsahuje:
 
 - mapu,
 - filtr data,
-- volitelný filtr `Praha 1` až `Praha 22`,
 - jednoduché placeholder markery,
 - výrazné tlačítko `Add event`,
 - kompaktní panel vybrané události,
@@ -181,7 +207,7 @@ Kliknutí na jiný marker změní `selectedEventId` a obsah panelu. Kliknutí do
 
 ### Umístění
 
-- Mobil: spodní panel nad mapou.
+- Mobil: detail přes celou obrazovku včetně hlavičky podle schválené odchylky.
 - Desktop: plovoucí boční panel vpravo.
 - Obsah může rolovat, pokud se nevejde.
 
@@ -190,7 +216,7 @@ Kliknutí na jiný marker změní `selectedEventId` a obsah panelu. Kliknutí do
 - podkategorie,
 - název,
 - datum a čas,
-- název místa; při jeho absenci městská část,
+- název místa, pokud existuje; bez fallbacku na odloženou městskou část,
 - celý krátký popis,
 - `View source`, pouze pokud existuje `sourceUrl`.
 
@@ -231,7 +257,6 @@ Povinná pole:
 Volitelná pole:
 
 - čas konce,
-- městská část z pevného seznamu `Praha 1` až `Praha 22`,
 - název místa,
 - krátký popis,
 - zdrojový odkaz.
@@ -249,7 +274,7 @@ Na mobilu formulář zabere celou obrazovku a obsahuje plnoširokou mapovou sekc
 - GPS poloha se uchovává pouze v paměti.
 - Na hlavní mapě GPS spustí až uživatel akcí `Use my location`.
 - Úspěšná GPS na hlavní mapě pouze vycentruje mapu; nemění filtry, pořadí ani nezobrazuje vzdálenost.
-- Městskou část vybírá uživatel ručně; MVP nepoužívá reverzní geokódování.
+- Výběr městské části je odložený; MVP nepoužívá reverzní geokódování.
 
 Text při zamítnutí:
 
@@ -272,7 +297,9 @@ React Hook Form řídí formulářový stav. Zod definuje validační pravidla a
 - Po neúspěšném odeslání se fokus přesune na první chybné pole.
 - Hodnoty zůstanou zachované.
 - Konec musí být pozdější než začátek.
-- Zadaný nebo vypočtený konec musí být při uložení v budoucnosti.
+- Zadaný nebo vypočtený konec musí být při vytváření v budoucnosti. Načítání historických dat tuto podmínku nepoužívá.
+
+Formulářovou validaci implementují Fáze 6–7: neplatný vstup zobrazí chybu a zachová hodnoty. Fáze 3 používá Zod pouze pro strukturu a základní invarianty uložených dat; skončení události není validační chyba.
 
 MVP nemá serverový zápis. Až vznikne backend, server musí data ověřit znovu; klientská validace zůstane kvůli okamžité zpětné vazbě.
 
@@ -297,6 +324,7 @@ Při selhání zápisu zůstane uživatel ve formuláři. Data se zachovají a n
 - Neblokující varování nabídne `Remove invalid data`.
 - Akce po potvrzení přepíše úložiště pouze platnými záznamy.
 - Nečitelná struktura celého seznamu nabídne potvrzovanou akci `Reset saved events`.
+- `Remove invalid data` zachová platnou historii. Reset výslovně upozorní i na smazání historie; obě akce mění pouze vyhrazený klíč, nikdy celé `localStorage`.
 
 ### Selhání mapových dlaždic
 
@@ -382,13 +410,14 @@ Hlavní scénáře se ověří také mobilní emulací. Snapshoty nebudou hlavn�
 - Hlavní stránka zobrazí mapu Prahy a seed události.
 - Výchozí 24hodinový filtr funguje.
 - Filtr konkrétního data pracuje podle pražského data začátku a nahradí výchozí 24hodinové okno.
-- Filtr městské části funguje pro seed i uživatelské události s vybranou městskou částí.
 - Event panel odpovídá mobilnímu a desktopovému chování.
 - Odkaz místa otevře přesné souřadnice v Google Maps.
 - Formulář vytvoří platnou událost a uloží ji do `localStorage`.
 - Obnovení stránky zachová vytvořenou událost, ale ne GPS polohu ani otevřený panel.
 - GPS odmítnutí nezablokuje hlavní scénáře.
 - Poškozená lokální data nezablokují seed data.
+- Přidání události zachová jiné uložené záznamy včetně neplatných a historických; nečitelný obsah se nepřepíše.
+- Historie se automaticky nemaže a výchozí filtr ji skryje. Duplicity ID nezpůsobí tiché přepsání.
 - Selhání mapy nabídne použitelný textový fallback.
 - Klíčové interakce fungují klávesnicí.
 - Unit, component a E2E testy vybrané pro implementační plán projdou.

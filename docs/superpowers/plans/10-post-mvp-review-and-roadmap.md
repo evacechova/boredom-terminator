@@ -18,6 +18,7 @@
 - Závislosti mezi backendem, identitou, fotografiemi, moderací a víceuživatelskými funkcemi.
 - Prioritizace podle hodnoty, rizika a potřebného učení.
 - Rozdělení budoucí práce na samostatně testovatelné větve.
+- Schválený požadavek uchování historie ze sekce 7 MVP specifikace: při budoucím backendu zachovat záznam i vazbu na autora a serverově zakázat úpravy po skončení. Komunitní příspěvky, odměny a gamifikace vyžadují samostatné specifikace; nyní se neimplementují.
 
 ## Vstupy
 
@@ -110,6 +111,7 @@ Backend, databáze, autentizace, fotografie a moderace se nesmí automaticky slo
 1. Pro každý stav `needs discovery` formulovat konkrétní otázky a rozhodovací kritéria.
 2. U služeb, cen, právních pravidel, podpory knihoven a hostingu použít aktuální primární zdroje.
 3. U víceuživatelských funkcí vyjasnit identitu, oprávnění, soukromí, abuse prevention a vlastnictví dat.
+   Při návrhu backendu a editace zahrnout trvalé uchování historie a serverové vynucení zákazu úprav skončených událostí. Rozlišit tento schválený požadavek od dosud neurčeného způsobu odměňování a gamifikace.
 4. Výzkum oddělit od implementačních kroků.
 5. Pokud chybí produktové rozhodnutí, zastavit daný celek před tvorbou implementačního plánu.
 

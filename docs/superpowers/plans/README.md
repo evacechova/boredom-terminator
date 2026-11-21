@@ -10,7 +10,7 @@
 
 ## Proč je plán rozdělený
 
-Každý soubor představuje jeden smysluplný, samostatně kontrolovatelný celek. Má vlastní větev, nový kontext, cílené testy a závěrečný commit. Další fáze smí začít až po ověření předchozí.
+Každý soubor představuje jeden smysluplný, samostatně kontrolovatelný celek. Má vlastní větev, nový kontext, cílené testy a závěrečný commit. Další fáze smí začít až po ověření předchozí, s výslovnou výjimkou souběhu Fází 2B a 3 níže.
 
 ## Princip postupného rozšiřování
 
@@ -24,7 +24,7 @@ Nejdřív vznikne zjednodušené funkční demo s pevnými mock daty: mapa, výb
 | 1B   | `01-foundation-ui`            | Základní UI, téma a první nasazení             | [01b-foundation-ui.md](01b-foundation-ui.md)                           |
 | 2A   | `02-event-map`                | Zjednodušené demo: mapa, karta, mobilní UI     | [02-event-domain.md](02-event-domain.md)                               |
 | 2A.2 | `02a2-event-map-ui`           | Dokončení karty a mapového UI                  | [02a2-event-map-ui.md](02a2-event-map-ui.md)                           |
-| 2B   | `02b-event-domain`            | Úplný model, časová pravidla a filtry          | [02b-event-domain.md](02b-event-domain.md)                             |
+| 2B   | `02b-event-domain`            | Časová pravidla a filtry nad hotovým modelem   | [02b-event-domain.md](02b-event-domain.md)                             |
 | 3    | `03-local-repository`         | Seed data a bezpečný `localStorage` repository | [03-local-repository.md](03-local-repository.md)                       |
 | 4    | `04-discovery-ui`             | Stav hlavní obrazovky, filtry a textový seznam | [04-discovery-ui.md](04-discovery-ui.md)                               |
 | 5    | `05-map-panel-gps`            | Úplný obsah karty, externí odkazy a GPS        | [05-map-panel-gps.md](05-map-panel-gps.md)                             |
@@ -35,6 +35,15 @@ Nejdřív vznikne zjednodušené funkční demo s pevnými mock daty: mapa, výb
 | 10   | `10-post-mvp-planning`        | Komplexní review a plány dalšího vývoje        | [10-post-mvp-review-and-roadmap.md](10-post-mvp-review-and-roadmap.md) |
 
 Fáze 9 dokončí MVP. Fáze 10 nepřidává produktové funkce; zkontroluje výsledný kód a připraví další samostatné specifikace, plány a větve.
+
+## Schválený souběh Fází 2B a 3
+
+- Po schválení a commitu společné dokumentace vycházejí obě větve ze stejného commitu. Každá má vlastní worktree a chat. Nová Fáze 3A nevzniká a funkce se mezi fázemi nepřesouvají.
+- Základ z 2A.2 už obsahuje rozšířený `MapEvent`, osm kategorií, `city: "Praha"`, pražský formatter a `getDefaultEventEnd`. Společný model ani jeho název se během souběhu bez dohody nemění. Městské části zůstávají odložené.
+- 2B vlastní převody pražského času, DST, časové filtry, řazení a Google Maps URL. Fáze 3 vlastní relativní seed data, Zod validaci uložených záznamů a repository se storage. Není závislá na nehotových funkcích 2B; případné napojení počká na integraci.
+- Společný kontrakt: UTC ISO časy, volitelné `endsAt`, jeho výpočet existujícím helperem a předaný `now` místo skrytého aktuálního času.
+- Nejprve se sloučí PR 2B. Potom se aktuální `main` začlení do větve 3; při kolizi manifestů a lockfile se zachovají obě potřebné závislosti a ověří instalace. Každá fáze má vlastní ověření a PR. Fáze 4 čeká na dokončení obou.
+- Postup obou proudů se eviduje odděleně v `docs/mentoring/status.md`. Každý chat pracuje pouze ve svém worktree; souběžné servery mají rozdílné porty. Společné soubory se nepřenášejí ručním kopírováním.
 
 ## Zahájení nového kontextu
 

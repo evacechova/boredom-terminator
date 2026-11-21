@@ -1,5 +1,42 @@
 # Boredom Terminator – stav a handoff
 
+## 21. 11. 2026 – Aktuální handoff: společná dokumentace pro souběh 2B a 3
+
+- Studentka schválila paralelní vývoj, dokumentační změny i jejich commit a push na `main`. Kód ani testy se nemění. Níže uvedené starší checkpointy jsou historie, nikoli pokyny k pokračování před novým společným základem.
+- Ověřený základ: `274a38e` z PR #4 obsahuje sloučenou 2A.2, rozšířený `MapEvent`, osm kategorií, `city: "Praha"`, `formatEventDate` a `getDefaultEventEnd`. Poslední ověření v tomto kontextu před dokumentačními úpravami: 25 testů v 5 sadách a typecheck prošly; build, lint a preview se znovu nespouštěly.
+- Aktualizované plány zachovávají společný model a odložené městské části. 2B vlastní časovou doménu a filtry; 3 seed data, Zod a repository. Detaily hranic intervalů, zachování historie a neplatných položek, ID a pořadí merge jsou v plánech a odchylce z 21. 11.
+- Kontrola dokumentační změny: cílený Prettier check všech 14 změněných Markdown souborů a `git diff --check` prošly; zkontrolovány hranice odpovědností a návazné plány 4–10. Aplikační testy se kvůli této dokumentační změně znovu nespouštěly. Zásadní blocker souběhu nebyl nalezen; společný commit a následná příprava worktrees zůstávají dalšími kroky.
+- Worktrees dosud nevznikly. Větev `02b-event-domain` existuje z úvodní žádosti a stále ukazuje na `274a38e`; větev `03-local-repository` dosud vytvořena nebyla. Společný základ tvoří dokumentační commit obsahující tento handoff (`docs: plan parallel domain and repository work`). Nezačínat implementaci ze starého základu.
+
+### Proud 2B – `02b-event-domain`
+
+- Stav: připravený aktualizovaný plán; produkční práce v této fázi nezačala.
+- Po schválení a commitu společné dokumentace začlenit tento základ do dosud prázdné implementační větve a připravit její vlastní worktree a chat podle následného pokynu studentky. První mentoringový krok: vstup a chybový výsledek převodu pražského času, očekávané letní a zimní UTC hodnoty a první failing test.
+- Návrh pro DST: neexistující i dvojznačný místní čas odmítnout s rozlišitelnou chybou; bez tiché volby okamžiku. Konkrétní malý kontrakt výsledku a časovou knihovnu probrat při implementaci. Repository toto rozhodnutí neblokuje.
+
+### Proud 3 – `03-local-repository`
+
+- Stav: připravený aktualizovaný plán; větev, worktree ani implementace zatím neexistují.
+- Po společném dokumentačním commitu založit větev ze stejného základu jako 2B a připravit vlastní worktree a chat podle následného pokynu studentky. První mentoringový krok: odvození aktivní, blízké a pozdější seed události od předaného `now: Date` se zachováním stávajících identit.
+- Na nehotových funkcích 2B nezačínat záviset. Po merge 2B začlenit aktuální `main`, vyřešit případnou integraci a ověřit celek před vlastním PR. Fáze 4 začne až po dokončení obou proudů.
+
+### Nejbližší společný krok
+
+Po úspěšném pushi společného dokumentačního commitu ověřit jeho hash a použít jej jako shodný základ obou proudů. Větev 2B musí tento commit nejprve obsahovat. Založení worktrees a větve 3 vyžaduje následný pokyn studentky; aktuální zadání autorizuje pouze dokumentaci, commit a push. Dalším krokem je příprava worktrees, nikoli automatické zahájení implementace.
+
+## 21. 11. 2026 – Kontrola větve před společnými změnami dokumentace
+
+- Na žádost studentky ověřena větev a pracovní stav a provedeno přepnutí z `02b-event-domain` na `main`. Obě větve ukazují na `274a38e`; dosavadní necommitnutá změna tohoto handoffu zůstala zachovaná.
+- Do `AGENTS.md` přidána povinná kontrola větve a pracovního adresáře před úpravami. Společnou dokumentaci pro budoucí větve připravovat na `main`; dokumentaci jednotlivé fáze v její větvi.
+- Studentka schválila paralelní práci 2B a 3 a dodala podrobné zadání úprav dokumentace. Zapracování tohoto zadání bylo přerušeno před prvními úpravami a zatím zůstává navazující prací. Worktrees ani další větve nebyly vytvořeny, aplikační kód ani testy se neměnily. Commit nebyl vytvořen.
+
+## 21. 11. 2026 – Zahájení fáze 2B
+
+- Studentka potvrdila stažení aktualizací a merge předchozí fáze. Lokální `main` odpovídá `origin/main` a obsahuje squash commit `274a38e` z PR #4. Z čistého `main` byla vytvořena větev `02b-event-domain` v dosavadním pracovním adresáři.
+- Výchozí ověření: všech 25 testů v 5 sadách a typecheck prošly. Build, lint ani preview se v tomto kroku znovu neověřovaly; dřívější omezení buildu jsou zaznamenaná níže.
+- Aktivní plán je `docs/superpowers/plans/02b-event-domain.md`, upravený platnými odchylkami: rozšíření modelu, pražský formátovač a samostatný výpočet dvouhodinového konce už vznikly ve 2A.2. Městská část, její typ a filtr zůstávají odložené. Nevytvářet druhý model události ani opakovat hotovou práci.
+- První další krok: vysvětlit převod pražského místního data a času na UTC ISO a společně určit očekávané výsledky letního a zimního případu. Poté studentka napíše první failing test; časovou knihovnu vybrat až při implementaci. Produkční kód ani testy mentor v tomto kroku neměnil. Commit nebyl vytvořen.
+
 ## 16. 11. 2026 – Příprava PR rozšířené fáze 2A.2
 
 - Studentka schválila přechod k ověření, commitu a pushi před návrhem PR. Aktuálně prošlo všech 25 testů v 5 sadách, typecheck, lint, formátování, kontrola diffu a produkční Webpack build. Omezení standardního Turbopack buildu v runneru je popsané níže.

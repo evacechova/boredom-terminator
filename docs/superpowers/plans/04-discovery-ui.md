@@ -4,7 +4,7 @@
 
 **Větev:** `04-discovery-ui`
 
-**Závisí na:** repository z Fáze 3
+**Závisí na:** dokončených a sloučených Fázích 2B a 3, včetně jejich integračního ověření
 
 **Výsledek:** Hlavní route načte události na klientovi, spravuje filtry a výběr události a umí vykreslit přístupný textový seznam vedle již existující mapy z Fáze 2A.
 
@@ -21,7 +21,7 @@
 ## Veřejná rozhraní fáze
 
 - `useEventDiscovery` drží načtené události, filtry, `selectedEventId` a výsledek načtení.
-- `EventFilters` nabízí rolling režim, konkrétní datum a volitelnou městskou část.
+- `EventFilters` nabízí rolling režim a konkrétní datum; městské části jsou odložené.
 - `EventList` zobrazuje seřazené události a později poslouží jako mapový fallback.
 
 ## Mentoringové kroky
@@ -30,7 +30,7 @@
 2. Rozhodnout, co je zdrojový stav a co lze dopočítat.
 3. Napsat failing test výchozího rolling výsledku.
 4. Přidat test, že konkrétní datum nahradí rolling filtr.
-5. Přidat test městské části a resetu filtrů.
+5. Přidat test resetu filtrů a skrytí skončených událostí ve výchozím režimu bez jejich odstranění z načtených dat.
 6. Rozšířit stávající discovery celek z Fáze 2A o controller hook, repository a filtry. Zachovat jediný `selectedEventId`, existující mapu a kartu; filtrované události nahradí přímá mock data. Pokud výběr po filtrování zmizí, kartu zavřít.
 7. Vytvořit přístupné formulářové prvky filtrů.
 8. Přidat textový seznam a prázdný stav.
@@ -40,7 +40,8 @@
 ## Testy a ověření
 
 - Výchozí rolling filtr ukáže očekávané události.
-- Datum a městská část mění výsledek.
+- Datum mění výsledek; rozhoduje pražský den začátku, včetně případné historie vybraného dne.
+- Výchozí režim nezobrazuje skončené události, ale filtrování je nemaže ani nepřepisuje storage.
 - `Reset filters` obnoví výchozí režim.
 - Prázdný výsledek zobrazí správnou zprávu a `Add event`.
 - Test zachytí případné čtení `localStorage` při server renderu.

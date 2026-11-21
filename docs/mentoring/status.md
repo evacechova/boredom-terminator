@@ -1,5 +1,11 @@
 # Boredom Terminator – stav a handoff
 
+## 22. 11. 2026 – Společná pravidla: nutné minimum testů
+
+- Studentka požádala o zrušení povinného TDD a omezení nových testů na konkrétní nepokrytá pravidla a reálná rizika. Společná pravidla jsou v `AGENTS.md`, roadmapě a aktualizovaných mentoringových krocích 2B, 4 a 6–8. Automatické ověření kritických časových hranic, uchování dat a hlavních toků zůstává zachované. Jednoduché kroky lze ověřit krátkým příkladem, typecheckem, lintem či ručně; existující relevantní testy se dál spouštějí.
+- Implementace a audit testů 2B mají vlastní průběžný commit `998a719` na `02b-event-domain`. Společná pravidla jsou uložená na `main` v commitu `58ab0f2` a začleněná do 2B přes Git. Worktree Fáze 3 se neupravuje; po budoucím začlenění aktuálního `main` převezme i nové pravidlo. Nové pokyny mají přednost před historickými požadavky na první failing test níže.
+- Na dotaz studentky byly v pracovním adresáři 2B ověřeny `next-env.d.ts`, `.next/types` a úspěšný `npm run typecheck`. Aktuální problém s chybějícími generovanými typy se zde nepotvrdil. Pro nové worktrees je v roadmapě a `memory/01-nextjs-generated-types.md` zapsaný příkaz `npx next typegen` před samostatným typecheckem. Generované soubory se ručně nepíšou ani necommitují; skripty projektu se neměnily.
+
 ## Před zahájením Fáze 4 – bezpečnostní aktualizace Next.js
 
 - Studentka 21. 11. 2026 odložila společnou aktualizaci Next.js až po sloučení Fází 2B a 3 do `main`. Během jejich souběhu ji neprovádět.
@@ -7,7 +13,7 @@
 
 ## 22. 11. 2026 – Proud 2B: audit testů a průběžný commit
 
-- Studentka výslovně požádala o audit nutných testů, commit hotové práce a odstranění povinného TDD ze zadání. Nové testy mají vznikat jen pro konkrétní nepokryté pravidlo nebo riziko; jednoduché kroky lze ověřit krátkým příkladem. Aktivní plán 2B je upravený; společná pravidla se připravují samostatně na `main` podle `AGENTS.md` a přenesou se do 2B přes Git.
+- Studentka výslovně požádala o audit nutných testů, commit hotové práce a odstranění povinného TDD ze zadání. Nové testy mají vznikat jen pro konkrétní nepokryté pravidlo nebo riziko; jednoduché kroky lze ověřit krátkým příkladem. Hotová práce je uložená v `998a719`; společná pravidla z `58ab0f2` jsou začleněná z `main`. Aktivní plán 2B je upravený.
 - Po dřívějším odstranění čtyř překrývajících se případů zbývá ve větvi 20 nových případů: 11 pro převod místního času, 4 pro rolling filtr a 5 pro pražský den. Audit potvrdil jejich účel: letní a zimní převod, explicitní pásmo a přechod dne, oba DST chybové stavy, chybné vstupy, přesné časové hranice, výchozí konec a vlastní délka okna. Další testy se nepřidávaly; pro jednoduché řazení zůstává krátký spustitelný příklad.
 - Před průběžným commitem znovu prošlo všech 45 testů v 8 souborech při `TZ=America/Los_Angeles`, typecheck, lint, cílené formátování a kontrola diffu. Příklad nad skutečným `sortEventsByStart` ověřil vzestupné pořadí, novou referenci a zachování původního zmrazeného pole. Produkční build opakovaný s rozšířeným oprávněním znovu skončil při zpracování CSS kvůli `binding to a port: Operation not permitted (os error 1)`; build není ověřený. Jde o průběžný checkpoint, nikoli uzavření celé fáze.
 - Hotové jsou převod času, oba filtry a řazení. Další krok je `buildGoogleMapsUrl` se dvěma číselnými souřadnicemi a rozlišitelnou chybou pro neplatný vstup. Soubor ještě nevznikl. Po jeho dokončení zbývá závěrečné ověření fáze a schválený PR; bezpečnostní aktualizace Next.js zůstává odložená podle pokynu výše.

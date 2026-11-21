@@ -26,6 +26,8 @@
 
 ## Mentoringové kroky
 
+Ve Fázi 4, po sloučení a integraci Fází 2B a 3, přesunout konfiguraci z `src/components/event-map-container/leaflet-map/map-config.ts` do `src/config/app-config.ts` a upravit její importy. Zachovat centrum mapy, zoom, URL dlaždic, atribuci i ostatní hodnoty. Nový společný soubor zatím obsahuje pouze `defaultEventWindowHours`; během souběhu 2B a 3 se mapová konfigurace nepřesouvá.
+
 1. Nakreslit tok dat od repository přes controller hook do komponent.
 2. Rozhodnout, co je zdrojový stav a co lze dopočítat.
 3. Napsat failing test výchozího rolling výsledku.

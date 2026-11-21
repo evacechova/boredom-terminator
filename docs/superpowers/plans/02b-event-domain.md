@@ -1,6 +1,6 @@
 # Fáze 2B – Event doména, pražský čas a filtry
 
-> Režim: studentka implementuje, mentor vysvětluje TypeScript a TDD po malých krocích.
+> Režim: studentka implementuje, mentor vysvětluje TypeScript a časová pravidla po malých krocích. Testy se omezují na nutné minimum podle rizika; TDD není povinné.
 
 **Větev:** `02b-event-domain`
 
@@ -15,7 +15,7 @@
 - Rozdíl mezi TypeScript typem a runtime validací.
 - Existující union typ osmi kategorií a význam volitelných polí.
 - Čisté funkce bez Reactu a browser API.
-- TDD cyklus red–green–refactor.
+- Volba nejmenšího dostatečného ověření; automatické testy chrání hlavně časové hranice, DST a chybové výsledky.
 - Rozdíl mezi pražským lokálním časem a UTC ISO.
 - Injektovaný `now` místo skrytého `new Date()` uvnitř testované logiky.
 
@@ -31,6 +31,10 @@ Existující `formatEventDate(isoDate: string): string` a `getDefaultEventEnd(st
 - vzestupné řazení podle začátku,
 - bezpečný Google Maps odkaz z přesných souřadnic.
 
+`filterEventsByTimeWindow(events, now, windowHours)` přijímá délku rolling okna v hodinách. Výchozí hodnota pochází z `defaultEventWindowHours` v `src/config/app-config.ts` a pro MVP zůstává 24 hodin; explicitní argument ji může přepsat. Mapová konfigurace se do společného souboru přesune až ve Fázi 4 po merge obou souběžných proudů.
+
+`filterEventsByDate(events, date)` přijímá datum ve formátu `YYYY-MM-DD` a posuzuje začátek události vůči pražskému kalendářnímu dni. Výsledek `FilterEventsByDateResult` vrací `{ ok: true, value: MapEvent[] }`, nebo `{ ok: false, error: "invalid_date" }` pro chybný formát či neexistující datum. Obě půlnoci určuje v `Europe/Prague`; další den získává kalendářním přičtením dne, nikoli 24 hodin. Výběr nevyužívá `now` ani konec události a zachovává vstupní pořadí.
+
 ## Časový kontrakt a paralelní hranice
 
 - Ukládat UTC ISO řetězce. Pro nové funkce vyžadující aktuální čas používat předaný `now: Date`; neměnit předaný objekt a nečíst skrytě aktuální čas. Stejnou konvenci používá Fáze 3.
@@ -45,13 +49,13 @@ Existující `formatEventDate(isoDate: string): string` a `getDefaultEventEnd(st
 ## Mentoringové kroky
 
 1. Ověřit společný základ a neměnný model z 2A.2. Společně určit vstup a chybový výsledek převodu; nezačínat opakováním hotového modelu nebo formatteru.
-2. Napsat první failing test pro letní a zimní převod pražského času.
+2. Určit očekávané letní a zimní UTC hodnoty pro pražský čas; ověřit je cílenými testy bez povinnosti začínat selhávajícím testem.
 3. Vybrat a pochopit knihovnu pro IANA časové pásmo; přidat ji až teď.
 4. Implementovat minimální časové funkce a ověřit odmítnutí neexistujícího i dvojznačného času.
 5. Využít existující výpočet i testy dvouhodinového konce; otestovat jeho použití při chybějícím `endsAt` ve filtru.
-6. Napsat test rolling filtru podle přesných hranic výše, včetně konce přesně v `now` a začátku přesně za 24 hodin.
-7. Napsat test konkrétního data: rozhoduje pouze `startsAt`; událost z předchozího dne se nezobrazí.
-8. Přidat vzestupné řazení podle začátku bez změny vstupního seznamu.
+6. Ověřit rolling filtr minimální sadou případů podle přesných hranic výše, včetně konce přesně v `now` a začátku přesně za 24 hodin.
+7. Ověřit konkrétní datum: rozhoduje pouze `startsAt`; událost z předchozího dne se nezobrazí. Zahrnout oba DST dny.
+8. Přidat vzestupné řazení podle začátku bez změny vstupního seznamu; pro tento jednoduchý krok stačí krátký spustitelný příklad bez nového testovacího souboru.
 9. Otestovat validní a neplatné souřadnice a přesný Google Maps odkaz.
 10. Zkontrolovat názvy, duplicity a čitelnost; zachovat společný model a připravit vlastní PR před integrací Fáze 3.
 

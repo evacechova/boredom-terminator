@@ -1,5 +1,11 @@
 # Odchylky od specifikace a plánů
 
+## 2026-11-22 – Minimální testování bez povinného TDD
+
+Studentka výslovně zrušila povinný postup test před implementací a požádala o omezení testů na nutné minimum. Nový test musí chránit konkrétní nepokryté pravidlo nebo reálné riziko; jednoduché kroky lze ověřit spustitelným příkladem, typecheckem, lintem či ručně. Existující relevantní testy se dál spouštějí. Kritická časová pravidla, validace, uchování dat a hlavní uživatelské toky nadále vyžadují odpovídající pokrytí podle schválené specifikace. Metodika se mění, produktové požadavky ani podmínky chování nikoli.
+
+Společné pravidlo je v `AGENTS.md` a roadmapě; příslušné mentoringové kroky aktivních a navazujících plánů již nevyžadují selhávající test jako první krok. Historické záznamy o dřívějším TDD průběhu zůstávají zachované.
+
 ## 2026-11-21 – Paralelní vývoj 2B a 3 a zachování historie
 
 Studentka schválila úzce vymezenou výjimku ze sekvenčního postupu. Fáze 2B (`02b-event-domain`) a 3 (`03-local-repository`) mohou běžet ve vlastních worktrees a chatech nad stejným commitem se schválenou společnou dokumentací. Nová fáze 3A nevzniká a funkce se mezi fázemi nepřesouvají. Nejprve se sloučí 2B, potom se aktuální `main` začlení do větve 3 a ověří integrace. Fáze 4 čeká na obě dokončené fáze.

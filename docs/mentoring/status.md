@@ -1,5 +1,11 @@
 # Boredom Terminator – stav a handoff
 
+## 22. 11. 2026 – Společná pravidla: nutné minimum testů
+
+- Studentka požádala o zrušení povinného TDD a omezení nových testů na konkrétní nepokrytá pravidla a reálná rizika. Společná pravidla jsou v `AGENTS.md`, roadmapě a aktualizovaných mentoringových krocích 2B, 4 a 6–8. Automatické ověření kritických časových hranic, uchování dat a hlavních toků zůstává zachované. Jednoduché kroky lze ověřit krátkým příkladem, typecheckem, lintem či ručně; existující relevantní testy se dál spouštějí.
+- Implementace a audit testů 2B mají vlastní průběžný commit `998a719` na `02b-event-domain`. Tato společná změna vzniká samostatně na `main` a přenese se do 2B přes Git. Worktree Fáze 3 se neupravuje; po budoucím začlenění aktuálního `main` převezme i nové pravidlo. Nové pokyny mají přednost před historickými požadavky na první failing test níže.
+- Na dotaz studentky byly v pracovním adresáři 2B ověřeny `next-env.d.ts`, `.next/types` a úspěšný `npm run typecheck`. Aktuální problém s chybějícími generovanými typy se zde nepotvrdil. Pro nové worktrees je v roadmapě a `memory/01-nextjs-generated-types.md` zapsaný příkaz `npx next typegen` před samostatným typecheckem. Generované soubory se ručně nepíšou ani necommitují; skripty projektu se neměnily.
+
 ## 21. 11. 2026 – Aktuální handoff: společná dokumentace pro souběh 2B a 3
 
 - Studentka schválila paralelní vývoj, dokumentační změny i jejich commit a push na `main`. Kód ani testy se nemění. Níže uvedené starší checkpointy jsou historie, nikoli pokyny k pokračování před novým společným základem.

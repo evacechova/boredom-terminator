@@ -28,9 +28,9 @@
 
 1. Nakreslit tok dat od repository přes controller hook do komponent.
 2. Rozhodnout, co je zdrojový stav a co lze dopočítat.
-3. Napsat failing test výchozího rolling výsledku.
-4. Přidat test, že konkrétní datum nahradí rolling filtr.
-5. Přidat test resetu filtrů a skrytí skončených událostí ve výchozím režimu bez jejich odstranění z načtených dat.
+3. Ověřit napojení výchozího rolling výsledku; neopakovat doménové hraniční testy z 2B.
+4. Ověřit, že konkrétní datum nahradí rolling filtr; nový test přidat jen pro dosud nepokryté propojení.
+5. Ověřit reset filtrů a skrytí skončených událostí ve výchozím režimu bez jejich odstranění z načtených dat; využít nejmenší sadu integračních případů.
 6. Rozšířit stávající discovery celek z Fáze 2A o controller hook, repository a filtry. Zachovat jediný `selectedEventId`, existující mapu a kartu; filtrované události nahradí přímá mock data. Pokud výběr po filtrování zmizí, kartu zavřít.
 7. Vytvořit přístupné formulářové prvky filtrů.
 8. Přidat textový seznam a prázdný stav.

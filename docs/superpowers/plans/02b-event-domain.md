@@ -35,6 +35,8 @@ Existující `formatEventDate(isoDate: string): string` a `getDefaultEventEnd(st
 
 `filterEventsByDate(events, date)` přijímá datum ve formátu `YYYY-MM-DD` a posuzuje začátek události vůči pražskému kalendářnímu dni. Výsledek `FilterEventsByDateResult` vrací `{ ok: true, value: MapEvent[] }`, nebo `{ ok: false, error: "invalid_date" }` pro chybný formát či neexistující datum. Obě půlnoci určuje v `Europe/Prague`; další den získává kalendářním přičtením dne, nikoli 24 hodin. Výběr nevyužívá `now` ani konec události a zachovává vstupní pořadí.
 
+`buildGoogleMapsUrl(latitude, longitude)` vrací `BuildGoogleMapsUrlResult`: `{ ok: true, value: string }`, nebo `{ ok: false, error: "invalid_coordinates" }`. Souřadnice musí být konečná čísla včetně hranic −90 až 90 a −180 až 180. URL používá pevné `https://www.google.com/maps/dir/`, povinné `api=1`, zakódovaný parametr `destination` s přesnou dvojicí souřadnic a `dir_action=navigate` podle [Google Maps URLs](https://developers.google.com/maps/documentation/urls/get-started#directions). Výchozí polohu řeší Google Maps. Studentka 22. 11. 2026 výslovně přesunula také napojení odkazu do existující karty z Fáze 5 do 2B a upřesnila účel jako navigaci. Textový odkaz „Navigovat“ je dostupný pro každou událost s platnými souřadnicemi, nezávisle na `venueName`. Volitelný název místa se zobrazí vedle odkazu; při neplatných souřadnicích zůstane jen název, pokud existuje. Aktivace na šířce alespoň 640 px otevře nový kontext, na menší šířce stejný; odkaz používá `rel="noopener noreferrer"`.
+
 ## Časový kontrakt a paralelní hranice
 
 - Ukládat UTC ISO řetězce. Pro nové funkce vyžadující aktuální čas používat předaný `now: Date`; neměnit předaný objekt a nečíst skrytě aktuální čas. Stejnou konvenci používá Fáze 3.
@@ -79,7 +81,7 @@ Společný formatter už existuje a karta jej používá; nevytvářet jej podru
 ## Fáze neobsahuje
 
 - Zod schema uložených dat.
-- React komponenty.
+- Nové React komponenty. Na výslovnou žádost studentky se pouze existující řádek místa v `EventPanel` napojuje na Google Maps helper podle popisu výše.
 - `localStorage`.
 - Městské části, editaci historie, formulářovou validaci ani změnu společného modelu.
 

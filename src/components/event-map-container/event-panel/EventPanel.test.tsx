@@ -27,18 +27,59 @@ describe("EventPanel", () => {
     render(<EventPanel event={event} onClose={jest.fn()} />);
 
     expect(screen.getByText("Letenské sady")).toBeInTheDocument();
+    const venueLink = screen.getByRole("link", { name: "Navigovat" });
+    expect(venueLink).toHaveAttribute(
+      "href",
+      "https://www.google.com/maps/dir/?api=1&destination=50.08%2C14.42&dir_action=navigate",
+    );
+    expect(venueLink).toHaveAttribute("rel", "noopener noreferrer");
     expect(screen.getByText("An informal K-pop dance meetup.")).toBeInTheDocument();
     const time = screen.getByText("7. 11. 2026 15:00");
     expect(time.tagName).toBe("TIME");
     expect(time).toHaveAttribute("datetime", "2026-11-07T14:00:00Z");
   });
 
-  it("omits paragraphs when the venue and description are missing", () => {
+  it("opens navigation in a new tab only at desktop widths, including after resizing", () => {
+    const originalMatchMedia = window.matchMedia;
+    const mediaQuery = {
+      matches: true,
+      media: "(min-width: 640px)",
+      onchange: null,
+      addListener: jest.fn(),
+      removeListener: jest.fn(),
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+      dispatchEvent: jest.fn(),
+    };
+    window.matchMedia = jest.fn().mockReturnValue(mediaQuery);
+
+    try {
+      render(
+        <EventPanel event={{ ...testEvent, venueName: "Letenské sady" }} onClose={jest.fn()} />,
+      );
+      const venueLink = screen.getByRole("link", { name: "Navigovat" });
+      venueLink.addEventListener("click", (clickEvent) => clickEvent.preventDefault());
+
+      fireEvent.click(venueLink);
+      expect(venueLink).toHaveAttribute("target", "_blank");
+
+      window.matchMedia = jest.fn().mockReturnValue({ ...mediaQuery, matches: false });
+      fireEvent.click(venueLink);
+      expect(venueLink).toHaveAttribute("target", "_self");
+    } finally {
+      window.matchMedia = originalMatchMedia;
+    }
+  });
+
+  it("shows navigation even when the venue name is missing", () => {
     render(<EventPanel event={testEvent} onClose={jest.fn()} />);
 
     expect(screen.getByRole("heading", { name: testEvent.title })).toBeInTheDocument();
     expect(screen.getByText("5. 11. 2026 19:00")).toBeInTheDocument();
-    expect(screen.queryAllByRole("paragraph")).toHaveLength(0);
+    expect(screen.getByRole("link", { name: "Navigovat" })).toHaveAttribute(
+      "href",
+      "https://www.google.com/maps/dir/?api=1&destination=50.08%2C14.42&dir_action=navigate",
+    );
   });
 
   it("updates the content and focuses the heading when the selected event changes", () => {

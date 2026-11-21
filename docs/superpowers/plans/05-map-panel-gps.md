@@ -35,7 +35,7 @@
 5. Regresně ověřit button semantics, `Enter`, `Space` a přístupné názvy markerů z Fáze 2A.
 6. Napsat test obsahu event panelu včetně chybějících volitelných dat.
 7. Zachovat schválený mobilní detail přes celou obrazovku a desktopový pravý panel; ověřit delší obsah a nová pole.
-8. Propojit místo s přesnými souřadnicemi v Google Maps.
+8. Regresně ověřit odkaz „Navigovat“ do Google Maps Directions s přesnými souřadnicemi cíle, dostupný i bez názvu místa. Napojení do `EventPanel`, desktopové otevření v novém kontextu a mobilní ve stejném byly na žádost studentky přesunuty do 2B dne 22. 11. 2026; nevytvářet je podruhé.
 9. Regresně ověřit zavření tlačítkem, `Escape` a kliknutím do prázdné mapy.
 10. Ověřit stávající přesun fokusu do panelu a návrat na marker i po změně filtrů.
 11. Přidat `Use my location`; GPS pouze vycentruje mapu.
@@ -45,7 +45,7 @@
 
 - Produkční build nehlásí `window is not defined`.
 - Markery odpovídají filtrovaným událostem.
-- Panel ukáže správná pole; chybějící místo nezanechá prázdný řádek ani fallback na městskou část.
+- Panel ukáže správná pole; chybějící název místa nezanechá prázdný název ani fallback na městskou část. Odkaz „Navigovat“ zůstává dostupný díky souřadnicím.
 - `View source` existuje jen s bezpečným URL.
 - Google Maps odkaz se na desktopu otevře v novém kontextu a na mobilu ve stejném.
 - Zavírání a fokus fungují klávesnicí.

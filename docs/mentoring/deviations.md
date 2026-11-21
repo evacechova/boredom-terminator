@@ -1,5 +1,9 @@
 # Odchylky od specifikace a plánů
 
+## 2026-11-22 – Napojení Google Maps odkazu už ve 2B
+
+Studentka výslovně přesunula z Fáze 5 do 2B propojení existujícího řádku místa v `EventPanel` s helperem `buildGoogleMapsUrl` a upřesnila jeho účel jako externí navigaci. Textový odkaz „Navigovat“ vede do Google Maps Directions s přesnými souřadnicemi cíle a je dostupný i bez `venueName`. Volitelný název místa se zobrazuje vedle odkazu; neplatné souřadnice odkaz skryjí. Výchozí polohu a trasu řeší Google Maps, aplikace kvůli odkazu nezískává vlastní GPS polohu. Desktopové otevření v novém kontextu a mobilní ve stejném se rozhoduje při aktivaci podle existujícího breakpointu 640 px. Specifikace a oba dotčené plány odpovídají této dohodě. Ostatní rozsah Fáze 5 zůstává zachovaný. Vizuální hierarchii detailu studentka odložila na později; v tomto kroku se neupravuje.
+
 ## 2026-11-22 – Minimální testování bez povinného TDD
 
 Studentka výslovně zrušila povinný postup test před implementací a požádala o omezení testů na nutné minimum. Nový test musí chránit konkrétní nepokryté pravidlo nebo reálné riziko; jednoduché kroky lze ověřit spustitelným příkladem, typecheckem, lintem či ručně. Existující relevantní testy se dál spouštějí. Kritická časová pravidla, validace, uchování dat a hlavní uživatelské toky nadále vyžadují odpovídající pokrytí podle schválené specifikace. Metodika se mění, produktové požadavky ani podmínky chování nikoli.

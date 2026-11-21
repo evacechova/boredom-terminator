@@ -1,9 +1,10 @@
 "use client";
 
 import type { MapEvent } from "@/core/events/types";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type MouseEvent } from "react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { formatEventDate } from "@/core/events/format-event-date";
+import { buildGoogleMapsUrl } from "@/core/events/build-google-maps-url";
 
 type EventPanelProps = {
   event: MapEvent;
@@ -11,6 +12,12 @@ type EventPanelProps = {
 };
 
 export const EventPanel = ({ event, onClose }: EventPanelProps) => {
+  const mapsUrl = buildGoogleMapsUrl(event.location.latitude, event.location.longitude);
+  const handleNavigationClick = (clickEvent: MouseEvent<HTMLAnchorElement>) => {
+    const opensInNewTab = window.matchMedia("(min-width: 640px)").matches;
+    clickEvent.currentTarget.target = opensInNewTab ? "_blank" : "_self";
+  };
+
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
@@ -42,7 +49,22 @@ export const EventPanel = ({ event, onClose }: EventPanelProps) => {
         {event.title}
       </h2>
       <time dateTime={event.startsAt}>{formatEventDate(event.startsAt)}</time>
-      {event.venueName && <p>{event.venueName}</p>}
+      {(mapsUrl.ok || event.venueName) && (
+        <p>
+          {event.venueName && <span className="mr-2">{event.venueName}</span>}
+          {mapsUrl.ok && (
+            <a
+              className="link"
+              href={mapsUrl.value}
+              target="_self"
+              rel="noopener noreferrer"
+              onClick={handleNavigationClick}
+            >
+              Navigovat
+            </a>
+          )}
+        </p>
+      )}
       {event.description && <p>{event.description}</p>}
     </section>
   );

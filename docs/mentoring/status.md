@@ -1,5 +1,22 @@
 # Boredom Terminator – stav a handoff
 
+## 21. 11. 2026 – Proud 2B: převod místního času na UTC
+
+- Na výslovnou žádost studentky mentor vytvořil `localDateTimeToUtc(date, time, timeZone)` v `src/core/events/local-date-time-to-utc.ts`. Datum očekává ve formátu `YYYY-MM-DD`, čas v `HH:mm`. Pásmo místa události je explicitní parametr; nepřebírá se z nastavení zařízení. MVP při volání použije `Europe/Prague`, převod není pevně svázaný s Prahou.
+- Výsledek `LocalDateTimeToUtcResult` rozlišuje `{ ok: true, value: string }` s UTC ISO řetězcem a `{ ok: false, error }`. Chyby jsou `invalid_input`, `invalid_time_zone`, `nonexistent_time` a `ambiguous_time`. Neexistující ani dvojznačný čas se tiše nepřevede.
+- Pro časová pravidla je nainstalovaný `@js-temporal/polyfill` 0.5.1. Porovnání dřívější a pozdější interpretace odhalí opakovaný čas; zpětný převod na místní čas odhalí neexistující čas. Společný `MapEvent`, formatter a výchozí konec se nemění.
+- Přidaných 15 testovacích případů ověřuje skutečný UTC výsledek v létě i zimě, jiné pásmo, přechod přes půlnoc v pásmu UTC+05:45, oba DST chybové případy v Praze i New Yorku a odmítnutí neplatných vstupů. Proti neimplementovanému tělu nejprve selhaly; po implementaci prošla celá sada 40 testů v 6 souborech při `TZ=America/Los_Angeles`. Prošly také typecheck, lint a kontrola diffu. Build se pro tento samostatný doménový krok nespouštěl; závěrečné ověření celé fáze zůstává otevřené.
+- Studentka výslovně požádala o commit převodu času. Před commitem znovu prošlo všech 40 testů při `TZ=America/Los_Angeles`, typecheck, lint, cílené formátování a kontrola diffu. Další mentoringový krok: společně projít hotový převod a jeho chybový výsledek. Časové filtry, řazení a mapové URL zatím nejsou implementované; Fáze 2B zůstává rozpracovaná.
+- Bezpečnostní aktualizace Next.js z 16.4.3 na 16.4.6 zatím neproběhla. Domluvený postup: připravit samostatnou společnou změnu na čistém `main`, poté ji přenést Gitem do obou implementačních větví a v každém worktree nainstalovat závislosti přes `npm ci`.
+- Proběhl vizuální experiment s `image-rendering: pixelated` pouze na dlaždicích mapy. V prohlížeči ověřeny retina dlaždice 512 × 512 px zobrazené na 256 × 256 px; jejich dočasné zmenšení na 64 × 64 px vytvořilo výraznou pixelaci a zhoršilo čitelnost popisků. Mentor pokus obnovil příliš brzy, než si ho studentka prohlédla. Příští vizuální pokus ponechat dostupný do jejího potvrzení. Na následnou výslovnou žádost studentky odstraněn i experimentální CSS blok včetně komentáře; mapové CSS se vrátilo do původního stavu. Pro tento experiment nevznikají automatické testy.
+
+## 21. 11. 2026 – Připravené pracovní adresáře 2B a 3
+
+- Na výslovnou žádost studentky byla existující větev `02b-event-domain` posunuta fast-forwardem na společný dokumentační commit `05501800dd89d0aff3ee54c0aa72c6b3f98723bc`. Je aktivní v původním adresáři `/Users/evacechova/Desktop/mentoring_2026/boredom-terminator`; tento chat pokračuje pouze ve Fázi 2B.
+- Ze stejného commitu vznikla větev `03-local-repository` a samostatný worktree `/Users/evacechova/Desktop/mentoring_2026/boredom-terminator-03-local-repository`. Fázi 3 otevřít v samostatném Codex chatu nad tímto adresářem. Vlastní závislosti jsou nainstalované přes `npm ci`; soubory se mezi worktrees nekopírovaly.
+- Produkční implementace obou fází zatím nezačala. Další krok 2B: převod pražského času a první failing test. Další krok 3: relativní seed data s předaným `now`. Při souběžném spuštění serverů použít například porty 3000 pro 2B a 3001 pro 3.
+- Starší dokumentační handoff níže popisuje přípravu společného základu; jeho požadavky na založení větví a worktrees jsou tímto splněné. Tento záznam o přípravě se ukládá spolu s prvním implementačním krokem 2B.
+
 ## 21. 11. 2026 – Aktuální handoff: společná dokumentace pro souběh 2B a 3
 
 - Studentka schválila paralelní vývoj, dokumentační změny i jejich commit a push na `main`. Kód ani testy se nemění. Níže uvedené starší checkpointy jsou historie, nikoli pokyny k pokračování před novým společným základem.

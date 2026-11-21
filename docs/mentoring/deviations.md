@@ -1,5 +1,9 @@
 # Odchylky od specifikace a plánů
 
+## 2026-11-22 – Draft PR Fáze 3 před sloučením 2B
+
+Studentka výslovně schválila otevření draft PR Fáze 3 před merge 2B a jeho konkrétní popis, zdrojovou a cílovou větev. Vznikl [draft PR #5](https://github.com/evacechova/boredom-terminator/pull/5) z `03-local-repository` do `main`, reviewer `bobescz`. Tím se mění pouze okamžik založení PR. Před závěrečným ověřením a sloučením Fáze 3 se nadále nejprve sloučí 2B a její výsledek se začlení z `main` do větve 3. Fáze 4 čeká na dokončení obou proudů.
+
 ## 2026-11-21 – Nový obsah seed událostí ve Fázi 3
 
 Studentka nahradila původní obsah mock událostí třemi ukázkami: Random play dance na Vyšehradě, natáčení coveru Cute Cats na Václavském náměstí (původně 19:00–22:00) a photocard event v PunchyCupu (za tři dny v 9:00, trvání týden). Následně zvolila první událost vždy probíhající, od hodiny před předaným `now` do hodiny po něm, a výslovně potvrdila druhou relativně od sedmi do deseti hodin po `now`. Třetí zachovává začátek v 9:00 pražského kalendářního dne o tři dny později a konec o týden později v 9:00 pražského času; týden přes změnu DST proto nemusí mít 168 uplynulých hodin. Požadavek původního plánu zachovat texty a souřadnice původních mock dat je tímto nahrazen; ID `mock-1`, `mock-2`, `mock-3` zůstávají. Na výslovnou žádost studentky mentor implementoval všechny tři události, zatím bez napojení do UI. Převod pevného ranního času je soukromý pomocník seed modulu, nezavádí obecný převod formulářového vstupu ani závislost na rozpracované doméně 2B.

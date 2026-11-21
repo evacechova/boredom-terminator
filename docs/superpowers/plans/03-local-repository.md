@@ -24,6 +24,14 @@
 - `EventRepository` nabízí načtení, přidání, odstranění neplatných záznamů a reset lokálních událostí.
 - Výsledek načtení vrací události, počet neplatných položek a informaci o nečitelné struktuře.
 
+### Implementovaný kontrakt
+
+- `createLocalEventRepository(storage: Storage, now: Date): EventRepository` přijímá úložiště a čas zvenku; nečte globální `localStorage` při importu.
+- Synchronní `list(): EventListResult` vrací `events`, `invalidCount` a `storageIssue: null | "invalid_format" | "read_error"`. U nečitelného kořene nebo selhání čtení vrací seed data a nulu pro neznámý počet neplatných položek.
+- `add(event: MapEvent): void`, `removeInvalid(): void` a `resetSaved(): void` při selhání vyhodí výjimku. Recovery operace vyžadují pozdější potvrzení v UI podle Fáze 8.
+- Storage klíč je `boredom-terminator:saved-events:v1`; obsahuje JSON pole uživatelských záznamů. Chybějící klíč je prázdné úložiště, nikoli poškození.
+- `src/core/events/stored-event-schema.ts` exportuje také jednotlivá textová schémata pro sdílení s formulářem Fáze 6. Limity: název po trimu 1–100, místo po trimu nejvýše 120, popis nejvýše 500 a HTTP(S) URL nejvýše 2048 znaků. Validace uložených textů jejich obsah nemění.
+
 ## Společný základ a hranice validace
 
 - Zachovat `MapEvent` a osm kategorií ze `src/core/events/types.ts`, `city: "Praha"` a UTC ISO časy. Model nepřejmenovávat a nezavádět paralelní typ `Event`. Městské části jsou odložené.

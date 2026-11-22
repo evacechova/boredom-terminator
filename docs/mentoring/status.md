@@ -8,11 +8,11 @@
 - Doména je implementovaná: převod místního času přes `@js-temporal/polyfill`, rolling filtr, pražský den, řazení a navigační URL. Převod rozlišuje chyby vstupu, pásma a obou DST situací.
 - Opravy podle [PR #6](https://github.com/evacechova/boredom-terminator/pull/6): jednoduché helpery vracejí hodnotu nebo `undefined`; neplatná navigace skryje pouze odkaz. `[]` zůstává platným výsledkem datumového filtru.
 - UI stále používá pevná mock data. Filtry, URL recovery a notifikace se napojí ve [Fázi 4](../superpowers/plans/04-discovery-ui.md); seed factory, runtime validace a localStorage patří Fázi 3.
-- PR vede do `main`, reviewer je `BobesCZ`. Poslední zaznamenaný stav: draft. Pushnutý implementační commit: `53fc1d2`; společná pravidla minimálního testování z `58ab0f2` jsou ve větvi začleněná.
+- PR vede do `main`, reviewer je `BobesCZ`. PR je otevřený, není draft; opravy jsou pushnuté v `9922c10`.
 
 ## Ověření 2B
 
-- Po úklidu testů: všech 55 případů v 9 sadách prošlo při `TZ=America/Los_Angeles`; prošly také typecheck, lint, cílené formátování a kontrola diffu.
+- Po úklidu duplicit: všech 53 případů v 9 sadách prošlo při `TZ=America/Los_Angeles`; prošly také typecheck, lint, cílené formátování a kontrola diffu. Panel má 8 testů; kliknutí na zavření ověřuje kontejner.
 - Zachované rizikové případy: časové hranice, 23hodinový a 25hodinový pražský den, neplatné vstupy, prázdný výsledek a detail bez navigace. Řazení bylo ověřeno spustitelným příkladem včetně neměnnosti vstupu.
 - Produkční `npm run build -- --webpack` prošel před úklidem testů. První běh zastavilo bezpečnostní upozornění Next.js 16.4.3; opakování uspělo. Produkční kód se při úklidu testů neměnil.
 - V prohlížeči byly ověřeny navigační odkazy všech tří mock událostí. Předání do mobilní aplikace Google Maps není ručně ověřené; screenshoty a kontrola Vercel preview nejsou evidované jako hotové.
@@ -24,7 +24,7 @@
 
 ## Další krok a otevřené úkoly
 
-1. Doplnit podklady PR #6 a pokračovat jeho review. Push oprav, merge ani přepnutí z draftu nebyly vyžádané.
+1. Na výslovný pokyn pushnout úklid testů; doplnit podklady PR #6 a pokračovat jeho review. Merge nebyl vyžádaný.
 2. Před založením větve Fáze 4 na společném `main` prověřit bezpečnostní nálezy a aktualizovat Next.js i odpovídající `eslint-config-next`. Opravenou verzi znovu ověřit; aktualizace je do té doby výslovně odložená. Starší audit vývojových závislostí zůstává otevřený.
 3. Vizuální hierarchie detailu, finální vztah panelu a pluska a případná šipka zpět jsou odložené. Další kandidáty evidují [budoucí nápady](../product/future-ideas.md).
 

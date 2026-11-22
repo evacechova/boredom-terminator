@@ -41,29 +41,19 @@ describe("EventPanel", () => {
 
   it("opens navigation in a new tab only at desktop widths, including after resizing", () => {
     const originalMatchMedia = window.matchMedia;
-    const mediaQuery = {
-      matches: true,
-      media: "(min-width: 640px)",
-      onchange: null,
-      addListener: jest.fn(),
-      removeListener: jest.fn(),
-      addEventListener: jest.fn(),
-      removeEventListener: jest.fn(),
-      dispatchEvent: jest.fn(),
-    };
-    window.matchMedia = jest.fn().mockReturnValue(mediaQuery);
+    const matchMedia = jest.fn().mockReturnValue({ matches: true });
+    window.matchMedia = matchMedia;
 
     try {
-      render(
-        <EventPanel event={{ ...testEvent, venueName: "Letenské sady" }} onClose={jest.fn()} />,
-      );
+      render(<EventPanel event={testEvent} onClose={jest.fn()} />);
       const venueLink = screen.getByRole("link", { name: "Navigovat" });
       venueLink.addEventListener("click", (clickEvent) => clickEvent.preventDefault());
 
       fireEvent.click(venueLink);
+      expect(matchMedia).toHaveBeenCalledWith("(min-width: 640px)");
       expect(venueLink).toHaveAttribute("target", "_blank");
 
-      window.matchMedia = jest.fn().mockReturnValue({ ...mediaQuery, matches: false });
+      matchMedia.mockReturnValue({ matches: false });
       fireEvent.click(venueLink);
       expect(venueLink).toHaveAttribute("target", "_self");
     } finally {
@@ -74,12 +64,7 @@ describe("EventPanel", () => {
   it("shows navigation even when the venue name is missing", () => {
     render(<EventPanel event={testEvent} onClose={jest.fn()} />);
 
-    expect(screen.getByRole("heading", { name: testEvent.title })).toBeInTheDocument();
-    expect(screen.getByText("5. 11. 2026 19:00")).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Navigovat" })).toHaveAttribute(
-      "href",
-      "https://www.google.com/maps/dir/?api=1&destination=50.08%2C14.42&dir_action=navigate",
-    );
+    expect(screen.getByRole("link", { name: "Navigovat" })).toBeInTheDocument();
   });
 
   it("keeps event details but hides invalid navigation", () => {
@@ -128,32 +113,14 @@ describe("EventPanel", () => {
     expect(onClose).not.toHaveBeenCalled();
   });
 
-  it("closes through the named icon button", () => {
+  it("calls onClose only when Escape is pressed", () => {
     const onClose = jest.fn();
     render(<EventPanel event={testEvent} onClose={onClose} />);
 
-    fireEvent.click(screen.getByRole("button", { name: "Zavřít" }));
-
-    expect(onClose).toHaveBeenCalledTimes(1);
-  });
-
-  it("calls onClose when Escape is pressed", () => {
-    const mockOnClose = jest.fn();
-
-    render(<EventPanel event={testEvent} onClose={mockOnClose} />);
-
-    fireEvent.keyDown(window, { key: "Escape" });
-
-    expect(mockOnClose).toHaveBeenCalledTimes(1);
-  });
-  it("does not call onClose when Backspace is pressed", () => {
-    const mockOnClose = jest.fn();
-
-    render(<EventPanel event={testEvent} onClose={mockOnClose} />);
-
     fireEvent.keyDown(window, { key: "Backspace" });
-
-    expect(mockOnClose).not.toHaveBeenCalled();
+    expect(onClose).not.toHaveBeenCalled();
+    fireEvent.keyDown(window, { key: "Escape" });
+    expect(onClose).toHaveBeenCalledTimes(1);
   });
 
   it("removes the Escape listener when the panel unmounts", () => {

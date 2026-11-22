@@ -1,16 +1,16 @@
 import { z } from "zod";
 import type { MapEvent } from "./types";
 
-export const eventTitleSchema = z
+const eventTitleSchema = z
   .string()
   .refine((value) => value.trim().length >= 1 && value.trim().length <= 100, {
     message: "Title must have 1–100 characters after trimming.",
   });
-export const eventVenueNameSchema = z.string().refine((value) => value.trim().length <= 120, {
+const eventVenueNameSchema = z.string().refine((value) => value.trim().length <= 120, {
   message: "Venue name must have at most 120 characters after trimming.",
 });
-export const eventDescriptionSchema = z.string().max(500);
-export const eventSourceUrlSchema = z.url({ protocol: /^https?$/ }).max(2048);
+const eventDescriptionSchema = z.string().max(500);
+const eventSourceUrlSchema = z.url({ protocol: /^https?$/ }).max(2048);
 
 const utcIsoDateTimeSchema = z.iso.datetime().refine((value) => Number.isFinite(Date.parse(value)));
 

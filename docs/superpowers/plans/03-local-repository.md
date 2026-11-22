@@ -1,94 +1,33 @@
-# Fáze 3 – Seed data a lokální repository
+# Fáze 3 – Seed demo a lokální repository
 
-> Režim: studentka implementuje, mentor vysvětluje rozhraní, dependency injection a práci s nedůvěryhodnými daty.
+> Aktuální rozsah dema k 22. 11. 2026.
 
 **Větev:** `03-local-repository`
 
-**Závisí na:** sloučené Fázi 2A.2 a stejném společném dokumentačním commitu jako 2B. Implementace může běžet souběžně; závěrečná integrace a merge následují až po merge 2B.
+**Cíl:** Tři relativní ukázkové události a načtení/reset lokálních testovacích dat.
 
-**Výsledek:** Testovatelný repository spojující relativní seed data s platnými uživatelskými událostmi z `localStorage`.
+**Závislosti:** Základ z 2A.2; před dokončením PR začlenit výsledek 2B z `main` a ověřit integraci.
 
-**Specifikace:** části 7, 14 a odpovídající část 17.
+## Architektura
 
-## Na co se soustředíme
+- `createSeedEvents(now: Date): MapEvent[]` vytváří stabilní ID, texty a souřadnice s časy relativními k předanému okamžiku. Časy se ukládají jako UTC ISO řetězce.
+- `createLocalEventRepository(storage: Storage, now: Date)` dostává úložiště a čas zvenku; modul při importu nečte browser API.
+- `list(): MapEvent[]` spojí seedy s celým validním lokálním polem. Zod ověřuje strukturu a základní invarianty `MapEvent`. Nečitelný obsah, chyba přístupu nebo kolize ID znamenají návrat k samotným seedům.
+- `resetSaved()` odstraní pouze `boredom-terminator:saved-events:v1`. Seedy zůstávají v kódu.
+- Přidávání událostí se doplní společně s formulářem. Napojení repository do mapy patří do Fáze 4.
 
-- Repository jako hranice mezi UI a úložištěm.
-- Proč `localStorage` data nejsou důvěryhodná.
-- Rozdíl mezi TypeScript typem a Zod parsováním za běhu.
-- Dependency injection přes předané `Storage` a `now`.
-- Testování bez skutečného prohlížeče.
+## Ukázkové události
 
-## Veřejná rozhraní fáze
+| ID     | Událost                                     | Začátek vůči now | Konec vůči now |
+| ------ | ------------------------------------------- | ---------------- | -------------- |
+| mock-1 | Random play dance na Vyšehradě              | −1 hodina        | +1 hodina      |
+| mock-2 | Cute Cats cover shoot na Václavském náměstí | +7 hodin         | +10 hodin      |
+| mock-3 | Photocard event v Punchy Cup                | +72 hodin        | +240 hodin     |
 
-- `createSeedEvents(now: Date)` vrací `MapEvent[]` se stabilními ID, texty a souřadnicemi a s časy relativními k předanému `now`. Nemění předaný objekt ani nečte skrytě aktuální čas.
-- `EventRepository` nabízí načtení, přidání, odstranění neplatných záznamů a reset lokálních událostí.
-- Výsledek načtení vrací události, počet neplatných položek a informaci o nečitelné struktuře.
+## Proč toto řešení
 
-### Implementovaný kontrakt
+Vlastní události jsou zahoditelná data pro manuální testování. Záchrana jednotlivých poškozených položek a archivace historie přidávaly složitost bez přínosu pro demo; stačí reset. Přesná pražská hodina seedů vyžadovala kalendářní převody, přestože pro ukázku filtrů stačí probíhající, blízká a pozdější událost. Zápisová operace zatím nemá volajícího, proto vznikne až s formulářem.
 
-- `createLocalEventRepository(storage: Storage, now: Date): EventRepository` přijímá úložiště a čas zvenku; nečte globální `localStorage` při importu.
-- Synchronní `list(): EventListResult` vrací `events`, `invalidCount` a `storageIssue: null | "invalid_format" | "read_error"`. U nečitelného kořene nebo selhání čtení vrací seed data a nulu pro neznámý počet neplatných položek.
-- `add(event: MapEvent): void`, `removeInvalid(): void` a `resetSaved(): void` při selhání vyhodí výjimku. Recovery operace vyžadují pozdější potvrzení v UI podle Fáze 8.
-- Storage klíč je `boredom-terminator:saved-events:v1`; obsahuje JSON pole uživatelských záznamů. Chybějící klíč je prázdné úložiště, nikoli poškození.
-- `src/core/events/stored-event-schema.ts` exportuje také jednotlivá textová schémata pro sdílení s formulářem Fáze 6. Limity: název po trimu 1–100, místo po trimu nejvýše 120, popis nejvýše 500 a HTTP(S) URL nejvýše 2048 znaků. Validace uložených textů jejich obsah nemění.
+## Ověření
 
-## Společný základ a hranice validace
-
-- Zachovat `MapEvent` a osm kategorií ze `src/core/events/types.ts`, `city: "Praha"` a UTC ISO časy. Model nepřejmenovávat a nezavádět paralelní typ `Event`. Městské části jsou odložené.
-- `endsAt` je volitelné; při potřebě efektivního konce použít existující `getDefaultEventEnd`. Nepřidávat druhý výpočet ani závislost na nehotových funkcích 2B. Seed časy lze odvodit přímo od `now` bez převodu místního formulářového času.
-- Zod ověřuje strukturu a základní invarianty uložené události: neprázdné ID a název, schválenou kategorii, platné UTC ISO časy, konečné souřadnice v rozsahu, město a typy volitelných polí. Je-li konec zadaný, musí být pozdější než začátek. Limity textů a bezpečný HTTP(S) zdrojový odkaz sdílet s budoucím formulářem podle plánu Fáze 6.
-- Historická událost je platná i po skončení. Schema pro čtení nesmí vyžadovat konec v budoucnosti. Validace nové události vůči `now` a formulářové chyby patří do Fází 6–7.
-- Uložená data kontrolovat jako nedůvěryhodná. Načítání nic neopravuje ani nemaže. Sdílené časové invarianty napojit na doménu po merge 2B, pokud to bude potřeba; bez duplicitních pravidel nebo nové architektonické vrstvy.
-
-## Ukládání, identita a zachování historie
-
-- Seed data jsou v kódu a do `localStorage` se nikdy nezapisují. Zachovat ID `mock-1`, `mock-2`, `mock-3`. Studentka 21. 11. změnila obsah ukázek: Random play dance na Vyšehradě, natáčení coveru Cute Cats na Václavském náměstí a photocard event v PunchyCupu. První událost probíhá od hodiny před `now` do hodiny po něm. Druhá podle následného schválení začíná sedm hodin po `now` a trvá tři hodiny. Třetí začíná v 9:00 pražského kalendářního dne o tři dny později a končí o týden později opět v 9:00 pražského času. Při opakovaném generování zůstávají identity, texty a souřadnice stabilní.
-- Pro nově vytvářené uživatelské události je vyhrazen formát `user:<UUID>`; vytvoření ID při převodu formuláře patří do Fáze 7. Repository nesmí přijmout ID kolidující se seed daty ani již uloženou položkou, včetně neplatné položky se stejným ID.
-- Při čtení duplicitních ID má seed přednost před lokální položkou; mezi lokálními záznamy ponechat ve výsledku první platný záznam. Kolizní a další duplicitní položky přeskočit a zahrnout do hlášení neplatných položek. Zdrojové položky při čtení zůstávají beze změny.
-- `add()` nesmí zapisovat výsledek `list()`: tím by uložil seed data a odstranil přeskočené položky. Načte původní lokální pole a připojí nový platný záznam při zachování všech původních položek, včetně neplatných a historických. Neprovádí update existujícího ID.
-- Pokud klíč neexistuje, první zápis může vytvořit pole. Při chybě čtení, poškozeném JSON nebo kořenu jiném než pole zápis odmítnout a oznámit chybu; původní obsah nepřepisovat prázdným seznamem. Totéž platí pro selhání `setItem`.
-- Historické uživatelské události se automaticky nemažou a při běžných zápisech zůstávají zachované. `removeInvalid` ponechá všechny platné záznamy včetně historie. Nečitelný kořen vyžaduje explicitní reset, nikoli pokus o automatickou opravu.
-- `removeInvalid` a `resetSaved` mění pouze jediný vyhrazený klíč; nepoužívat `localStorage.clear()`. Výslovně potvrzený reset smaže i lokální historii, ale ne seed data. UI potvrzení patří do Fáze 8; nevytvářet nyní zálohování ani složitý recovery systém.
-
-## Mentoringové kroky
-
-1. Ověřit společný základ z 2A.2 a využít současná mock data jako základ seed dat. Tato fáze vlastní úpravy datových modulů; 2B je během souběhu nemění.
-2. Vysvětlit, proč se časy seed dat odvozují od předaného `now`.
-3. Napsat test aktivní, blízké a pozdější seed události.
-4. Navrhnout malé `EventRepository` rozhraní a návratový typ načtení bez Reactu; zvolit jeden storage klíč a rozlišit neplatné položky, nečitelný kořen a chybu čtení.
-5. Přidat Zod schema pro uložený `MapEvent` podle hranice validace výše.
-6. Vytvořit jednoduchý in-memory `Storage` fake pro testy.
-7. Testovat validní lokální položku vedle neplatné položky.
-8. Testovat poškozený JSON, jiný kořen než pole a chybu `getItem`.
-9. Implementovat načtení tak, aby seed data vždy přežila.
-10. Testovat úspěšný a neúspěšný zápis, zachování původních neplatných i historických položek a odmítnutí kolize ID nebo nečitelného obsahu.
-11. Přidat explicitní recovery operace a ověřit izolaci storage klíče; načtení samo nic nemaže.
-12. Po merge 2B začlenit aktuální `main`, vyřešit případné kolize manifestů a dokumentace a ověřit společný výsledek. Nové časové pravidlo neimplementovat podruhé kvůli paralelní práci.
-
-## Testy a ověření
-
-- Seed data mají stabilní ID, texty a souřadnice a při daném `now` pokrývají aktivní, blízký a pozdější čas. Model a schema podporují všech osm schválených kategorií; není nutné přidávat osm demo událostí.
-- Platná lokální událost se spojí se seed daty.
-- Neplatný soused se přeskočí a nahlásí.
-- Poškozený JSON nebo chyba čtení nezhodí aplikaci.
-- Selhání zápisu se propaguje volajícímu.
-- Historická událost projde načtením a přežije přidání další události i `removeInvalid`.
-- Přidání zachová neplatné sousedy; při chybě čtení, poškozeném JSON a neplatném kořenu se `setItem` nevolá.
-- Chybějící klíč dovolí první zápis. Seed data se nezapisují ani nemažou resetem.
-- Duplicitní lokální ID i kolize se seed ID jsou nahlášené a nezpůsobí tiché přepsání; `add` kolizi odmítne bez zápisu.
-- `removeInvalid` a `resetSaved` mění pouze vyhrazený storage klíč.
-- Samostatné testy repository a po integraci testy obou fází, typecheck, lint a build projdou.
-
-## Fáze neobsahuje
-
-- UI warningy a potvrzovací dialogy; přijdou ve Fázi 8.
-- Formulář pro zápis události; přijde ve Fázích 6–7.
-- Filtry, převod pražského vstupu a editaci historie; také backend, statistiky a gamifikaci.
-
-## Doporučený závěrečný commit
-
-`feat: add local event repository`
-
-## Handoff
-
-Do části 3 v `status.md` zapsat repository kontrakt, storage klíč, zachování neplatných a historických položek, řešení ID a testovací fake. Zachovat stav 2B a evidovat začlenění jejího merge z `main`. Fáze 4 začíná až po dokončení obou proudů. Trvalé Zod nebo storage poznatky uložit do `memory/03-*.md`.
+Automatické testy chrání načtení, fallback při poškození či nedostupnosti storage, kolize ID a reset vyhrazeného klíče. Tři časové scénáře seedů se ověří ručně při napojení do mapy. Před dokončením fáze musí projít společné testy po integraci 2B, lint, typecheck a build.

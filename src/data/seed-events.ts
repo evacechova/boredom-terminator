@@ -2,35 +2,6 @@ import type { MapEvent } from "@/core/events/types";
 import { getDefaultEventEnd } from "@/core/events/get-default-event-end";
 
 const hourInMs = 60 * 60 * 1000;
-const pragueDateFormatter = new Intl.DateTimeFormat("en-GB", {
-  timeZone: "Europe/Prague",
-  year: "numeric",
-  month: "2-digit",
-  day: "2-digit",
-});
-const pragueHourFormatter = new Intl.DateTimeFormat("en-GB", {
-  timeZone: "Europe/Prague",
-  hour: "2-digit",
-  hourCycle: "h23",
-});
-
-const getPragueMorning = (now: Date, daysAhead: number): string => {
-  const dateParts = Object.fromEntries(
-    pragueDateFormatter.formatToParts(now).map(({ type, value }) => [type, value]),
-  );
-  const utcMorning = new Date(
-    Date.UTC(
-      Number(dateParts.year),
-      Number(dateParts.month) - 1,
-      Number(dateParts.day) + daysAhead,
-      9,
-    ),
-  );
-
-  // This seed-only conversion uses 09:00, outside Prague's DST gaps and overlaps.
-  const offsetInHours = Number(pragueHourFormatter.format(utcMorning)) - 9;
-  return new Date(utcMorning.getTime() - offsetInHours * hourInMs).toISOString();
-};
 
 export function createSeedEvents(now: Date): MapEvent[] {
   const startsAt = new Date(now.getTime() - hourInMs).toISOString();
@@ -68,8 +39,8 @@ export function createSeedEvents(now: Date): MapEvent[] {
       id: "mock-3",
       title: "Photocard event",
       category: "fan_event",
-      startsAt: getPragueMorning(now, 3),
-      endsAt: getPragueMorning(now, 10),
+      startsAt: new Date(now.getTime() + 72 * hourInMs).toISOString(),
+      endsAt: new Date(now.getTime() + 240 * hourInMs).toISOString(),
       createdAt: now.toISOString(),
       location: {
         city: "Praha",

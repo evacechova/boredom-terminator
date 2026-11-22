@@ -40,12 +40,6 @@ describe("EventPanel", () => {
     expect(time).toHaveAttribute("datetime", "2026-11-07T14:00:00Z");
   });
 
-  it("shows navigation even when the venue name is missing", () => {
-    render(<EventPanel event={testEvent} onClose={jest.fn()} />);
-
-    expect(screen.getByRole("link", { name: "Navigovat" })).toBeInTheDocument();
-  });
-
   it("keeps event details but hides invalid navigation", () => {
     const event: MapEvent = {
       ...testEvent,
@@ -89,6 +83,7 @@ describe("EventPanel", () => {
     expect(screen.queryByText("An informal K-pop dance meetup.")).not.toBeInTheDocument();
     expect(screen.queryByText("5. 11. 2026 19:00")).not.toBeInTheDocument();
     expect(screen.getByText("8. 11. 2026 14:00")).toHaveAttribute("datetime", nextEvent.startsAt);
+    expect(screen.getByRole("link", { name: "Navigovat" })).toBeInTheDocument();
     expect(onClose).not.toHaveBeenCalled();
   });
 

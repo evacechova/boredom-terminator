@@ -1,70 +1,57 @@
+import { defaultEventWindowHours } from "@/config/app-config";
 import { filterEventsByTimeWindow } from "./filter-events-by-time-window";
 import type { MapEvent } from "./types";
 
 describe("filterEventsByTimeWindow", () => {
+  const now = new Date("2026-11-21T10:00:00Z");
+  const testEvent: MapEvent = {
+    id: "event",
+    title: "Test event",
+    category: "fan_event",
+    startsAt: "2026-11-21T09:00:00Z",
+    location: { city: "Praha", latitude: 50.0755, longitude: 14.4378 },
+    createdAt: "2026-11-20T12:00:00Z",
+  };
+
   it("keeps an ongoing event but excludes one ending exactly at now", () => {
-    const now = new Date("2026-11-21T10:00:00Z");
-    const endedEvent: MapEvent = {
+    const endedEvent = {
+      ...testEvent,
       id: "ended",
-      title: "Ended event",
-      category: "fan_event",
-      startsAt: "2026-11-21T09:00:00Z",
-      endsAt: "2026-11-21T10:00:00Z",
-      location: {
-        city: "Praha",
-        latitude: 50.0755,
-        longitude: 14.4378,
-      },
-      createdAt: "2026-11-20T12:00:00Z",
+      endsAt: now.toISOString(),
     };
-    const ongoingEvent: MapEvent = {
+    const ongoingEvent = {
       ...endedEvent,
       id: "ongoing",
-      title: "Ongoing event",
       endsAt: "2026-11-21T11:00:00Z",
     };
 
-    const result = filterEventsByTimeWindow([endedEvent, ongoingEvent], now);
-
-    expect(result).toEqual([ongoingEvent]);
+    expect(filterEventsByTimeWindow([endedEvent, ongoingEvent], now)).toEqual([ongoingEvent]);
   });
 
-  it("includes a start exactly 24 hours away but excludes one millisecond later", () => {
-    const now = new Date("2026-11-21T10:00:00Z");
-    const boundaryEvent: MapEvent = {
+  it("includes the configured window boundary but excludes later starts", () => {
+    const windowEnd = new Date(now.getTime());
+    windowEnd.setUTCHours(now.getUTCHours() + defaultEventWindowHours);
+    const boundaryEvent = {
+      ...testEvent,
       id: "boundary",
-      title: "Event at the window boundary",
-      category: "fan_event",
-      startsAt: "2026-11-22T10:00:00.000Z",
-      location: {
-        city: "Praha",
-        latitude: 50.0755,
-        longitude: 14.4378,
-      },
-      createdAt: "2026-11-20T12:00:00Z",
+      startsAt: windowEnd.toISOString(),
     };
-    const laterEvent: MapEvent = {
+    const laterEvent = {
       ...boundaryEvent,
       id: "later",
-      startsAt: "2026-11-22T10:00:00.001Z",
+      startsAt: new Date(windowEnd.getTime() + 1).toISOString(),
     };
 
-    const result = filterEventsByTimeWindow([boundaryEvent, laterEvent], now);
-
-    expect(result).toEqual([boundaryEvent]);
+    expect(filterEventsByTimeWindow([boundaryEvent, laterEvent], now)).toEqual([boundaryEvent]);
   });
 
   it("uses the default two-hour end when endsAt is missing", () => {
-    const now = new Date("2026-11-21T10:00:00Z");
-    const endedEvent: MapEvent = {
+    const endedEvent = {
+      ...testEvent,
       id: "ended-without-end",
-      title: "Event without an explicit end",
-      category: "fan_event",
       startsAt: "2026-11-21T08:00:00Z",
-      location: { city: "Praha", latitude: 50.0755, longitude: 14.4378 },
-      createdAt: "2026-11-20T12:00:00Z",
     };
-    const ongoingEvent: MapEvent = {
+    const ongoingEvent = {
       ...endedEvent,
       id: "ongoing-without-end",
       startsAt: "2026-11-21T09:00:00Z",

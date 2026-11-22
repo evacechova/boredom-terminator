@@ -12,7 +12,7 @@
 
 ## Ověření 2B
 
-- Aktuálně prošlo všech 50 případů v 9 sadách při `TZ=America/Los_Angeles`, typecheck, lint, cílené formátování a kontrola diffu. Časové testy se soustředí na Prahu a výchozí 24hodinové okno; vlastní délka okna se nyní netestuje. Panel má 7 testů; statický cíl a bezpečnostní atributy ověřuje existující test odkazu, kliknutí na zavření ověřuje kontejner.
+- Aktuálně prošlo všech 49 případů v 9 sadách při `TZ=America/Los_Angeles`, typecheck, lint, cílené formátování a kontrola diffu. Časové testy se soustředí na Prahu; hranici výchozího okna odvozují z `defaultEventWindowHours` (nyní 24). Přepsání okna explicitním argumentem se netestuje. Panel má 6 testů; statický cíl a bezpečnostní atributy ověřuje test odkazu, navigaci bez místa test přepnutí události a kliknutí na zavření kontejner.
 - Zachované rizikové případy: časové hranice, 23hodinový a 25hodinový pražský den, neplatné vstupy, prázdný výsledek a detail bez navigace. Řazení bylo ověřeno spustitelným příkladem včetně neměnnosti vstupu.
 - Produkční `npm run build -- --webpack` po změně navigace prošel. První běh zastavilo známé bezpečnostní upozornění Next.js 16.4.3; opakování uspělo.
 - V prohlížeči byly ověřeny navigační odkazy všech tří mock událostí. Předání do mobilní aplikace Google Maps není ručně ověřené; screenshoty a kontrola Vercel preview nejsou evidované jako hotové.

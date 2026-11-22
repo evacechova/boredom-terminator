@@ -49,13 +49,13 @@ export const EventPanel = ({ event, onClose }: EventPanelProps) => {
         {event.title}
       </h2>
       <time dateTime={event.startsAt}>{formatEventDate(event.startsAt)}</time>
-      {(mapsUrl.ok || event.venueName) && (
+      {(mapsUrl || event.venueName) && (
         <p>
           {event.venueName && <span className="mr-2">{event.venueName}</span>}
-          {mapsUrl.ok && (
+          {mapsUrl && (
             <a
               className="link"
-              href={mapsUrl.value}
+              href={mapsUrl}
               target="_self"
               rel="noopener noreferrer"
               onClick={handleNavigationClick}

@@ -95,6 +95,12 @@ Každý chat upravuje pouze svůj worktree a svou část handoffu. Změny mezi v
 8. Při odchylce aktualizuj `docs/mentoring/deviations.md`.
 9. Při trvalém novém poznatku přidej stručný soubor do `docs/mentoring/memory/`.
 
+## Styl dokumentace
+
+- Piš stručně a výstižně. Uváděj aktuální rozhodnutí, důležité poznatky a krátký důvod; například proč měla jiná varianta nevýhodu X.
+- Při změně rozhodnutí nahraď neplatný popis aktuálním. Nezapisuj všechny předchozí varianty, mezikroky ani průběh chatu; historii uchovává Git.
+- Každou informaci udržuj na jednom odpovědném místě a odjinud na ni odkazuj. `status.md` obsahuje pouze aktuální stav, ověření, otevřené problémy a další krok.
+
 ## Dokumentační autorita
 
 - `docs/superpowers/specs/2026-10-24-mvp-design.md`: schválené produktové požadavky.

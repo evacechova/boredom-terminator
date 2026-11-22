@@ -49,11 +49,15 @@ describe("filterEventsByDate", () => {
         date,
       );
 
-      expect(result).toEqual({ ok: true, value: [lastEvent, firstEvent] });
+      expect(result).toEqual([lastEvent, firstEvent]);
     },
   );
 
+  it("returns an empty array for a valid leap day with no events", () => {
+    expect(filterEventsByDate([], "2028-02-29")).toEqual([]);
+  });
+
   it.each(["2026-02-29", "30.10.2026"])("reports an invalid selected date %s", (date) => {
-    expect(filterEventsByDate([], date)).toEqual({ ok: false, error: "invalid_date" });
+    expect(filterEventsByDate([], date)).toBeUndefined();
   });
 });

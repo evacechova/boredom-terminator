@@ -82,6 +82,22 @@ describe("EventPanel", () => {
     );
   });
 
+  it("keeps event details but hides invalid navigation", () => {
+    const event: MapEvent = {
+      ...testEvent,
+      venueName: "Letenské sady",
+      description: "An informal K-pop dance meetup.",
+      location: { ...testEvent.location, latitude: NaN },
+    };
+
+    render(<EventPanel event={event} onClose={jest.fn()} />);
+
+    expect(screen.queryByRole("link", { name: "Navigovat" })).not.toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: event.title })).toBeInTheDocument();
+    expect(screen.getByText("Letenské sady")).toBeInTheDocument();
+    expect(screen.getByText("An informal K-pop dance meetup.")).toBeInTheDocument();
+  });
+
   it("updates the content and focuses the heading when the selected event changes", () => {
     const firstEvent: MapEvent = {
       ...testEvent,

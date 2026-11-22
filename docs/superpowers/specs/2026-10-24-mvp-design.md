@@ -223,9 +223,8 @@ Kliknutí na jiný marker změní `selectedEventId` a obsah panelu. Kliknutí do
 
 Řádek místa obsahuje volitelný název a textový odkaz `Navigovat` do Google Maps Directions s přesnými souřadnicemi cíle. Odkaz je dostupný i bez `venueName`. Výchozí polohu a trasu řeší Google Maps; aplikace kvůli tomuto odkazu sama nevyžaduje GPS. Jde o upřesnění studentky z 22. 11. 2026. Samostatné tlačítko `Open in maps` nebude.
 
-- Desktop otevře externí mapu v nové kartě nebo okně podle prohlížeče.
-- Mobil přejde ve stejné kartě; operační systém může otevřít aplikaci Google Maps.
-- Odkaz otevřený v nové kartě použije `rel="noopener noreferrer"`.
+- Odkaz používá `target="_blank"` a `rel="noopener noreferrer"` na mobilu i desktopu, aby aplikace zůstala otevřená se zachovaným kontextem.
+- Na mobilu může operační systém otevřít aplikaci Google Maps; jinak se použije nová karta nebo okno podle prohlížeče.
 
 ### Zavření
 

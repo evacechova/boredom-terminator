@@ -1,7 +1,7 @@
 "use client";
 
 import type { MapEvent } from "@/core/events/types";
-import { useEffect, useRef, type MouseEvent } from "react";
+import { useEffect, useRef } from "react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { formatEventDate } from "@/core/events/format-event-date";
 import { buildGoogleMapsUrl } from "@/core/events/build-google-maps-url";
@@ -13,11 +13,6 @@ type EventPanelProps = {
 
 export const EventPanel = ({ event, onClose }: EventPanelProps) => {
   const mapsUrl = buildGoogleMapsUrl(event.location.latitude, event.location.longitude);
-  const handleNavigationClick = (clickEvent: MouseEvent<HTMLAnchorElement>) => {
-    const opensInNewTab = window.matchMedia("(min-width: 640px)").matches;
-    clickEvent.currentTarget.target = opensInNewTab ? "_blank" : "_self";
-  };
-
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
@@ -53,13 +48,7 @@ export const EventPanel = ({ event, onClose }: EventPanelProps) => {
         <p>
           {event.venueName && <span className="mr-2">{event.venueName}</span>}
           {mapsUrl && (
-            <a
-              className="link"
-              href={mapsUrl}
-              target="_self"
-              rel="noopener noreferrer"
-              onClick={handleNavigationClick}
-            >
+            <a className="link" href={mapsUrl} target="_blank" rel="noopener noreferrer">
               Navigovat
             </a>
           )}

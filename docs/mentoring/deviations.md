@@ -8,7 +8,7 @@ Jednoduché helpery vracejí hodnotu nebo `undefined`; jediný druh chyby nepot�
 
 ## 2026-11-22 – Navigace už ve 2B
 
-Napojení Google Maps Directions do existujícího `EventPanel` se přesouvá z Fáze 5 do 2B. Navigace funguje i bez názvu místa a nevyžaduje vlastní GPS; neplatná URL skryje pouze odkaz. Chování popisuje [plán 2B](../superpowers/plans/02b-event-domain.md). Vizuální hierarchie detailu zůstává odložená.
+Napojení Google Maps Directions do existujícího `EventPanel` se přesouvá z Fáze 5 do 2B. Navigace funguje i bez názvu místa a nevyžaduje vlastní GPS; neplatná URL skryje pouze odkaz. Na mobilu i desktopu používá statické `target="_blank"` a `rel="noopener noreferrer"`, aby zachovala kontext aplikace bez detekce šířky. Chování popisuje [plán 2B](../superpowers/plans/02b-event-domain.md). Vizuální hierarchie detailu zůstává odložená.
 
 ## 2026-11-22 – Minimální testování
 

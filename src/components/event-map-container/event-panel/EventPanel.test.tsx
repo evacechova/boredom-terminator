@@ -32,33 +32,12 @@ describe("EventPanel", () => {
       "href",
       "https://www.google.com/maps/dir/?api=1&destination=50.08%2C14.42&dir_action=navigate",
     );
+    expect(venueLink).toHaveAttribute("target", "_blank");
     expect(venueLink).toHaveAttribute("rel", "noopener noreferrer");
     expect(screen.getByText("An informal K-pop dance meetup.")).toBeInTheDocument();
     const time = screen.getByText("7. 11. 2026 15:00");
     expect(time.tagName).toBe("TIME");
     expect(time).toHaveAttribute("datetime", "2026-11-07T14:00:00Z");
-  });
-
-  it("opens navigation in a new tab only at desktop widths, including after resizing", () => {
-    const originalMatchMedia = window.matchMedia;
-    const matchMedia = jest.fn().mockReturnValue({ matches: true });
-    window.matchMedia = matchMedia;
-
-    try {
-      render(<EventPanel event={testEvent} onClose={jest.fn()} />);
-      const venueLink = screen.getByRole("link", { name: "Navigovat" });
-      venueLink.addEventListener("click", (clickEvent) => clickEvent.preventDefault());
-
-      fireEvent.click(venueLink);
-      expect(matchMedia).toHaveBeenCalledWith("(min-width: 640px)");
-      expect(venueLink).toHaveAttribute("target", "_blank");
-
-      matchMedia.mockReturnValue({ matches: false });
-      fireEvent.click(venueLink);
-      expect(venueLink).toHaveAttribute("target", "_self");
-    } finally {
-      window.matchMedia = originalMatchMedia;
-    }
   });
 
   it("shows navigation even when the venue name is missing", () => {

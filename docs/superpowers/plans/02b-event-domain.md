@@ -35,7 +35,7 @@ Existující `formatEventDate(isoDate: string): string` a `getDefaultEventEnd(st
 
 - `filterEventsByDate(events, date): MapEvent[] | undefined`: `YYYY-MM-DD`, pouze začátky v pražském dni, zachované pořadí. `undefined` znamená chybný formát nebo neexistující den; `[]` je platný den bez výsledků. Obě půlnoci se počítají kalendářně kvůli DST. Integritu událostí ověřuje datová hranice Fáze 3.
 - `buildGoogleMapsUrl(latitude, longitude): string | undefined`: konečná čísla v rozsazích ±90 a ±180 včetně hranic. [Google Maps Directions URL](https://developers.google.com/maps/documentation/urls/get-started#directions) používá `api=1`, zakódované `destination` a `dir_action=navigate`; výchozí polohu řeší Google Maps.
-- `EventPanel` zobrazuje „Navigovat“ i bez `venueName`. Neplatné souřadnice skryjí pouze odkaz. Při aktivaci otevře šířka alespoň 640 px nový kontext, menší šířka stejný; `rel="noopener noreferrer"`. Browser API se nečte během renderu. Toto napojení je přesunuté z Fáze 5 do 2B.
+- `EventPanel` zobrazuje „Navigovat“ i bez `venueName`. Neplatné souřadnice skryjí pouze odkaz. Statické `target="_blank"` a `rel="noopener noreferrer"` zachovávají kontext aplikace na mobilu i desktopu bez browser API. Toto napojení je přesunuté z Fáze 5 do 2B.
 
 ## Časový kontrakt a paralelní hranice
 

@@ -16,11 +16,11 @@
 
 ### Proud 3 – `03-local-repository`
 
-- **Stav 22. 11.:** datová vrstva je zjednodušená pro seed demo. Aktuální architektura a její důvody jsou v [plánu Fáze 3](../superpowers/plans/03-local-repository.md).
-- Otevřen [draft PR #5](https://github.com/evacechova/boredom-terminator/pull/5) do `main`, reviewer `BobesCZ`. Popis PR ještě odpovídá staršímu rozsahu; aktualizovat ho spolu s pushnutím úklidu.
-- **Ověření:** 33 testů, lint, typecheck a formátování prošly. Build zkompiloval aplikaci, ale CLI ho ukončilo na `SecurityFatalError` pro stávající Next.js; tato závislost vyžaduje samostatné vyřešení.
-- **Další krok:** push úklidu a aktualizace PR; po merge 2B začlenit `main` a ověřit integraci. Mapa zatím používá původní mock data. Fáze 4 začne po dokončení obou proudů.
-- **Pro další práci:** ošetřit získání browserového storage a v čistém worktree generovat Next.js typy; viz `memory/03-*.md`. V PR ponechat všechny checkboxy `[ ]` a vynechat známá omezení runneru; společnou PR šablonu sjednotit na `main`.
+- **Stav 22. 11.:** aplikace používá tři relativní seedy přímo ze serverové stránky. Aktuální architektura a důvody jsou v [plánu Fáze 3](../superpowers/plans/03-local-repository.md). Repository, storage schema, jejich testy a přímá závislost na Zodu jsou odstraněné; zbývá seed factory a společný `MapEvent`.
+- Otevřen [draft PR #5](https://github.com/evacechova/boredom-terminator/pull/5) do `main`, reviewer `BobesCZ`.
+- **Ověření:** 25 testů, lint, typecheck a formátování prošly. Build dokončil kompilaci i kontrolu typů a potvrdil vykreslování `/` na požadavek; CLI ho pak ukončilo na stávajícím `SecurityFatalError` pro Next.js. Build proto není označený jako prošlý.
+- **Další krok:** po merge 2B začlenit `main` a ověřit integraci. Vlastní události a jejich ukládání se doplní až s formulářem.
+- **Pro další práci:** starší odkazy na repository Fáze 3 v navazujících plánech jsou nyní neaktuální. V čistém worktree vygenerovat Next.js typy podle `memory/03-next-type-generation.md`. PR psát anglicky, ponechat všechny checkboxy `[ ]` a vynechat známá omezení runneru i změny dokumentace; společnou PR šablonu sjednotit na `main`.
 
 ### Nejbližší společný krok
 

@@ -1,22 +1,14 @@
-# Fáze 3 – Seed demo a lokální repository
-
-> Aktuální rozsah dema k 22. 11. 2026.
+# Fáze 3 – Relativní seed data pro mapové demo
 
 **Větev:** `03-local-repository`
 
-**Cíl:** Tři relativní ukázkové události a načtení/reset lokálních testovacích dat.
-
-**Závislosti:** Základ z 2A.2; před dokončením PR začlenit výsledek 2B z `main` a ověřit integraci.
+**Cíl:** Tři ukázkové události, které při načtení dema odpovídají aktuálnímu času.
 
 ## Architektura
 
-- `createSeedEvents(now: Date): MapEvent[]` vytváří stabilní ID, texty a souřadnice s časy relativními k předanému okamžiku. Časy se ukládají jako UTC ISO řetězce.
-- `createLocalEventRepository(storage: Storage, now: Date)` dostává úložiště a čas zvenku; modul při importu nečte browser API.
-- `list(): MapEvent[]` spojí seedy s celým validním lokálním polem. Zod ověřuje strukturu a základní invarianty `MapEvent`. Nečitelný obsah, chyba přístupu nebo kolize ID znamenají návrat k samotným seedům.
-- `resetSaved()` odstraní pouze `boredom-terminator:saved-events:v1`. Seedy zůstávají v kódu.
-- Přidávání událostí se doplní společně s formulářem. Napojení repository do mapy patří do Fáze 4.
+`createSeedEvents(now: Date): MapEvent[]` vrací tři události se stabilními ID, texty a souřadnicemi. Všechny časy jsou UTC ISO řetězce odvozené od předaného okamžiku.
 
-## Ukázkové události
+Serverová `page.tsx` vytvoří seedy a předá je existujícímu `EventMapContainer`. Route má `dynamic = "force-dynamic"`, aby se události vytvářely při požadavku a nezůstaly napevno podle času produkčního buildu. Mapa i panel používají stávající implementaci.
 
 | ID     | Událost                                     | Začátek vůči now | Konec vůči now |
 | ------ | ------------------------------------------- | ---------------- | -------------- |
@@ -26,8 +18,10 @@
 
 ## Proč toto řešení
 
-Vlastní události jsou zahoditelná data pro manuální testování. Záchrana jednotlivých poškozených položek a archivace historie přidávaly složitost bez přínosu pro demo; stačí reset. Přesná pražská hodina seedů vyžadovala kalendářní převody, přestože pro ukázku filtrů stačí probíhající, blízká a pozdější událost. Zápisová operace zatím nemá volajícího, proto vznikne až s formulářem.
+Demo zatím používá pouze data definovaná v kódu. Repository, storage validace a reset neměly skutečného volajícího v aplikaci; datová vrstva vznikne až s ukládáním vlastních událostí. Pro seedy stačí typ `MapEvent`. Prosté časové posuny zajišťují tři ukázkové scénáře bez kalendářních převodů.
 
-## Ověření
+## Ověření a návaznost
 
-Automatické testy chrání načtení, fallback při poškození či nedostupnosti storage, kolize ID a reset vyhrazeného klíče. Tři časové scénáře seedů se ověří ručně při napojení do mapy. Před dokončením fáze musí projít společné testy po integraci 2B, lint, typecheck a build.
+Ověřit mapu a panel se třemi událostmi, existující testy, lint, typecheck a build. Samostatné testy konstantních posunů seedů nejsou potřeba. Před dokončením PR začlenit výsledek 2B z `main` a ověřit integraci; filtry a formulář patří do navazujících fází.
+
+[Next.js – dynamické vykreslování route](https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config#dynamic)

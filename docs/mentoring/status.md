@@ -8,11 +8,11 @@
 - Doména je implementovaná: převod místního času přes `@js-temporal/polyfill`, rolling filtr, pražský den, řazení a navigační URL. Převod rozlišuje chyby vstupu, pásma a obou DST situací.
 - Opravy podle [PR #6](https://github.com/evacechova/boredom-terminator/pull/6): jednoduché helpery vracejí hodnotu nebo `undefined`; neplatná navigace skryje pouze odkaz. `[]` zůstává platným výsledkem datumového filtru. Navigace používá na mobilu i desktopu statické `target="_blank"` a `rel="noopener noreferrer"`, aby zachovala kontext aplikace bez detekce šířky.
 - UI stále používá pevná mock data. Filtry, URL recovery a notifikace se napojí ve [Fázi 4](../superpowers/plans/04-discovery-ui.md); seed factory, runtime validace a localStorage patří Fázi 3.
-- PR vede do `main`, reviewer je `BobesCZ`. PR je otevřený, není draft; na GitHub je zatím pushnutá práce po `9922c10`. Úklid testů a změna otevírání navigace navazují lokálně.
+- PR vede do `main`, reviewer je `BobesCZ`. PR je otevřený, není draft. Časové testy jsou zúžené na aktuální rozsah 2B; produkční kód se při tomto úklidu neměnil.
 
 ## Ověření 2B
 
-- Po zjednodušení navigace: všech 52 případů v 9 sadách prošlo při `TZ=America/Los_Angeles`; prošly také typecheck, lint, cílené formátování a kontrola diffu. Panel má 7 testů; statický cíl a bezpečnostní atributy ověřuje existující test odkazu, kliknutí na zavření ověřuje kontejner.
+- Aktuálně prošlo všech 50 případů v 9 sadách při `TZ=America/Los_Angeles`, typecheck, lint, cílené formátování a kontrola diffu. Časové testy se soustředí na Prahu a výchozí 24hodinové okno; vlastní délka okna se nyní netestuje. Panel má 7 testů; statický cíl a bezpečnostní atributy ověřuje existující test odkazu, kliknutí na zavření ověřuje kontejner.
 - Zachované rizikové případy: časové hranice, 23hodinový a 25hodinový pražský den, neplatné vstupy, prázdný výsledek a detail bez navigace. Řazení bylo ověřeno spustitelným příkladem včetně neměnnosti vstupu.
 - Produkční `npm run build -- --webpack` po změně navigace prošel. První běh zastavilo známé bezpečnostní upozornění Next.js 16.4.3; opakování uspělo.
 - V prohlížeči byly ověřeny navigační odkazy všech tří mock událostí. Předání do mobilní aplikace Google Maps není ručně ověřené; screenshoty a kontrola Vercel preview nejsou evidované jako hotové.
@@ -24,7 +24,7 @@
 
 ## Další krok a otevřené úkoly
 
-1. Na výslovný pokyn pushnout oba kroky; potom upravit popis PR #6 na otevírání v nové kartě i na mobilu. Doplnit podklady a pokračovat review. Merge nebyl vyžádaný.
+1. Doplnit podklady PR #6 a pokračovat review. Merge nebyl vyžádaný.
 2. Před založením větve Fáze 4 na společném `main` prověřit bezpečnostní nálezy a aktualizovat Next.js i odpovídající `eslint-config-next`. Opravenou verzi znovu ověřit; aktualizace je do té doby výslovně odložená. Starší audit vývojových závislostí zůstává otevřený.
 3. Vizuální hierarchie detailu, finální vztah panelu a pluska a případná šipka zpět jsou odložené. Další kandidáty evidují [budoucí nápady](../product/future-ideas.md).
 

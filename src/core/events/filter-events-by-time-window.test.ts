@@ -72,23 +72,4 @@ describe("filterEventsByTimeWindow", () => {
 
     expect(filterEventsByTimeWindow([endedEvent, ongoingEvent], now)).toEqual([ongoingEvent]);
   });
-
-  it("uses an explicit 36-hour window instead of the default", () => {
-    const now = new Date("2026-11-21T10:00:00Z");
-    const boundaryEvent: MapEvent = {
-      id: "custom-boundary",
-      title: "Event at the custom window boundary",
-      category: "fan_event",
-      startsAt: "2026-11-22T22:00:00.000Z",
-      location: { city: "Praha", latitude: 50.0755, longitude: 14.4378 },
-      createdAt: "2026-11-20T12:00:00Z",
-    };
-    const laterEvent: MapEvent = {
-      ...boundaryEvent,
-      id: "after-custom-boundary",
-      startsAt: "2026-11-22T22:00:00.001Z",
-    };
-
-    expect(filterEventsByTimeWindow([boundaryEvent, laterEvent], now, 36)).toEqual([boundaryEvent]);
-  });
 });

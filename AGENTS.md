@@ -53,6 +53,14 @@ Asistent je seniorní mentor. Studentka vlastní implementaci a píše produkčn
 - Nepřidávej zbytečné závislosti ani abstrakce bez jasného přínosu.
 - Dodržuj existující konvence projektu, pokud nejsou v konfliktu s těmito pravidly.
 
+## Testování a ověřování
+
+- TDD není povinné. Testy nemusí předcházet implementaci a každý mentoringový krok nemusí mít nový automatický test.
+- Testy omezuj na nutné minimum. Před přidáním pojmenuj konkrétní chybu nebo nepokryté pravidlo, které má test zachytit, a zkontroluj existující pokrytí.
+- Zachovej automatické ověření rizikových pravidel, zejména časových hranic a DST, validace, uchování dat, zápisu do úložiště a kritických uživatelských toků. Stejné pravidlo netestuj znovu na více vrstvách bez samostatného rizika integrace.
+- Jednoduché řazení, přejmenování, konfiguraci nebo přímočaré propojení lze ověřit krátkým spustitelným příkladem, typecheckem, lintem nebo ruční kontrolou podle povahy změny. Nezaváděj test jen kvůli procesu ani test kopírující implementaci.
+- Existující relevantní testy dál spouštěj; odstraňování testů musí vycházet z auditu jejich přínosu. Při rozporu se staršími kroky plánů má toto pravidlo přednost před požadavkem napsat test jako první.
+
 ## Jeden kontext a větev na jednu fázi
 
 Při zahájení práce, po přepnutí kontextu nebo worktree a před každou sadou úprav ověř aktuální větev a pracovní stav pomocí `git status --short --branch`. Ověř také, že pracuješ v zamýšleném pracovním adresáři. Porovnej větev s rozsahem aktuálního úkolu; případnou neshodu vyřeš před úpravami. Existující necommitnuté změny zachovej.
@@ -86,6 +94,12 @@ Každý chat upravuje pouze svůj worktree a svou část handoffu. Změny mezi v
 7. Aktualizuj `docs/mentoring/status.md`.
 8. Při odchylce aktualizuj `docs/mentoring/deviations.md`.
 9. Při trvalém novém poznatku přidej stručný soubor do `docs/mentoring/memory/`.
+
+## Styl dokumentace
+
+- Piš stručně a výstižně. Uváděj aktuální rozhodnutí, důležité poznatky a krátký důvod; například proč měla jiná varianta nevýhodu X.
+- Při změně rozhodnutí nahraď neplatný popis aktuálním. Nezapisuj všechny předchozí varianty, mezikroky ani průběh chatu; historii uchovává Git.
+- Každou informaci udržuj na jednom odpovědném místě a odjinud na ni odkazuj. `status.md` obsahuje pouze aktuální stav, ověření, otevřené problémy a další krok.
 
 ## Dokumentační autorita
 

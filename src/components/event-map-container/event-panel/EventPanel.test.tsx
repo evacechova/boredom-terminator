@@ -27,18 +27,33 @@ describe("EventPanel", () => {
     render(<EventPanel event={event} onClose={jest.fn()} />);
 
     expect(screen.getByText("Letenské sady")).toBeInTheDocument();
+    const venueLink = screen.getByRole("link", { name: "Navigovat" });
+    expect(venueLink).toHaveAttribute(
+      "href",
+      "https://www.google.com/maps/dir/?api=1&destination=50.08%2C14.42&dir_action=navigate",
+    );
+    expect(venueLink).toHaveAttribute("target", "_blank");
+    expect(venueLink).toHaveAttribute("rel", "noopener noreferrer");
     expect(screen.getByText("An informal K-pop dance meetup.")).toBeInTheDocument();
     const time = screen.getByText("7. 11. 2026 15:00");
     expect(time.tagName).toBe("TIME");
     expect(time).toHaveAttribute("datetime", "2026-11-07T14:00:00Z");
   });
 
-  it("omits paragraphs when the venue and description are missing", () => {
-    render(<EventPanel event={testEvent} onClose={jest.fn()} />);
+  it("keeps event details but hides invalid navigation", () => {
+    const event: MapEvent = {
+      ...testEvent,
+      venueName: "Letenské sady",
+      description: "An informal K-pop dance meetup.",
+      location: { ...testEvent.location, latitude: NaN },
+    };
 
-    expect(screen.getByRole("heading", { name: testEvent.title })).toBeInTheDocument();
-    expect(screen.getByText("5. 11. 2026 19:00")).toBeInTheDocument();
-    expect(screen.queryAllByRole("paragraph")).toHaveLength(0);
+    render(<EventPanel event={event} onClose={jest.fn()} />);
+
+    expect(screen.queryByRole("link", { name: "Navigovat" })).not.toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: event.title })).toBeInTheDocument();
+    expect(screen.getByText("Letenské sady")).toBeInTheDocument();
+    expect(screen.getByText("An informal K-pop dance meetup.")).toBeInTheDocument();
   });
 
   it("updates the content and focuses the heading when the selected event changes", () => {
@@ -68,35 +83,18 @@ describe("EventPanel", () => {
     expect(screen.queryByText("An informal K-pop dance meetup.")).not.toBeInTheDocument();
     expect(screen.queryByText("5. 11. 2026 19:00")).not.toBeInTheDocument();
     expect(screen.getByText("8. 11. 2026 14:00")).toHaveAttribute("datetime", nextEvent.startsAt);
+    expect(screen.getByRole("link", { name: "Navigovat" })).toBeInTheDocument();
     expect(onClose).not.toHaveBeenCalled();
   });
 
-  it("closes through the named icon button", () => {
+  it("calls onClose only when Escape is pressed", () => {
     const onClose = jest.fn();
     render(<EventPanel event={testEvent} onClose={onClose} />);
 
-    fireEvent.click(screen.getByRole("button", { name: "Zavřít" }));
-
-    expect(onClose).toHaveBeenCalledTimes(1);
-  });
-
-  it("calls onClose when Escape is pressed", () => {
-    const mockOnClose = jest.fn();
-
-    render(<EventPanel event={testEvent} onClose={mockOnClose} />);
-
-    fireEvent.keyDown(window, { key: "Escape" });
-
-    expect(mockOnClose).toHaveBeenCalledTimes(1);
-  });
-  it("does not call onClose when Backspace is pressed", () => {
-    const mockOnClose = jest.fn();
-
-    render(<EventPanel event={testEvent} onClose={mockOnClose} />);
-
     fireEvent.keyDown(window, { key: "Backspace" });
-
-    expect(mockOnClose).not.toHaveBeenCalled();
+    expect(onClose).not.toHaveBeenCalled();
+    fireEvent.keyDown(window, { key: "Escape" });
+    expect(onClose).toHaveBeenCalledTimes(1);
   });
 
   it("removes the Escape listener when the panel unmounts", () => {

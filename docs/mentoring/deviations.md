@@ -1,119 +1,65 @@
 # Odchylky od specifikace a plánů
 
-## 2026-11-21 – Paralelní vývoj 2B a 3 a zachování historie
+Platná rozhodnutí měnící rozsah, architekturu nebo postup. Podrobnosti patří do odkazovaných plánů; historii variant uchovává Git.
 
-Studentka schválila úzce vymezenou výjimku ze sekvenčního postupu. Fáze 2B (`02b-event-domain`) a 3 (`03-local-repository`) mohou běžet ve vlastních worktrees a chatech nad stejným commitem se schválenou společnou dokumentací. Nová fáze 3A nevzniká a funkce se mezi fázemi nepřesouvají. Nejprve se sloučí 2B, potom se aktuální `main` začlení do větve 3 a ověří integrace. Fáze 4 čeká na obě dokončené fáze.
+## 2026-11-22 – Výsledky utilit a URL recovery
 
-Společný model `MapEvent` z 2A.2 zůstává beze změny názvu a struktury: osm kategorií, `city: "Praha"`, UTC ISO časy a volitelné `endsAt`. Výchozí efektivní konec počítá existující `getDefaultEventEnd`. Nové funkce závislé na aktuálním čase dostávají `now: Date` zvenku. 2B vlastní čas, DST, filtry, řazení a mapové URL; 3 vlastní seed data, Zod a storage. Na nehotové funkce 2B se repository při samostatné implementaci nespoléhá.
+Jednoduché helpery vracejí hodnotu nebo `undefined`; jediný druh chyby nepotřebuje diskriminovaný objekt. Převod místního času dál rozlišuje chyby vstupu, pásma a DST. Kontrakty jsou v [plánu 2B](../superpowers/plans/02b-event-domain.md). URL recovery je výslovně ponechané [Fázi 4](../superpowers/plans/04-discovery-ui.md).
 
-Schválené hranice rolling filtru: probíhající událost splňuje `startsAt <= now` a efektivní konec `> now`; nadcházející `startsAt > now` a `startsAt <= now + 24 hodin`. Zvolený den je pražský kalendářní den podle začátku, nikoli pevný UTC interval. Neexistující DST čas má vést k chybě a dvojznačný se nesmí tiše převést. Jednoduchý návrh v plánu 2B odmítá oba druhy místního vstupu bez přidání výběrového UI.
+## 2026-11-22 – Navigace už ve 2B
 
-Historické uživatelské události se uchovávají bez automatického mazání, zůstávají platnými záznamy a výchozí aktuální filtr je skryje. Skončenou událost nesmí uživatel zpětně upravovat. Aktuálně se editace, backend, statistiky ani gamifikace neimplementují; při budoucím backendu je nutné zachovat vazbu na autora a zákaz úprav vynucovat serverově. Platná historie přežije i odstranění neplatných položek. Výslovně potvrzený reset nadále smaže všechny lokální uživatelské události včetně historie, nikoli seed nebo jiné storage klíče. MVP neposkytuje backendový archiv ani zálohu proti vymazání browser dat.
+Napojení Google Maps Directions do existujícího `EventPanel` se přesouvá z Fáze 5 do 2B. Navigace funguje i bez názvu místa a nevyžaduje vlastní GPS; neplatná URL skryje pouze odkaz. Na mobilu i desktopu používá statické `target="_blank"` a `rel="noopener noreferrer"`, aby zachovala kontext aplikace bez detekce šířky. Chování popisuje [plán 2B](../superpowers/plans/02b-event-domain.md). Vizuální hierarchie detailu zůstává odložená.
 
-Při běžném přidání se zachovají i neplatné původní položky. Nečitelný JSON, nesprávný kořen a chyby čtení nesmějí vést k přepsání úložiště; zápis se odmítne a chyba se předá volajícímu. Seed záznamy zůstávají pouze v kódu. Duplicity ID se hlásí a nevedou k tichému přepsání.
+## 2026-11-22 – Minimální testování
 
-Technické volby plánu pro jednoduchou implementaci: nová uživatelská ID mají formát `user:<UUID>`, stávající seed ID zůstávají zachovaná. Při čtení má seed přednost před kolidující lokální položkou; mezi lokálními záznamy se vrací první platná položka daného ID a další se nahlásí. `add` kolidující ID odmítne bez zápisu. Tyto volby nemění strukturu `MapEvent` a nevyžadují migraci ani nový framework.
+TDD není povinné. Nové testy chrání konkrétní nepokryté pravidlo nebo riziko; jednoduché změny lze ověřit spustitelným příkladem či existujícími kontrolami. Pravidla v [AGENTS.md](../../AGENTS.md) mají přednost před staršími požadavky plánů na test jako první krok.
 
-Společné dokumentační změny se připravují na `main` a po schválení se commitnou před založením obou worktrees. Mentor commit provádí pouze na výslovnou žádost. Úprava dokumentace sama neznamená spuštění implementace nebo vytvoření worktrees.
+## 2026-11-21 – Souběh 2B a 3, integrita dat a historie
 
-## 2026-11-16 – Odložení městské části
+- Jediná výjimka ze sekvenčního vývoje: 2B a 3 běží ve vlastních worktrees a chatech nad společným základem. 2B vlastní časovou doménu; 3 seed, Zod a storage. Nejprve merge 2B, potom integrace aktuálního `main` do 3. Fáze 4 čeká na obě. Postup upravuje [roadmapa](../superpowers/plans/README.md).
+- Společný `MapEvent` se bez dohody nemění. UTC ISO časy, volitelné `endsAt`, společný dvouhodinový konec a předaný `now` platí pro oba proudy. Přesné rolling a DST hranice určuje [plán 2B](../superpowers/plans/02b-event-domain.md).
+- Historické události zůstávají platné a nemažou se automaticky; výchozí filtr je pouze skryje. Skončené události nesmějí být zpětně upravované. Budoucí backend musí zachovat autora a zákaz úprav vynucovat serverově; editace ani backend nejsou součástí tohoto kroku.
+- Běžné přidání zachovává původní lokální položky včetně neplatných a historických. Nečitelná data ani selhání čtení nesmějí vést k přepsání storage. `removeInvalid` zachová platnou historii; potvrzený reset smaže lokální události včetně historie, nikoli seed ani jiné klíče. Browser storage není záloha.
+- Nová uživatelská ID mají formát `user:<UUID>`. Při čtení má seed přednost před lokální kolizí a mezi lokálními položkami první platný záznam. Duplicity se hlásí; `add` kolidující ID odmítne bez zápisu. Datovou validaci a operace určuje [plán 3](../superpowers/plans/03-local-repository.md).
 
-Studentka odložila městskou část. Aktuální MVP nebude obsahovat `location.district`, typ `PragueDistrict`, ruční výběr městské části ve formuláři ani filtr podle městské části. Odpadá také fallback názvu místa na městskou část. Souřadnice, `city: "Praha"` a volitelný `venueName` zůstávají. Toto rozhodnutí má přednost před odpovídajícími požadavky původní specifikace a plánů; návrat funkce vyžaduje další domluvu.
+## 2026-11-16 – Městská část mimo MVP
 
-## Výchozí délka události v 2A.2
+MVP neobsahuje `district`, `PragueDistrict`, jejich výběr, filtr ani fallback názvu místa. Zůstávají souřadnice, `city: "Praha"` a volitelné `venueName`. Návrat městské části vyžaduje další dohodu.
 
-Studentka výslovně přesunula také výpočet výchozího konce do aktuální fáze. Funkce `getDefaultEventEnd` přičítá dvě skutečně uplynulé hodiny k předanému začátku a vrací UTC ISO řetězec. Zatím není napojená na vytváření událostí. Ostatní časová pravidla zůstávají ve 2B.
+## Model a výchozí konec už ve 2A.2
 
-## Rozšíření modelu ve fázi 2A.2 a kategorie akcí
+Rozšíření `MapEvent` a `getDefaultEventEnd` se přesunuly z 2B do 2A.2. Každá událost má jednu z osmi kategorií podle [specifikace](../superpowers/specs/2026-10-24-mvp-design.md); taneční styl je odložený. Výchozí konec přičítá dvě uplynulé hodiny a vrací UTC ISO. Časové filtry zůstávají ve 2B, napojení na vytváření ve Fázích 6–7.
 
-Studentka přesunula rozšíření modelu z 2B do 2A.2; časová pravidla a filtry zůstávají ve 2B. Kategorie nyní označují typ akce: `random_play_dance`, `cover_shoot`, `dance_class`, `festival`, `party`, `fan_event`, `concert`, `store_event`. Každá událost má jednu povinnou kategorii. Taneční styl se nyní nepřidává. Jde o schválenou změnu oproti třem původním kategoriím specifikace.
+## 2026-11-13 – Organizace kódu a testy před commitem
 
-## 2026-11-13 – Oddělení SVG vzhledu od mapové knihovny
+- Sdílená aplikační vrstva se jmenuje `src/core`; její odpovědnost se nemění.
+- SVG markeru patří do `src/styles/map-marker.ts`, Leaflet adaptér k mapovým komponentám a sdílené React komponenty do `src/components/ui`. Vzhled tak nezávisí na mapové knihovně.
+- Husky `pre-commit` spouští `npm test`. Hook nenahrazuje závěrečné ověření fáze.
 
-Po dohodě se studentkou je SVG vzhled markeru v `src/styles/map-marker.ts`. Původně zavedená složka `src/design-system` byla odstraněna; sdílené React komponenty zůstávají v `src/components/ui`. Leaflet adaptér zůstává u mapových komponent. Jde o rozšíření organizačních úprav fáze 2A.2; vzhled a chování markeru se nemění.
+## 2026-11-05 – Mobilní detail a mapový podklad
 
-## 2026-11-13 – Název společné aplikační vrstvy
+- Mobilní detail zabírá celou obrazovku včetně hlavičky; desktop používá plovoucí panel. Plusko se při otevřeném detailu skrývá. Zavírání křížkem zůstává, šipka zpět je odložená.
+- CARTO Positron nahrazuje standardní dlaždice OpenStreetMap. Vyžaduje `NEXT_PUBLIC_CARTO_API_KEY` a viditelnou atribuci OpenStreetMap i CARTO. Podmínky a jejich kontrolu před komerčním použitím popisuje [projektová paměť](memory/02-carto-basemap-limits.md).
 
-Na žádost studentky se `src/domain` přejmenovává na `src/core`. Změna zpřehledňuje názvosloví; odpovědnost vrstvy ani schválená architektura se nemění. Typy událostí jsou nyní v `src/core/events/types.ts`.
+## 2026-11-05 – Rozdělení dema na 2A a 2A.2
 
-## 2026-11-13 – Automatické testy před commitem
+Kvůli menším review uzavírá 2A základ mapy, výběr, zavírání a fokus. Obsah karty, responzivní rolování, mapová konfigurace a loading stav patří do 2A.2; potom následuje 2B. Fáze 8 přístupnost rozšíří, její základy se neodkládají.
 
-Na žádost studentky přidán v pokračování Fáze 2A.2 Husky jako vývojová závislost, skript `prepare` a hook `pre-commit`, který spouští `npm test`. Jde o rozšíření vývojového procesu mimo původní UI rozsah fáze. Lokální hook nenahrazuje závěrečná ověření fáze.
+## 2026-11-04 – Dynamické načítání bez obalu EventMap
 
-## 2026-11-05 – Mobilní detail přes celou obrazovku
+Samostatný `EventMap` pouze předával props. Dynamický import s `ssr: false` proto zajišťuje přímo rodič mapy a panelu, nyní `EventMapContainer`.
 
-Na výslovnou žádost studentky mobilní detail nahrazuje původní spodní panel plochou přes celou obrazovku včetně hlavičky. Desktop zachovává plovoucí panel vpravo. Plovoucí odkaz pro vytvoření události se při otevřeném detailu skrývá na všech šířkách. Prozatím zůstává zavírání křížkem; šipka zpět je odložená.
+## 2026-11-02 – Viditelné demo před úplnou doménou
 
-Tento dokument zaznamenává vědomé změny, které ovlivňují rozsah, architekturu, pořadí práce nebo vývojový proces. Běžné opravy překlepů sem nepatří.
+Mapa s pevnými mock daty předchází časové doméně a repository, aby nejdřív ověřila propojení UI a mapy. Fáze 4 napojí existující mapu na repository a filtry; Fáze 5 rozšíří detail a přidá GPS. Mock data nenahrazují relativní seed z Fáze 3. Pořadí určuje [roadmapa](../superpowers/plans/README.md).
 
-## 2026-11-04 – Odstranění načítacího obalu EventMap
+## 2026-10-26 – Rozdělení Fáze 1
 
-Na výslovnou žádost studentky byl odstraněn `EventMap.tsx`. Dynamické načítání `LeafletMap` s `ssr: false` nyní zajišťuje přímo `EventDiscovery`. Samostatný obal pouze předával props a ztěžoval porozumění toku dat. Mapa a budoucí panel zůstávají oddělené komponenty. Test stránky nyní nahrazuje `EventDiscovery` místo odstraněného obalu.
+Menší PR oddělují 1A (scaffold, nástroje a testovací infrastruktura) od navazující 1B (základní UI, component test a první deployment).
 
-## 2026-11-02 – Mapa s mock daty před úplnou doménou
+## 2026-10-25 – Mentoring a postupné zavádění
 
-**Původně:** Fáze 2 připravovala úplné typy, pražský čas, filtry, řazení a Google Maps odkazy. Leaflet přicházel až ve Fázi 5 po repository a discovery UI.
-
-**Nově:** Studentka schválila Fázi 2A na větvi `02-event-map`: zjednodušené funkční demo s minimálním typem, dvěma až třemi pevnými mock událostmi, mapou Prahy, výběrem pinu a základní kartou události. Karta obsahuje název, zobrazený čas, místo a volitelný popis; lze ji zavřít a používá mobilní spodní i desktopové boční rozložení. Základní ovládání klávesnicí a fokus jsou součástí dema. Původní doménový rozsah se přesouvá do Fáze 2B na větvi `02b-event-domain`.
-
-**Důvod:** První viditelný výsledek má ověřit propojení dat, Next.js a mapy před zaváděním pravidel, která UI zatím nepoužívá.
-
-**Dopad:** Produktová specifikace zůstává beze změny. Minimální `MapEvent` je dočasný vývojový model, který Fáze 2B rozšíří na úplný model bez paralelních datových toků. Pevné mock události nenahrazují finální relativní seed factory z Fáze 3. Fáze 4 napojí již existující mapu na repository a filtry; Fáze 5 rozšíří již existující kartu o úplná pole a externí odkazy a přidá GPS. Fáze 8 ověří a rozšíří přístupnost napříč aplikací; základní přístupnost karty neodkládáme. Každá fáze má vlastní větev, commit a PR. Dnešní hodinový blok cílí na typ a mock data, nikoli dokončení celé mapy.
-
-## 2026-10-26 – Rozdělení Fáze 1 na samostatné pull requesty
-
-**Původně:** Fáze 1 spojovala scaffold, vývojové nástroje, testovací infrastrukturu, základní UI, téma a první deployment do jedné větve a jednoho závěrečného review.
-
-**Nově:** Fáze 1A na větvi `01-nextjs-foundation` končí připravenou testovací infrastrukturou. Fáze 1B na větvi `01-foundation-ui` obsahuje component test, základní stránku, daisyUI téma a první deployment.
-
-**Důvod:** Menší pull requesty mají jasnější účel, rychlejší review a nevážou dokončený setup na následnou vizuální práci.
-
-**Dopad:** Vznikl plán `01b-foundation-ui.md`. Číslování a obsah Fází 2–10 se nemění. Fáze 1B závisí na merge Fáze 1A.
-
-## 2026-10-25 – Learner-led mentoring místo agentické implementace
-
-**Původně:** Jeden agentický plán předpokládal, že asistent implementuje úkoly a samostatní agenti je kontrolují.
-
-**Nově:** Studentka píše produkční kód a testy. Asistent vysvětluje koncepty, zadává malé kroky, kontroluje změny a stupňuje nápovědu. Kód mění pouze na výslovnou žádost.
-
-**Důvod:** Hlavním cílem projektu je učení během mentoringu, ne nejrychlejší dodání hotové aplikace.
-
-**Dopad:** Původní agentický plán byl nahrazen a před kontrolním commitem odstraněn. Aktivní roadmapa používá samostatný plán, větev a kontext pro každou fázi.
-
-## 2026-10-25 – Instalace závislostí až při jejich použití
-
-**Původně:** Původní plán instaloval většinu knihoven při scaffoldingu.
-
-**Nově:** Každá fáze přidá pouze knihovny, které právě vysvětluje a používá.
-
-**Důvod:** Studentka lépe uvidí účel každé závislosti a změny zůstanou menší.
-
-**Dopad:** `package-lock.json` se může změnit ve více fázích.
-
-## 2026-10-25 – První nasazení ve Fázi 1
-
-**Původně:** Původní plán odkládal veřejné nasazení na poslední fázi.
-
-**Nově:** Fáze 1 nasadí základní Next.js stránku. Poslední fáze provede finální produkční ověření.
-
-**Důvod:** Odpovídá prvnímu mentoringovému úkolu a včas odhalí problém s hostingem.
-
-**Dopad:** Veřejná URL vznikne brzy a bude se průběžně aktualizovat.
-
-## 2026-10-25 – Názvy větví bez prefixu `phase/`
-
-**Původně:** Větve implementačních fází používaly formát `phase/NN-name`.
-
-**Nově:** Větve používají formát `NN-name`, například `01-nextjs-foundation`.
-
-**Důvod:** Číslo zachovává vazbu na roadmapu a pořadí. Prefix `phase/` nepřidával užitečnou informaci o obsahu změny.
-
-**Dopad:** Roadmapa, plány fází, handoff a pravidla spolupráce používají nový formát názvů větví. Počet commitů ve větvi se nemění; fáze může obsahovat jeden nebo více logických commitů.
-
-## 2026-11-05 – Mapový podklad CARTO Positron
-
-Na výslovnou žádost studentky nahrazuje CARTO Positron původně plánované standardní dlaždice OpenStreetMap. Leaflet a datový tok zůstávají zachované. Podklad vyžaduje `NEXT_PUBLIC_CARTO_API_KEY` a viditelnou atribuci OpenStreetMap i CARTO. Podmínky a limity jsou zaznamenané v projektové paměti; před komerčním využitím je nutné je znovu ověřit.
-
-## 2026-11-05 – Rozdělení mapového dema na 2A a 2A.2
-
-Studentka schválila menší rozsah review. Fáze 2A uzavře současnou mapu a kartu s názvem, doplní řízení fokusu a test tlačítka zavření a projde závěrečným ověřením. Čas, místo, popis a jejich testy, responzivní boční panel s rolováním, map-config.ts a loading stav se přesouvají do samostatné Fáze 2A.2 na větvi `02a2-event-map-ui`. Ta předchází doménové Fázi 2B, jejíž název i větev zůstávají zachované. Sdílené UI komponenty a další designové úpravy zůstávají samostatným navazujícím tématem. Produktové požadavky se nemění, mění se rozdělení dodávky.
+- Studentka vlastní produkční kód a testy; mentor mění kód jen na výslovnou žádost. Cílem je učení podle [AGENTS.md](../../AGENTS.md).
+- Závislosti se instalují až ve fázi, která je použije, aby byl zřejmý jejich účel.
+- První deployment probíhá už ve Fázi 1; závěrečná fáze ověří celé MVP.
+- Větve používají formát `NN-name` bez prefixu `phase/`. Každá fáze má vlastní plán, větev a jeden či více commitů.

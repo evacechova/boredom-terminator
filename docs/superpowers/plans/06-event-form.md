@@ -33,13 +33,13 @@ Poloha bude v této fázi dočasně reprezentovaná testovacím vstupem nebo inj
 ## Mentoringové kroky
 
 1. Navrhnout `EventFormValues` podle skutečných inputů, ne podle uloženého `MapEvent`.
-2. Napsat failing test jednoho povinného pole po blur.
+2. Ověřit jedno povinné pole po blur; cílený test má chránit načasování chyby, nemusí předcházet implementaci.
 3. Přidat React Hook Form s režimem validace po opuštění pole.
 4. Připojit Zod resolver a porozumět toku hodnot a chyb; sdílet odpovídající pravidla se schématem z Fáze 3 bez druhé konfliktní definice.
 5. Přidávat pole po jedné sekci: základ, čas, poloha, volitelné údaje.
 6. Testovat konec pozdější než začátek a výsledný konec v budoucnosti.
    Tato pravidla platí pro vytváření. Schema načítající uložené záznamy nesmí odmítat platnou historii jen kvůli skončení.
-7. Testovat pražský čas kolem letního času.
+7. Ověřit napojení chyb pražského času do formuláře bez opakování doménových DST testů z 2B.
    Navázat na chybový kontrakt 2B: neexistující ani dvojznačný vstup nesmí tiše zvolit jiný okamžik. Při chybě zachovat vyplněné hodnoty.
 8. Zajistit zachování hodnot a fokus první chyby po submitu.
 9. Propojit chyby pomocí `aria-invalid` a `aria-describedby`.

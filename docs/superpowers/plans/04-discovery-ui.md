@@ -24,13 +24,23 @@
 - `EventFilters` nabízí rolling režim a konkrétní datum; městské části jsou odložené.
 - `EventList` zobrazuje seřazené události a později poslouží jako mapový fallback.
 
+## Datum z URL a obnova filtru
+
+- URL recovery patří do této fáze; ve 2B ještě nejsou filtry napojené na UI.
+- Datum ověřit jednou přes `filterEventsByDate`: `undefined` je neplatný vstup, `[]` platný den bez událostí. Chybějící parametr znamená výchozí režim; prázdný, opakovaný nebo neplatný parametr se odmítne.
+- Pro neplatný odkaz, například `?date=2026-02-29`, zobrazit přístupné oznámení: „Datum v odkazu není platné. Zobrazujeme probíhající a nadcházející události.“ Využít existující UI vzor bez nové závislosti či globálního systému.
+- Obnovit rolling filtr a odstranit `date` nahrazením položky historie. Zachovat ostatní parametry a fragment. URL, ovládání a události musí souhlasit i při navigaci historií.
+- Poškozené uložené události jsou samostatná chyba datové integrity; jejich validace zůstává na hranici Fáze 3. Nehlásit je jako chybu data v uživatelově odkazu.
+
 ## Mentoringové kroky
+
+Ve Fázi 4, po sloučení a integraci Fází 2B a 3, přesunout konfiguraci z `src/components/event-map-container/leaflet-map/map-config.ts` do `src/config/app-config.ts` a upravit její importy. Zachovat centrum mapy, zoom, URL dlaždic, atribuci i ostatní hodnoty. Nový společný soubor zatím obsahuje pouze `defaultEventWindowHours`; během souběhu 2B a 3 se mapová konfigurace nepřesouvá.
 
 1. Nakreslit tok dat od repository přes controller hook do komponent.
 2. Rozhodnout, co je zdrojový stav a co lze dopočítat.
-3. Napsat failing test výchozího rolling výsledku.
-4. Přidat test, že konkrétní datum nahradí rolling filtr.
-5. Přidat test resetu filtrů a skrytí skončených událostí ve výchozím režimu bez jejich odstranění z načtených dat.
+3. Ověřit napojení výchozího rolling výsledku; neopakovat doménové hraniční testy z 2B.
+4. Ověřit, že konkrétní datum nahradí rolling filtr; nový test přidat jen pro dosud nepokryté propojení.
+5. Ověřit reset filtrů a skrytí skončených událostí ve výchozím režimu bez jejich odstranění z načtených dat; využít nejmenší sadu integračních případů.
 6. Rozšířit stávající discovery celek z Fáze 2A o controller hook, repository a filtry. Zachovat jediný `selectedEventId`, existující mapu a kartu; filtrované události nahradí přímá mock data. Pokud výběr po filtrování zmizí, kartu zavřít.
 7. Vytvořit přístupné formulářové prvky filtrů.
 8. Přidat textový seznam a prázdný stav.
@@ -43,6 +53,7 @@
 - Datum mění výsledek; rozhoduje pražský den začátku, včetně případné historie vybraného dne.
 - Výchozí režim nezobrazuje skončené události, ale filtrování je nemaže ani nepřepisuje storage.
 - `Reset filters` obnoví výchozí režim.
+- Integračně ověřit URL recovery podle pravidel výše a platný odkaz včetně prázdného výsledku bez varování. Doménové testy formátů a DST z 2B neopakovat.
 - Prázdný výsledek zobrazí správnou zprávu a `Add event`.
 - Test zachytí případné čtení `localStorage` při server renderu.
 - Cílené testy, lint a build projdou.

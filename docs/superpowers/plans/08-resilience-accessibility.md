@@ -21,7 +21,7 @@
 ## Mentoringové kroky
 
 1. Sepsat stavový diagram pro načtení dat, dlaždice, GPS a formulář.
-2. Napsat failing test neblokujícího varování pro některé neplatné položky.
+2. Ověřit neblokující varování pro některé neplatné položky; cílený test doplnit jen při chybějícím pokrytí tohoto UI chování.
 3. Přidat potvrzovanou akci `Remove invalid data`.
 4. Napsat test nečitelného kořene a potvrzovaného `Reset saved events`.
 5. Ověřit, že žádná recovery akce neběží bez potvrzení.

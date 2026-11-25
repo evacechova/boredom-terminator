@@ -16,6 +16,12 @@ Každý soubor představuje jeden smysluplný, samostatně kontrolovatelný cele
 
 Nejdřív vznikne zjednodušené funkční demo s pevnými mock daty: mapa, výběr pinu, základní karta a mobilní i desktopové zobrazení. Teprve potom přidáváme časová pravidla, filtry, úložiště a vytváření událostí. Každá další fáze rozšiřuje stejné UI; mapu ani kartu nestaví znovu. Finální MVP specifikace zůstává cílem, nikoli vstupní podmínkou dema.
 
+## Minimální ověření podle rizika
+
+TDD není povinný postup. Každý krok se ověří nejmenším dostatečným způsobem: existujícím testem, krátkým spustitelným příkladem, typecheckem, lintem nebo ruční kontrolou. Nový automatický test přidávat jen pro konkrétní dosud nepokryté pravidlo či reálné riziko. Zachovat testy kritických hranic, uchování dat a hlavních uživatelských toků; neduplikovat pravidla napříč vrstvami bez důvodu. Podrobnosti v `AGENTS.md` platí i pro starší plány požadující test před implementací.
+
+V novém worktree nebo po vyčištění generovaných souborů před samostatným typecheckem spustit `npx next typegen`. Samotné `tsc` nevytváří `next-env.d.ts` ani typy rout v `.next/types`. Viz [poznámka ke generovaným typům](../../mentoring/memory/01-nextjs-generated-types.md).
+
 ## Pořadí fází
 
 | Fáze | Větev                         | Výsledek                                       | Plán                                                                   |

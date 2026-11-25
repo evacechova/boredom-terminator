@@ -1,6 +1,6 @@
 # Fáze 2B – Event doména, pražský čas a filtry
 
-> Režim: studentka implementuje, mentor vysvětluje TypeScript a TDD po malých krocích.
+> Režim: studentka implementuje, mentor vysvětluje TypeScript a časová pravidla po malých krocích. Testy se omezují na nutné minimum podle rizika; TDD není povinné.
 
 **Větev:** `02b-event-domain`
 
@@ -15,7 +15,7 @@
 - Rozdíl mezi TypeScript typem a runtime validací.
 - Existující union typ osmi kategorií a význam volitelných polí.
 - Čisté funkce bez Reactu a browser API.
-- TDD cyklus red–green–refactor.
+- Volba nejmenšího dostatečného ověření; automatické testy chrání hlavně časové hranice, DST a chybové výsledky.
 - Rozdíl mezi pražským lokálním časem a UTC ISO.
 - Injektovaný `now` místo skrytého `new Date()` uvnitř testované logiky.
 
@@ -31,6 +31,12 @@ Existující `formatEventDate(isoDate: string): string` a `getDefaultEventEnd(st
 - vzestupné řazení podle začátku,
 - bezpečný Google Maps odkaz z přesných souřadnic.
 
+`filterEventsByTimeWindow(events, now, windowHours)` přijímá délku rolling okna v hodinách. Výchozí hodnota pochází z `defaultEventWindowHours` v `src/config/app-config.ts` a pro MVP zůstává 24 hodin; explicitní argument ji může přepsat. Mapová konfigurace se do společného souboru přesune až ve Fázi 4 po merge obou souběžných proudů.
+
+- `filterEventsByDate(events, date): MapEvent[] | undefined`: `YYYY-MM-DD`, pouze začátky v pražském dni, zachované pořadí. `undefined` znamená chybný formát nebo neexistující den; `[]` je platný den bez výsledků. Obě půlnoci se počítají kalendářně kvůli DST. Integritu událostí ověřuje datová hranice Fáze 3.
+- `buildGoogleMapsUrl(latitude, longitude): string | undefined`: konečná čísla v rozsazích ±90 a ±180 včetně hranic. [Google Maps Directions URL](https://developers.google.com/maps/documentation/urls/get-started#directions) používá `api=1`, zakódované `destination` a `dir_action=navigate`; výchozí polohu řeší Google Maps.
+- `EventPanel` zobrazuje „Navigovat“ i bez `venueName`. Neplatné souřadnice skryjí pouze odkaz. Statické `target="_blank"` a `rel="noopener noreferrer"` zachovávají kontext aplikace na mobilu i desktopu bez browser API. Toto napojení je přesunuté z Fáze 5 do 2B.
+
 ## Časový kontrakt a paralelní hranice
 
 - Ukládat UTC ISO řetězce. Pro nové funkce vyžadující aktuální čas používat předaný `now: Date`; neměnit předaný objekt a nečíst skrytě aktuální čas. Stejnou konvenci používá Fáze 3.
@@ -45,13 +51,13 @@ Existující `formatEventDate(isoDate: string): string` a `getDefaultEventEnd(st
 ## Mentoringové kroky
 
 1. Ověřit společný základ a neměnný model z 2A.2. Společně určit vstup a chybový výsledek převodu; nezačínat opakováním hotového modelu nebo formatteru.
-2. Napsat první failing test pro letní a zimní převod pražského času.
+2. Určit očekávané letní a zimní UTC hodnoty pro pražský čas; ověřit je cílenými testy bez povinnosti začínat selhávajícím testem.
 3. Vybrat a pochopit knihovnu pro IANA časové pásmo; přidat ji až teď.
 4. Implementovat minimální časové funkce a ověřit odmítnutí neexistujícího i dvojznačného času.
 5. Využít existující výpočet i testy dvouhodinového konce; otestovat jeho použití při chybějícím `endsAt` ve filtru.
-6. Napsat test rolling filtru podle přesných hranic výše, včetně konce přesně v `now` a začátku přesně za 24 hodin.
-7. Napsat test konkrétního data: rozhoduje pouze `startsAt`; událost z předchozího dne se nezobrazí.
-8. Přidat vzestupné řazení podle začátku bez změny vstupního seznamu.
+6. Ověřit rolling filtr minimální sadou případů podle přesných hranic výše, včetně konce přesně v `now` a začátku přesně za 24 hodin.
+7. Ověřit konkrétní datum: rozhoduje pouze `startsAt`; událost z předchozího dne se nezobrazí. Zahrnout oba DST dny.
+8. Přidat vzestupné řazení podle začátku bez změny vstupního seznamu; pro tento jednoduchý krok stačí krátký spustitelný příklad bez nového testovacího souboru.
 9. Otestovat validní a neplatné souřadnice a přesný Google Maps odkaz.
 10. Zkontrolovat názvy, duplicity a čitelnost; zachovat společný model a připravit vlastní PR před integrací Fáze 3.
 
@@ -75,7 +81,7 @@ Společný formatter už existuje a karta jej používá; nevytvářet jej podru
 ## Fáze neobsahuje
 
 - Zod schema uložených dat.
-- React komponenty.
+- Nové React komponenty. Na výslovnou žádost studentky se pouze existující řádek místa v `EventPanel` napojuje na Google Maps helper podle popisu výše.
 - `localStorage`.
 - Městské části, editaci historie, formulářovou validaci ani změnu společného modelu.
 

@@ -28,7 +28,7 @@
 ## Mentoringové kroky
 
 1. Nejprve nakreslit tok polohy: GPS nebo kliknutí, pin, formulář, uložený `Event`.
-2. Napsat failing test stavu bez pinu.
+2. Ověřit blokování uložení bez pinu; využít existující formulářové pokrytí a doplnit jen chybějící případ.
 3. Přidat kliknutí na mapu a přesun existujícího pinu.
 4. Přidat drag pinu a ověřit poslední souřadnice.
 5. Připojit GPS; odmítnutí zachová ruční mapu.

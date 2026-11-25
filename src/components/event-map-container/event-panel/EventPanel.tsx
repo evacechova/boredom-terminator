@@ -4,6 +4,7 @@ import type { MapEvent } from "@/core/events/types";
 import { useEffect, useRef } from "react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { formatEventDate } from "@/core/events/format-event-date";
+import { buildGoogleMapsUrl } from "@/core/events/build-google-maps-url";
 
 type EventPanelProps = {
   event: MapEvent;
@@ -11,6 +12,7 @@ type EventPanelProps = {
 };
 
 export const EventPanel = ({ event, onClose }: EventPanelProps) => {
+  const mapsUrl = buildGoogleMapsUrl(event.location.latitude, event.location.longitude);
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
@@ -42,7 +44,16 @@ export const EventPanel = ({ event, onClose }: EventPanelProps) => {
         {event.title}
       </h2>
       <time dateTime={event.startsAt}>{formatEventDate(event.startsAt)}</time>
-      {event.venueName && <p>{event.venueName}</p>}
+      {(mapsUrl || event.venueName) && (
+        <p>
+          {event.venueName && <span className="mr-2">{event.venueName}</span>}
+          {mapsUrl && (
+            <a className="link" href={mapsUrl} target="_blank" rel="noopener noreferrer">
+              Navigovat
+            </a>
+          )}
+        </p>
+      )}
       {event.description && <p>{event.description}</p>}
     </section>
   );

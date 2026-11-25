@@ -35,7 +35,7 @@ export const EventPanel = ({ event, onClose }: EventPanelProps) => {
       <button
         type="button"
         className="btn btn-ghost btn-circle absolute top-2 right-2"
-        aria-label="Zavřít"
+        aria-label="Close"
         onClick={onClose}
       >
         <XMarkIcon aria-hidden="true" className="size-5" strokeWidth={2} />
@@ -49,7 +49,7 @@ export const EventPanel = ({ event, onClose }: EventPanelProps) => {
           {event.venueName && <span className="mr-2">{event.venueName}</span>}
           {mapsUrl && (
             <a className="link" href={mapsUrl} target="_blank" rel="noopener noreferrer">
-              Navigovat
+              Navigate
             </a>
           )}
         </p>

@@ -27,7 +27,7 @@ describe("EventPanel", () => {
     render(<EventPanel event={event} onClose={jest.fn()} />);
 
     expect(screen.getByText("Letenské sady")).toBeInTheDocument();
-    const venueLink = screen.getByRole("link", { name: "Navigovat" });
+    const venueLink = screen.getByRole("link", { name: "Navigate" });
     expect(venueLink).toHaveAttribute(
       "href",
       "https://www.google.com/maps/dir/?api=1&destination=50.08%2C14.42&dir_action=navigate",
@@ -35,7 +35,7 @@ describe("EventPanel", () => {
     expect(venueLink).toHaveAttribute("target", "_blank");
     expect(venueLink).toHaveAttribute("rel", "noopener noreferrer");
     expect(screen.getByText("An informal K-pop dance meetup.")).toBeInTheDocument();
-    const time = screen.getByText("7. 11. 2026 15:00");
+    const time = screen.getByText("7 Nov 2026, 15:00");
     expect(time.tagName).toBe("TIME");
     expect(time).toHaveAttribute("datetime", "2026-11-07T14:00:00Z");
   });
@@ -50,7 +50,7 @@ describe("EventPanel", () => {
 
     render(<EventPanel event={event} onClose={jest.fn()} />);
 
-    expect(screen.queryByRole("link", { name: "Navigovat" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("link", { name: "Navigate" })).not.toBeInTheDocument();
     expect(screen.getByRole("heading", { name: event.title })).toBeInTheDocument();
     expect(screen.getByText("Letenské sady")).toBeInTheDocument();
     expect(screen.getByText("An informal K-pop dance meetup.")).toBeInTheDocument();
@@ -73,7 +73,7 @@ describe("EventPanel", () => {
 
     expect(screen.getByText("Letenské sady")).toBeInTheDocument();
     expect(screen.getByText("An informal K-pop dance meetup.")).toBeInTheDocument();
-    screen.getByRole("button", { name: "Zavřít" }).focus();
+    screen.getByRole("button", { name: "Close" }).focus();
 
     rerender(<EventPanel event={nextEvent} onClose={onClose} />);
 
@@ -81,9 +81,9 @@ describe("EventPanel", () => {
     expect(screen.queryByRole("heading", { name: firstEvent.title })).not.toBeInTheDocument();
     expect(screen.queryByText("Letenské sady")).not.toBeInTheDocument();
     expect(screen.queryByText("An informal K-pop dance meetup.")).not.toBeInTheDocument();
-    expect(screen.queryByText("5. 11. 2026 19:00")).not.toBeInTheDocument();
-    expect(screen.getByText("8. 11. 2026 14:00")).toHaveAttribute("datetime", nextEvent.startsAt);
-    expect(screen.getByRole("link", { name: "Navigovat" })).toBeInTheDocument();
+    expect(screen.queryByText("5 Nov 2026, 19:00")).not.toBeInTheDocument();
+    expect(screen.getByText("8 Nov 2026, 14:00")).toHaveAttribute("datetime", nextEvent.startsAt);
+    expect(screen.getByRole("link", { name: "Navigate" })).toBeInTheDocument();
     expect(onClose).not.toHaveBeenCalled();
   });
 

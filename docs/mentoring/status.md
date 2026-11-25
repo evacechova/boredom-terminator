@@ -17,7 +17,11 @@
 - Produkční `npm run build -- --webpack` po změně navigace prošel. První běh zastavilo známé bezpečnostní upozornění Next.js 16.4.3; opakování uspělo.
 - V prohlížeči byly ověřeny navigační odkazy všech tří mock událostí. Předání do mobilní aplikace Google Maps není ručně ověřené; screenshoty a kontrola Vercel preview nejsou evidované jako hotové.
 
-## Proud 3 – `03-local-repository`
+- **Stav 22. 11.:** aplikace používá tři relativní seedy přímo ze serverové stránky. Aktuální architektura a důvody jsou v [plánu Fáze 3](../superpowers/plans/03-local-repository.md). Repository, storage schema, jejich testy a přímá závislost na Zodu jsou odstraněné; zbývá seed factory a společný `MapEvent`.
+- Otevřen [draft PR #5](https://github.com/evacechova/boredom-terminator/pull/5) do `main`, reviewer `BobesCZ`.
+- **Ověření:** 25 testů, lint, typecheck a formátování prošly. Build dokončil kompilaci i kontrolu typů a potvrdil vykreslování `/` na požadavek; CLI ho pak ukončilo na stávajícím `SecurityFatalError` pro Next.js. Build proto není označený jako prošlý.
+- **Další krok:** po merge 2B začlenit `main` a ověřit integraci. Vlastní události a jejich ukládání se doplní až s formulářem.
+- **Pro další práci:** starší odkazy na repository Fáze 3 v navazujících plánech jsou nyní neaktuální. V čistém worktree vygenerovat Next.js typy podle `memory/03-next-type-generation.md`. PR psát anglicky, ponechat všechny checkboxy `[ ]` a vynechat známá omezení runneru i změny dokumentace; společnou PR šablonu sjednotit na `main`.
 
 - Samostatný worktree: `../boredom-terminator-03-local-repository`, vlastní chat. [Plán](../superpowers/plans/03-local-repository.md). Aktuální implementace zde nebyla kontrolovaná.
 - Oba proudy vycházejí ze společného základu `0550180`. Nejprve se sloučí 2B do `main`, potom Fáze 3 začlení aktuální `main` a ověří integraci. Fáze 4 čeká na dokončení obou proudů.

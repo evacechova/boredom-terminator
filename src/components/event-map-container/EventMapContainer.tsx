@@ -23,7 +23,7 @@ const LeafletMap = dynamic(
           className="event-map-loading absolute inset-0 flex items-center justify-center gap-2"
         >
           <span className="loading loading-spinner loading-md" aria-hidden="true"></span>
-          Načítání mapy…
+          Loading map…
         </div>
       );
     },

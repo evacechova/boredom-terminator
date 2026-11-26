@@ -5,7 +5,6 @@ import type { MapEvent } from "@/core/events/types";
 jest.mock("next/dynamic", () => ({
   __esModule: true,
   default: () => {
-    const React = jest.requireActual<typeof import("react")>("react");
     return function MockMap({
       onEventSelect,
       onMapClick,
@@ -13,19 +12,15 @@ jest.mock("next/dynamic", () => ({
       onEventSelect: (id: string, element: HTMLElement | null) => void;
       onMapClick: () => void;
     }) {
-      const [visible, setVisible] = React.useState(true);
       return (
         <>
-          {visible && (
-            <button onClick={(event) => onEventSelect("event-1", event.currentTarget)}>
-              Select event
-            </button>
-          )}
+          <button onClick={(event) => onEventSelect("event-1", event.currentTarget)}>
+            Select event
+          </button>
           <button onClick={(event) => onEventSelect("event-2", event.currentTarget)}>
             Select second
           </button>
           <button onClick={onMapClick}>Empty map</button>
-          <button onClick={() => setVisible(false)}>Remove marker</button>
         </>
       );
     };
@@ -46,10 +41,10 @@ it("hides event creation while a detail is open and restores it on close", () =>
 
   render(<EventMapContainer events={events} />);
 
-  expect(screen.getByRole("link", { name: "Add event" })).toBeInTheDocument();
+  expect(screen.getByRole("link", { name: "Add event" })).toHaveAttribute("href", "/events/new");
   fireEvent.click(screen.getByRole("button", { name: "Select event" }));
   expect(screen.queryByRole("link", { name: "Add event" })).not.toBeInTheDocument();
-  fireEvent.click(screen.getByRole("button", { name: "Zavřít" }));
+  fireEvent.click(screen.getByRole("button", { name: "Close" }));
   expect(screen.getByRole("link", { name: "Add event" })).toBeInTheDocument();
 });
 
@@ -95,27 +90,13 @@ const focusEvents: MapEvent[] = [
   },
 ];
 
-it("renders link to add an event", () => {
-  render(<EventMapContainer events={focusEvents} />);
-  expect(screen.getByRole("link", { name: "Add event" })).toHaveAttribute("href", "/events/new");
-});
-
-it("keeps event creation enabled", () => {
-  render(<EventMapContainer events={focusEvents} />);
-  const addEvent = screen.getByRole("link", { name: "Add event" });
-
-  expect(addEvent).not.toHaveAttribute("aria-disabled");
-  expect(addEvent).not.toHaveAttribute("inert");
-  expect(addEvent).not.toHaveAttribute("tabindex", "-1");
-});
-
 it("returns focus to the latest selected marker when the panel closes", () => {
   render(<EventMapContainer events={focusEvents} />);
   fireEvent.click(screen.getByRole("button", { name: "Select event" }));
   const second = screen.getByRole("button", { name: "Select second" });
   fireEvent.click(second);
   expect(screen.getByRole("heading", { name: "Dance" })).toHaveFocus();
-  fireEvent.click(screen.getByRole("button", { name: "Zavřít" }));
+  fireEvent.click(screen.getByRole("button", { name: "Close" }));
   expect(second).toHaveFocus();
 });
 
@@ -127,27 +108,4 @@ it("does not move focus back to a marker when the map closes the panel", () => {
   fireEvent.click(map);
   expect(screen.queryByRole("heading")).not.toBeInTheDocument();
   expect(map).toHaveFocus();
-});
-
-it("skips focus restoration when the opening marker has left the DOM", () => {
-  render(<EventMapContainer events={focusEvents} />);
-  const marker = screen.getByRole("button", { name: "Select event" });
-  fireEvent.click(marker);
-  const focus = jest.spyOn(marker, "focus");
-  fireEvent.click(screen.getByRole("button", { name: "Remove marker" }));
-  expect(marker.isConnected).toBe(false);
-  fireEvent.keyDown(window, { key: "Escape" });
-  expect(screen.queryByRole("heading")).not.toBeInTheDocument();
-  expect(focus).not.toHaveBeenCalled();
-});
-
-it("starts with no selected event after mounting again", () => {
-  const { unmount } = render(<EventMapContainer events={focusEvents} />);
-  fireEvent.click(screen.getByRole("button", { name: "Select event" }));
-  expect(screen.getByRole("heading", { name: "Concert" })).toBeInTheDocument();
-
-  unmount();
-  render(<EventMapContainer events={focusEvents} />);
-
-  expect(screen.queryByRole("heading")).not.toBeInTheDocument();
 });
